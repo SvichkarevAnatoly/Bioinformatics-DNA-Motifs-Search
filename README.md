@@ -1,4 +1,8 @@
 Bioinformatics-DNA-Motifs-Search
 ================================
 
-Learn how to work with the search of nucleotide motifs DNA sequences
+Requirements
+===================
+
+* Recommend using Python 2.7 from http://www.python.org.
+* Biopython from http://biopython.org/
