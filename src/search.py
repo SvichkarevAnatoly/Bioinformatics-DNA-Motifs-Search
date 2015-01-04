@@ -1,11 +1,13 @@
 import sys
 
+from Bio import SeqIO
 from my_lib import pattern_matching_list
 
-input_file_str = sys.argv[1]
-with open(input_file_str, 'r') as input_file:
-    genome = input_file.readline().strip()
-    pattern = input_file.readline().strip()
+with open(sys.argv[1]) as input_file:
+    fasta_seqs = list(SeqIO.parse(input_file, 'fasta'))
+
+genome = str(fasta_seqs[0].seq)
+pattern = str(fasta_seqs[1].seq)
 
 matching_list = pattern_matching_list(genome, pattern)
 
