@@ -52,8 +52,11 @@ def pattern_matching_list(text, pattern):
 
 
 def matching_list_to_string(matching_list):
-    string = ''
-    for i in matching_list:
-        for (position, score) in i:
-            string += "Position: " + str(position) + " Score: " + str(score) + '\n'
+    if len(matching_list[0]) == 0:
+        string = 'n'
+    else:
+        string = 'y '
+        for match in matching_list:
+            for position, score in match:
+                string += str(position) + ' '
     return string
