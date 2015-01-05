@@ -36,9 +36,17 @@ def pattern_to_pwm(pattern):
     return matrix
 
 
+def compute_thresholds(pattern):
+    thresholds = 0.8 * len(pattern)
+    if len(pattern) - thresholds < 1:
+        thresholds = len(pattern) - 1
+    return thresholds
+
+
 def pattern_matching_list(text, pattern):
+    thresholds = compute_thresholds(pattern)
     matrix = pattern_to_pwm(pattern)
-    results = MOODS.search(text, [matrix], 3, convert_log_odds=False,
+    results = MOODS.search(text, [matrix], thresholds, convert_log_odds=False,
                            threshold_from_p=False)
     return list(results)
 
