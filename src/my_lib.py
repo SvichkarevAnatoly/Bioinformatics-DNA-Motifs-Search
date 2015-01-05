@@ -1,13 +1,43 @@
 import MOODS
 
 
-def pattern_matching_list(text, pattern):
-    # TATA
-    matrix = [[0, 1, 0, 1],
-              [0, 0, 0, 0],
-              [0, 0, 0, 0],
-              [1, 0, 1, 0]]
+def pattern_to_pwm(pattern):
+    """
+    Write a pattern sequence as a position weight matrix.
+    """
+    # Create 4 lists of length equal to primer's length.
+    matrix = [[0] * len(pattern) for i in range(4)]
+    # List of correspondance IUPAC.
+    IUPAC = {
+        "A": ["A"],
+        "C": ["C"],
+        "G": ["G"],
+        "T": ["T"],
+        "U": ["U"],
+        "R": ["G", "A"],
+        "Y": ["T", "C"],
+        "K": ["G", "T"],
+        "M": ["A", "C"],
+        "S": ["G", "C"],
+        "W": ["A", "T"],
+        "B": ["C", "G", "T"],
+        "D": ["A", "G", "T"],
+        "H": ["A", "C", "T"],
+        "V": ["A", "C", "G"],
+        "N": ["A", "C", "G", "T"]
+    }
+    # Position of nucleotides in the PWM.
+    dico = {"A": 0, "C": 1, "G": 2, "T": 3}
+    # Read each IUPAC letter in the primer.
+    for index, letter in enumerate(pattern):
+        for nuc in IUPAC.get(letter):
+            i = dico.get(nuc)
+            matrix[i][index] = 1
+    return matrix
 
+
+def pattern_matching_list(text, pattern):
+    matrix = pattern_to_pwm(pattern)
     results = MOODS.search(text, [matrix], 3, convert_log_odds=False,
                            threshold_from_p=False)
     return list(results)
