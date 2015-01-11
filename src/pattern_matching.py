@@ -1,20 +1,37 @@
 import sys
 
 from Bio import SeqIO
+import Bio.motifs as motifs
+from Bio.Alphabet import IUPAC
+import MOODS
 
-from my_lib import *
+dna_alf = sorted(list(IUPAC.unambiguous_dna.letters))
 
-with open(sys.argv[1]) as input_file:
-    fasta_seqs = list(SeqIO.parse(input_file, 'fasta'))
+with open(sys.argv[1]) as pwm_transfac_file:
+    pwm_records = motifs.parse(pwm_transfac_file, "TRANSFAC")
 
-genome = str(fasta_seqs[0].seq)
-pattern = str(fasta_seqs[1].seq)
+with open(sys.argv[2]) as fasta_file:
+    fasta_seqs = list(SeqIO.parse(fasta_file, 'fasta'))
 
-matching_list = pattern_matching_list(genome, pattern)
-matching_list_str = matching_list_to_string(matching_list)
+tf_name = sys.argv[3]
+pwm_matrix = [pwm for pwm in pwm_records if pwm['ID'] == tf_name][0]
+print pwm_matrix.consensus
+pwm_matrix = pwm_matrix.counts
+matrix = [pwm_matrix[n] for n in dna_alf]
 
-if len(sys.argv) == 3:
-    with open(sys.argv[2], 'w') as output_file:
-        output_file.write(matching_list_str)
-else:
-    print matching_list_str
+for fasta_seq in fasta_seqs:
+    sequence = str(fasta_seq.seq)
+    print sequence
+    results = MOODS.search(sequence, [matrix], 1500, convert_log_odds=False,
+                           threshold_from_p=False)
+    print results
+    break
+
+print pwm_matrix.consensus
+print sequence[56:56+len(matrix[0])]
+
+# if len(sys.argv) == 3:
+#     with open(sys.argv[2], 'w') as output_file:
+#         output_file.write(matching_list_str)
+# else:
+#     print matching_list_str
