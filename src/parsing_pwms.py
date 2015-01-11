@@ -1,3 +1,4 @@
+from time import gmtime, strftime
 import Bio.motifs as motifs
 from Bio.Alphabet import IUPAC
 
@@ -25,8 +26,10 @@ motif_list = []
 for matrix in pwm_matrix_list:
     motif_list.append(motifs.Motif(alphabet=IUPAC.unambiguous_dna, counts=matrix))
 
+now = gmtime()
+time_str = strftime("%B %d, %Y %X", now)
 with open("../samples/PWMs_TRANSFAC.txt", 'w') as motif_file:
-    motif_file.write("VV  EXAMPLE January 15, 2013\nXX\n//\n")
+    motif_file.write("VV  " + time_str + "\nXX\n//\n")
     for i, motif_id in enumerate(pwm_id_list):
         motif_file.write("ID  " + motif_id + "\n")
         motif_file.write(motif_list[i].format("transfac"))
