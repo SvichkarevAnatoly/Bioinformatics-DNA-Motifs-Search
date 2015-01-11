@@ -8,7 +8,8 @@ pwm_id_list = []
 pwm_matrix_list = []
 pwm_matrix = {n: [] for n in dna_alf}
 
-with open("../samples/PWMs.txt", 'r') as pwms_plain_text:
+working_path_str = "../samples/"
+with open(working_path_str + "PWMs.txt", 'r') as pwms_plain_text:
     for line in pwms_plain_text:
         line_list = line.strip().split()
         if len(line_list) == 1:
@@ -28,7 +29,7 @@ for matrix in pwm_matrix_list:
 
 now = gmtime()
 time_str = strftime("%B %d, %Y %X", now)
-with open("../samples/PWMs_TRANSFAC.txt", 'w') as motif_file:
+with open(working_path_str + "PWMs_TRANSFAC.txt", 'w') as motif_file:
     motif_file.write("VV  " + time_str + "\nXX\n//\n")
     for i, motif_id in enumerate(pwm_id_list):
         motif_file.write("ID  " + motif_id + "\n")
