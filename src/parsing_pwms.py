@@ -17,7 +17,7 @@ with open(working_path_str + "PWMs.txt", 'r') as pwms_plain_text:
             pwm_matrix_list.append(pwm_matrix)
             pwm_matrix = {n: [] for n in dna_alf}
         else:
-            if len(line_list) > 1 and line_list[1].isdigit():
+            if line_list[1].isdigit():
                 for i, nucleotide in enumerate(dna_alf):
                     pwm_matrix[nucleotide].append(int(line_list[i]))
 pwm_matrix_list.pop(0)
