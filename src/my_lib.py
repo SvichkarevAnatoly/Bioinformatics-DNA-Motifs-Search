@@ -62,8 +62,11 @@ def matching_list_to_string(matching_list):
     return string
 
 
-def searching_result_to_str(sequence, consensus, results, max_score):
-    result_str = ' ' * 50 + '|' + ' ' * (len(sequence) - 101) + '|' + '\n'
+def searching_result_to_str(sequence, consensus, results, max_score, seq_number):
+    if len(results[0]) == 0:
+        return ""
+    result_str = str(seq_number) + ":\n"
+    result_str += ' ' * 50 + '|' + ' ' * (len(sequence) - 101) + '|' + '\n'
     result_str += sequence + '\n'
     for result in results:
         for (pos, score) in result:
