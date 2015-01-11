@@ -1,34 +1,29 @@
 import Bio.motifs as motifs
+from Bio.Alphabet import IUPAC
+
+dna_alf = sorted(list(IUPAC.unambiguous_dna.letters))
 
 pwm_id_list = []
 pwm_matrix_list = []
-pfm3 = {'A': [],
-        'C': [],
-        'G': [],
-        'T': []}
+pwm_matrix = {n: [] for n in dna_alf}
 
 with open("../samples/PWMs.txt", 'r') as pwms_plain_text:
     for line in pwms_plain_text:
         line_list = line.strip().split()
         if len(line_list) == 1:
             pwm_id_list.append(line_list[0][2:])
-            pwm_matrix_list.append(pfm3)
-            pfm3 = {'A': [],
-                    'C': [],
-                    'G': [],
-                    'T': []}
+            pwm_matrix_list.append(pwm_matrix)
+            pwm_matrix = {n: [] for n in dna_alf}
         else:
             if len(line_list) > 1 and line_list[1].isdigit():
-                pfm3['A'].append(int(line_list[1]))
-                pfm3['C'].append(int(line_list[2]))
-                pfm3['G'].append(int(line_list[3]))
-                pfm3['T'].append(int(line_list[4]))
+                for i, nucleotide in enumerate(dna_alf):
+                    pwm_matrix[nucleotide].append(int(line_list[i]))
 pwm_matrix_list.pop(0)
-pwm_matrix_list.append(pfm3)
+pwm_matrix_list.append(pwm_matrix)
 
 motif_list = []
 for matrix in pwm_matrix_list:
-    motif_list.append(motifs.Motif(counts=matrix))
+    motif_list.append(motifs.Motif(alphabet=IUPAC.unambiguous_dna, counts=matrix))
 
 with open("../samples/PWMs_TRANSFAC.txt", 'w') as motif_file:
     motif_file.write("VV  EXAMPLE January 15, 2013\nXX\n//\n")
