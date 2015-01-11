@@ -1,5 +1,7 @@
 import sys
 
+from my_lib import searching_result_to_str
+
 from Bio import SeqIO
 import Bio.motifs as motifs
 from Bio.Alphabet import IUPAC
@@ -15,19 +17,16 @@ with open(sys.argv[2]) as fasta_file:
 
 tf_name = sys.argv[3]
 pwm_matrix = [pwm for pwm in pwm_records if pwm['ID'] == tf_name][0]
-print pwm_matrix.consensus
+consensus = pwm_matrix.consensus
 pwm_matrix = pwm_matrix.counts
 matrix = [pwm_matrix[n] for n in dna_alf]
 
 threshold = 0.7 * MOODS.max_score(matrix)
 for i, fasta_seq in enumerate(fasta_seqs):
     sequence = str(fasta_seq.seq)
-    print str(i) + ": " + sequence
     results = MOODS.search(sequence, [matrix], threshold, convert_log_odds=False,
                            pseudocount=0, threshold_from_p=False)
-    for j in results:
-        for (position, score) in j:
-            print("Position: " + str(position - 50) + " Score: " + str(score))
+    print searching_result_to_str(sequence, consensus, results, MOODS.max_score(matrix))
 
 # if len(sys.argv) == 3:
 # with open(sys.argv[2], 'w') as output_file:

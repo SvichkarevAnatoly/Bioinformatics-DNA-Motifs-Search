@@ -60,3 +60,14 @@ def matching_list_to_string(matching_list):
             for position, score in match:
                 string += str(position) + ' '
     return string
+
+
+def searching_result_to_str(sequence, consensus, results, max_score):
+    result_str = ' ' * 50 + '|' + ' ' * (len(sequence) - 101) + '|' + '\n'
+    result_str += sequence + '\n'
+    for result in results:
+        for (pos, score) in result:
+            result_str += ' ' * pos + consensus + \
+                          ' ' * (len(sequence) - pos - len(consensus)) + \
+                          " Score: " + str(int(score)) + "/" + str(int(max_score)) + '\n'
+    return result_str
