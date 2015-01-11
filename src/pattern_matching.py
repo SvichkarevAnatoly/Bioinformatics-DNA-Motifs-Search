@@ -19,19 +19,18 @@ print pwm_matrix.consensus
 pwm_matrix = pwm_matrix.counts
 matrix = [pwm_matrix[n] for n in dna_alf]
 
-for fasta_seq in fasta_seqs:
+threshold = 0.7 * MOODS.max_score(matrix)
+for i, fasta_seq in enumerate(fasta_seqs):
     sequence = str(fasta_seq.seq)
-    print sequence
-    results = MOODS.search(sequence, [matrix], 1500, convert_log_odds=False,
-                           threshold_from_p=False)
-    print results
-    break
-
-print pwm_matrix.consensus
-print sequence[56:56+len(matrix[0])]
+    print str(i) + ": " + sequence
+    results = MOODS.search(sequence, [matrix], threshold, convert_log_odds=False,
+                           pseudocount=0, threshold_from_p=False)
+    for j in results:
+        for (position, score) in j:
+            print("Position: " + str(position - 50) + " Score: " + str(score))
 
 # if len(sys.argv) == 3:
-#     with open(sys.argv[2], 'w') as output_file:
-#         output_file.write(matching_list_str)
+# with open(sys.argv[2], 'w') as output_file:
+# output_file.write(matching_list_str)
 # else:
 #     print matching_list_str
