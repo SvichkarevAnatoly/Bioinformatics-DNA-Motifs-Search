@@ -1,5 +1,6 @@
 import glob
 import os
+import re
 
 directory = '../data/converting/'
 file_template = 'mm10_*.bed'
@@ -14,4 +15,13 @@ for root, dirs, files in os.walk(directory):
             bed_file_name_list.append(full_match_template_path)
 
 for path_bed_file in bed_file_name_list:
-    print path_bed_file
+    diff_list = []
+    with open(path_bed_file, 'r') as bed_file:
+        # with open(path_bed_file + '_2', 'w') as bed_converted_file:
+        for interval_line in bed_file:
+            chromosome, start, end = re.split(":|-", interval_line.strip())
+            start = int(start)
+            end = int(end)
+            diff_list.append(end - start)
+            # center = (end + start) / 2
+        print max(diff_list)
