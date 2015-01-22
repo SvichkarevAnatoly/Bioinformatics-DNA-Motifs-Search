@@ -1,12 +1,13 @@
 import re
 import sys
 
-from my_lib import searching_result_to_str
-
 from Bio import SeqIO
 import Bio.motifs as motifs
 from Bio.Alphabet import IUPAC
 import MOODS
+
+from my_lib import searching_result_to_str
+
 
 dna_alf = sorted(list(IUPAC.unambiguous_dna.letters))
 
@@ -30,7 +31,13 @@ for i, fasta_seq in enumerate(fasta_seqs):
     interval = re.split("=| ", fasta_seq.description)[2]
     results = MOODS.search(sequence, [matrix], threshold, convert_log_odds=False, both_strands=True,
                            pseudocount=0, threshold_from_p=False)
-    result_str = searching_result_to_str(interval, results, sequence)
+
+    reversed_sequence = fasta_seq.seq[::-1]
+    reversed_results = MOODS.search(reversed_sequence, [matrix], threshold, convert_log_odds=False, both_strands=True,
+                                    pseudocount=0, threshold_from_p=False)
+
+    sequence_length = len(sequence)
+    result_str = searching_result_to_str(interval, results, reversed_results, sequence_length)
     output_file.write(str(result_str))
 
 output_file.close()
