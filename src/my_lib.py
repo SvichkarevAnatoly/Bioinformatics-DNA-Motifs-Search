@@ -1,16 +1,15 @@
-def searching_result_to_str(sequence, consensus, results, max_score, seq_number):
+def searching_result_to_str(interval, results, sequence):
+    result_str = ""
     if len(results[0]) == 0:
-        return ""
-    result_str = str(seq_number) + ":\n"
-    # result_str += ' ' * 50 + '|' + ' ' * (len(sequence) - 101) + '|' + '\n'
-    result_str += sequence + '\n'
-    for result in results:
-        for (pos, score) in result:
-            cur_consensus = consensus
-            if pos <= 0:
-                pos += len(sequence)
-                cur_consensus = consensus.reverse_complement()
-            result_str += ' ' * pos + cur_consensus + \
-                          ' ' * (len(sequence) - pos - len(cur_consensus)) + \
-                          " Score: " + str(int(score)) + "/" + str(int(max_score)) + '\n'
+        return result_str
+    else:
+        result_str += ">" + interval + '\n'
+        for result in results:
+            pos_str = ""
+            for (pos, score) in result:
+                if pos < 0:
+                    pos_str += '-'
+                    pos += len(sequence)
+                pos_str += str(pos) + ' '
+            result_str += pos_str + '\n'
     return result_str
