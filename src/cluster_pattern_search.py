@@ -62,7 +62,7 @@ def result_to_excel_str(interval, result_list, sequence_length):
                     pos += sequence_length
                 result_str += str(pos)
                 if len(result) > i+1:
-                    result_str += ','
+                    result_str += ';'
     result_str += '\n'
     return result_str
 
