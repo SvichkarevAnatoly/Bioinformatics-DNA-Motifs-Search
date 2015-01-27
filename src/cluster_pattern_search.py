@@ -11,6 +11,7 @@ dna_alf = sorted(list(IUPAC.unambiguous_dna.letters))
 
 pwms_file_name = "../data/PWMs_TRANSFAC.txt"
 cluster_fasta_file_name = "../data/clusters/mm10_clusters.fa"
+cluster_bed_file_name = "../data/clusters/mm10_clusters_ucsc.bed"
 
 with open(pwms_file_name) as pwm_transfac_file:
     pwm_records = motifs.parse(pwm_transfac_file, "TRANSFAC")
@@ -61,7 +62,7 @@ def result_to_excel_str(interval, result_list, sequence_length):
                     result_str += '-'
                     pos += sequence_length
                 result_str += str(pos)
-                if len(result) > i+1:
+                if len(result) > i + 1:
                     result_str += ';'
     result_str += '\n'
     return result_str
@@ -83,6 +84,15 @@ with open(cluster_match_full_file_name, 'w') as cluster_match_file:
     for i, result in enumerate(result_list_list):
         cluster_match_file.write(result_to_str(cluster_interval_str_list[i], result, sequence_len_list[i]))
 
-with open(cluster_excel_full_file_name, 'w') as cluster_excel_file:
-    for i, result in enumerate(result_list_list):
-        cluster_excel_file.write(result_to_excel_str(cluster_interval_str_list[i], result, sequence_len_list[i]))
+cluster_result_dict = {}
+for i, result in enumerate(result_list_list):
+    cluster_result_dict[cluster_interval_str_list[i]] = result_to_excel_str(cluster_interval_str_list[i], result,
+                                                                            sequence_len_list[i])
+
+with open(cluster_bed_file_name, 'r') as cluster_bed_file:
+    with open(cluster_excel_full_file_name, 'w') as cluster_excel_file:
+        for interval_line in cluster_bed_file:
+            (chr_str, start, end) = interval_line.strip().split()
+            start_int = int(start)
+            interval_str = chr_str + ':' + str(start_int + 1) + '-' + end
+            cluster_excel_file.write(cluster_result_dict[interval_str])
