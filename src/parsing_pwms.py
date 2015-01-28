@@ -8,7 +8,7 @@ pwm_id_list = []
 pwm_matrix_list = []
 pwm_matrix = {n: [] for n in dna_alf}
 
-working_path_str = "../samples/"
+working_path_str = "../test_samples/"
 with open(working_path_str + "PWMs.txt", 'r') as pwms_plain_text:
     for line in pwms_plain_text:
         line_list = line.strip().split()
@@ -19,7 +19,7 @@ with open(working_path_str + "PWMs.txt", 'r') as pwms_plain_text:
         else:
             if line_list[1].isdigit():
                 for i, nucleotide in enumerate(dna_alf):
-                    pwm_matrix[nucleotide].append(int(line_list[i]))
+                    pwm_matrix[nucleotide].append(int(line_list[i+1]))
 pwm_matrix_list.pop(0)
 pwm_matrix_list.append(pwm_matrix)
 
