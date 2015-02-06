@@ -6,7 +6,7 @@ import Bio.motifs as motifs
 from Bio.Alphabet import IUPAC
 import MOODS
 
-from my_lib import searching_result_to_str
+from lib import searching_result_to_str
 
 
 dna_alf = sorted(list(IUPAC.unambiguous_dna.letters))
