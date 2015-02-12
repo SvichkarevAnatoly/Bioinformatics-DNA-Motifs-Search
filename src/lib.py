@@ -1,3 +1,13 @@
+import re
+
+
+def parse_interval_line(interval_line):
+    chr_name, start, end = re.split(":|-", interval_line.strip())
+    start = int(start)
+    end = int(end)
+    return [chr_name, start, end]
+
+
 def searching_result_to_str(interval, results, rev_results, sequence_length):
     result_str = ""
     if len(results[0]) == 0 and len(rev_results[0]) == 0:
