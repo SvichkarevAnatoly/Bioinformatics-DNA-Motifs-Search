@@ -31,6 +31,6 @@ now = gmtime()
 time_str = strftime("%B %d, %Y %X", now)
 with open(working_path_str + "PWMs_TRANSFAC.txt", 'w') as motif_file:
     motif_file.write("VV  " + time_str + "\nXX\n//\n")
-    for i, motif_id in enumerate(pwm_id_list):
+    for motif_id, motif_matrix in zip(pwm_id_list, motif_list):
         motif_file.write("ID  " + motif_id + "\n")
-        motif_file.write(motif_list[i].format("transfac"))
+        motif_file.write(motif_matrix.format("transfac"))
