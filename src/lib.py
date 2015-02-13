@@ -13,24 +13,25 @@ def interval_param_to_str(interval_param):
     return interval_param[0] + ':' + str(interval_param[1]) + '-' + str(interval_param[2])
 
 
+# TODO: how to test input file
 def read_excel_motif_matrix_list_from_file(input_file):
     dna_alp = dna_alphabet()
-    pwm_id_list = []
-    pwm_matrix_list = []
-    pwm_matrix = {n: [] for n in dna_alp}
+    id_list = []
+    matrix_list = []
+    matrix = {n: [] for n in dna_alp}
     for line in input_file:
-        line_list = line.strip().split()
-        if len(line_list) == 1:
-            pwm_id_list.append(line_list[0][2:])
-            pwm_matrix_list.append(pwm_matrix)
-            pwm_matrix = {n: [] for n in dna_alp}
+        param_list = line.strip().split()
+        if len(param_list) == 1:
+            id_list.append(param_list[0][2:])
+            matrix_list.append(matrix)
+            matrix = {n: [] for n in dna_alp}
         else:
-            if line_list[1].isdigit():
+            if param_list[1].isdigit():
                 for i, nucleotide in enumerate(dna_alp):
-                    pwm_matrix[nucleotide].append(int(line_list[i + 1]))
-    pwm_matrix_list.pop(0)
-    pwm_matrix_list.append(pwm_matrix)
-    return [pwm_id_list, pwm_matrix_list, pwm_matrix]
+                    matrix[nucleotide].append(int(param_list[i + 1]))
+    matrix_list.pop(0)
+    matrix_list.append(matrix)
+    return [id_list, matrix_list, matrix]
 
 
 def dna_alphabet():

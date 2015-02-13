@@ -3,6 +3,7 @@ import src.lib as lib
 
 
 class Test(unittest.TestCase):
+    # TODO: test reading pws
     def test_parse_interval_line(self):
         test_interval_str = "chr1:5-25"
         actual_interval = lib.parse_interval_line(test_interval_str)
