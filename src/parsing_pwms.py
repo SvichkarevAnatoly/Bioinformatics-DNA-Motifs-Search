@@ -1,27 +1,13 @@
 from time import gmtime, strftime
 import Bio.motifs as motifs
 from Bio.Alphabet import IUPAC
+import lib
 
-dna_alf = sorted(list(IUPAC.unambiguous_dna.letters))
-
-pwm_id_list = []
-pwm_matrix_list = []
-pwm_matrix = {n: [] for n in dna_alf}
+dna_alf = lib.dna_alphabet()
 
 working_path_str = "../test_samples/"
 with open(working_path_str + "PWMs.txt", 'r') as pwms_plain_text:
-    for line in pwms_plain_text:
-        line_list = line.strip().split()
-        if len(line_list) == 1:
-            pwm_id_list.append(line_list[0][2:])
-            pwm_matrix_list.append(pwm_matrix)
-            pwm_matrix = {n: [] for n in dna_alf}
-        else:
-            if line_list[1].isdigit():
-                for i, nucleotide in enumerate(dna_alf):
-                    pwm_matrix[nucleotide].append(int(line_list[i+1]))
-pwm_matrix_list.pop(0)
-pwm_matrix_list.append(pwm_matrix)
+    pwm_id_list, pwm_matrix_list, pwm_matrix = lib.read_excel_motif_matrix_list_from_file(pwms_plain_text)
 
 motif_list = []
 for matrix in pwm_matrix_list:
