@@ -9,8 +9,12 @@ def parse_interval_line(interval_line):
     return [chr_name, start, end]
 
 
-def interval_param_to_str(interval_param):
+def interval_param_list_to_str(interval_param):
     return interval_param[0] + ':' + str(interval_param[1]) + '-' + str(interval_param[2])
+
+
+def interval_param_to_str(chr_name, start, end):
+    return chr_name + ':' + str(start) + '-' + str(end)
 
 
 # TODO: how to test input file

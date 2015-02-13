@@ -12,9 +12,19 @@ class Test(unittest.TestCase):
 
         self.assertEqual(expected_interval, actual_interval)
 
-    def test_interval_param_to_str(self):
+    def test_interval_param_list_to_str(self):
         test_interval_param = ["chr1", 5, 25]
-        actual_interval = lib.interval_param_to_str(test_interval_param)
+        actual_interval = lib.interval_param_list_to_str(test_interval_param)
+
+        expected_interval = "chr1:5-25"
+
+        self.assertEqual(expected_interval, actual_interval)
+
+    def test_interval_param_to_str(self):
+        chr_name = "chr1"
+        start = 5
+        end = 25
+        actual_interval = lib.interval_param_to_str(chr_name, start, end)
 
         expected_interval = "chr1:5-25"
 

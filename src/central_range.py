@@ -1,6 +1,8 @@
 import glob
 import os
-import re
+
+import lib
+
 
 directory = '../data/converting/'
 file_template = 'mm10_*.bed'
@@ -23,8 +25,8 @@ for path_bed_file in bed_file_name_list:
                                                bed_file_basename_list[0] + '_ucsc' + bed_file_basename_list[1])
         with open(bed_converted_file_name, 'w') as bed_converted_file:
             for interval_line in bed_file:
-                chromosome, start, end = re.split(":|-", interval_line.strip())
-                start = int(start)
-                end = int(end)
+                chromosome, start, end = lib.parse_interval_line(interval_line)
                 center = (end + start) / 2
-                bed_converted_file.write(chromosome + ' ' + str(center - 100) + ' ' + str(center + 100) + '\n')
+                new_start = center - 100
+                new_end = center + 100
+                bed_converted_file.write(lib.interval_param_to_str(chromosome, new_start, new_end) + '\n')
