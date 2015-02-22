@@ -1,14 +1,15 @@
-import sys
+import argparse
 
-if len(sys.argv) == 4:
-    input_bed_file_name = sys.argv[1]
-    extended_length = sys.argv[2]
-    output_bed_file_name = sys.argv[3]
-else:
-    print "usage: fasta_motif_center.py input_file [length] [output_file]\n" \
-          "input_file  : file with bed format intervals\n" \
-          "length      : common extended length\n" \
-          "output_file : output file with extended bed format intervals"
+parser = argparse.ArgumentParser(description="Resulting intervals in the input file to the same length")
+parser.add_argument("bedfile", type=argparse.FileType('r'), help="file with bed format intervals")
+parser.add_argument("-l", dest="length", type=int, metavar='length', help="common extended length")
+# TODO: remove outfile if args error
+parser.add_argument("-o", dest="outfile", type=argparse.FileType('w'), metavar='outfile',
+                    help="output file with extended bed format intervals")
+
+args = parser.parse_args()
+print '\n'.join(map(str, [args.bedfile, args.length, args.outfile]))
+
 
 # TODO: read bed file with intervals different length
 
