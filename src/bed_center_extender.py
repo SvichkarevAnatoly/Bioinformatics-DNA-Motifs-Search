@@ -37,6 +37,8 @@ def workflow(args):
         output_file = lib.create_output_file_name(bedfile.name)
         output_file = open(output_file, 'w')
     write_bed_file(extended_interval_list, output_file)
+    output_file.close()
+    bedfile.close()
 
 
 def main():
