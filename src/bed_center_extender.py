@@ -14,15 +14,14 @@ def parse_args():
 
 def bed_center_extender(bed_file, length):
     bed_line_list = bed_file.readlines()
-    # TODO: try rewrite
-    bed_param_line_list = map(lib.parse_interval_line, bed_line_list)
+    bed_line_list = map(lib.parse_interval_line, bed_line_list)
 
     if length is not None:
         interval_length = length
     else:
-        interval_length = max(map(lib.interval_length, bed_param_line_list))
+        interval_length = max(map(lib.interval_length, bed_line_list))
 
-    return map(lib.interval_extend, bed_param_line_list, [interval_length] * len(bed_param_line_list))
+    return map(lambda interval: lib.interval_extend(interval, interval_length), bed_line_list)
 
 
 if __name__ == "__main__":
