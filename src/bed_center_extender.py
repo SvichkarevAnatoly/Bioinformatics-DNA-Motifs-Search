@@ -12,19 +12,19 @@ def parse_args():
     return parser.parse_args()
 
 
-def bed_center_extender(bed_file, length):
-    bed_line_list = bed_file.readlines()
-    bed_line_list = map(lib.parse_interval_line, bed_line_list)
+def interval_center_extender(bed_file, length):
+    interval_list = bed_file.readlines()
+    interval_list = map(lib.parse_interval_line, interval_list)
 
     if length is not None:
         interval_length = length
     else:
-        interval_length = max(map(lib.interval_length, bed_line_list))
+        interval_length = max(map(lib.interval_length, interval_list))
 
-    return map(lambda interval: lib.interval_extend(interval, interval_length), bed_line_list)
+    return map(lambda interval: lib.interval_extend(interval, interval_length), interval_list)
 
 
 if __name__ == "__main__":
     args = parse_args()
-    bed_center_extender(args.bedfile, args.length)
+    interval_center_extender(args.bedfile, args.length)
     # TODO: write to output file

@@ -12,20 +12,20 @@ class Test(unittest.TestCase):
         self.test_data = open(TEST_DATA_FILENAME, 'r')
 
     def test_500_length(self):
-        bed_interval_param_list = bce.bed_center_extender(self.test_data, 500)
+        interval_param_list = bce.interval_center_extender(self.test_data, 500)
 
         expected_interval_list = [["chr1", 1800, 2300],
                                   ['chr9', 1755, 2255],
                                   ['chr2', 2250, 2750]]
-        self.assertItemsEqual(expected_interval_list, bed_interval_param_list)
+        self.assertItemsEqual(expected_interval_list, interval_param_list)
 
     def test_none_length(self):
-        bed_interval_param_list = bce.bed_center_extender(self.test_data, None)
+        interval_param_list = bce.interval_center_extender(self.test_data, None)
 
         expected_interval_list = [["chr1", 1550, 2550],
                                   ['chr9', 1505, 2505],
                                   ['chr2', 2000, 3000]]
-        self.assertItemsEqual(expected_interval_list, bed_interval_param_list)
+        self.assertItemsEqual(expected_interval_list, interval_param_list)
 
     def tearDown(self):
         self.test_data.close()
