@@ -12,11 +12,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def bed_center_extender(args_list):
-    bed_file = args_list[0]
-    length = args_list[1]
-    outfile = args_list[2]
-
+def bed_center_extender(bed_file, length):
     bed_line_list = bed_file.readlines()
     # TODO: try rewrite
     bed_param_line_list = map(lib.parse_interval_line, bed_line_list)
@@ -31,6 +27,5 @@ def bed_center_extender(args_list):
 
 if __name__ == "__main__":
     args = parse_args()
-    args_list1 = [args.bedfile, args.length, args.outfile]
-    bed_center_extender(args_list1)
+    bed_center_extender(args.bedfile, args.length)
     # TODO: write to output file
