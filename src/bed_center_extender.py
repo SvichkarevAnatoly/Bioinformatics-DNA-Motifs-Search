@@ -24,9 +24,9 @@ def bed_center_extender(args_list):
     if length is not None:
         interval_length = length
     else:
-        interval_length = max(map(lib.interval_length, bed_param_line_list)) + 1
+        interval_length = max(map(lib.interval_length, bed_param_line_list))
 
-    return map(lib.interval_extend, bed_param_line_list, [length] * len(bed_param_line_list))
+    return map(lib.interval_extend, bed_param_line_list, [interval_length] * len(bed_param_line_list))
 
 
 if __name__ == "__main__":
