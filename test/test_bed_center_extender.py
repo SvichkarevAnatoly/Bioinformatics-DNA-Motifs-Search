@@ -5,7 +5,8 @@ import unittest
 import src.bed_center_extender as bce
 
 
-TEST_DATA_FILENAME = os.path.join(os.path.dirname(__file__), 'test_data/test_bed_file.bed')
+TEST_DATA_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/test_bed_file.bed")
+TEST_DATA_OUT_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/test_bed_file_out.bed")
 
 
 class Test(unittest.TestCase):
@@ -22,17 +23,48 @@ class Test(unittest.TestCase):
             self.parser.parse_args([])
 
     def test_only_bedfile_cl_args(self):
-        args = self.parser.parse_args(["test/test_data/test_bed_file.bed"])
+        args = self.parser.parse_args([str(TEST_DATA_FILENAME)])
         bce.workflow(args)
-        result_bed_file_path = "test/test_data/test_bed_file_out.bed"
-        result_bed_file = open(result_bed_file_path, 'r')
+        result_bed_file = open(TEST_DATA_OUT_FILENAME, 'r')
         interval_list = map(strip, result_bed_file.readlines())
 
         expected_interval_list = ["chr1:1550-2550",
                                   "chr9:1505-2505",
                                   "chr2:2000-3000"]
         self.assertItemsEqual(expected_interval_list, interval_list)
-        os.remove(result_bed_file_path)
+
+    def test_only_bedfile_and_500_length_cl_args(self):
+        args = self.parser.parse_args([str(TEST_DATA_FILENAME), "-l500"])
+        bce.workflow(args)
+        result_bed_file = open(TEST_DATA_OUT_FILENAME, 'r')
+        interval_list = map(strip, result_bed_file.readlines())
+
+        expected_interval_list = ["chr1:1800-2300",
+                                  "chr9:1755-2255",
+                                  "chr2:2250-2750"]
+        self.assertItemsEqual(expected_interval_list, interval_list)
+
+    def test_only_bedfile_and_outfile_cl_args(self):
+        args = self.parser.parse_args([str(TEST_DATA_FILENAME), "-o", str(TEST_DATA_OUT_FILENAME)])
+        bce.workflow(args)
+        result_bed_file = open(TEST_DATA_OUT_FILENAME, 'r')
+        interval_list = map(strip, result_bed_file.readlines())
+
+        expected_interval_list = ["chr1:1550-2550",
+                                  "chr9:1505-2505",
+                                  "chr2:2000-3000"]
+        self.assertItemsEqual(expected_interval_list, interval_list)
+
+    def test_full_cl_args(self):
+        args = self.parser.parse_args([str(TEST_DATA_FILENAME), "-l500", "-o", str(TEST_DATA_OUT_FILENAME)])
+        bce.workflow(args)
+        result_bed_file = open(TEST_DATA_OUT_FILENAME, 'r')
+        interval_list = map(strip, result_bed_file.readlines())
+
+        expected_interval_list = ["chr1:1800-2300",
+                                  "chr9:1755-2255",
+                                  "chr2:2250-2750"]
+        self.assertItemsEqual(expected_interval_list, interval_list)
 
     def test_500_length(self):
         interval_param_list = bce.interval_center_extender(self.test_data, 500)
@@ -53,6 +85,11 @@ class Test(unittest.TestCase):
     def tearDown(self):
         self.test_data.close()
         super(Test, self).tearDown()
+
+    @classmethod
+    def tearDownClass(cls):
+        os.remove(TEST_DATA_OUT_FILENAME)
+        super(Test, cls).tearDownClass()
 
 
 if __name__ == "__main__":
