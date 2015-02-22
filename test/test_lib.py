@@ -30,6 +30,14 @@ class Test(unittest.TestCase):
 
         self.assertEqual(expected_interval, actual_interval)
 
+    def test_extend_interval(self):
+        test_interval_param = ["chr1", 55, 75]
+        actual_interval = lib.interval_extend(test_interval_param, 100)
+
+        expected_interval = ["chr1", 15, 115]
+
+        self.assertEqual(expected_interval, actual_interval)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -17,6 +17,15 @@ def interval_param_to_str(chr_name, start, end):
     return chr_name + ':' + str(start) + '-' + str(end)
 
 
+def interval_extend(interval_param, new_length):
+    start = interval_param[1]
+    end = interval_param[2]
+    center = (end + start) / 2
+    new_start = center - new_length / 2
+    new_end = center + new_length / 2
+    return [interval_param[0], new_start, new_end]
+
+
 # TODO: how to test input file
 def read_excel_motif_matrix_list_from_file(input_file):
     dna_alp = dna_alphabet()
