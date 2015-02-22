@@ -1,3 +1,4 @@
+import os
 import re
 from Bio.Alphabet import IUPAC
 
@@ -53,6 +54,12 @@ def read_excel_motif_matrix_list_from_file(input_file):
 
 def dna_alphabet():
     return sorted(list(IUPAC.unambiguous_dna.letters))
+
+
+def create_output_file_name(input_file_name):
+    path, basename = os.path.split(input_file_name)
+    basename_part_list = os.path.splitext(basename)
+    return os.path.join(path, basename_part_list[0] + '_out' + basename_part_list[1])
 
 
 def searching_result_to_str(interval, results, rev_results, sequence_length):

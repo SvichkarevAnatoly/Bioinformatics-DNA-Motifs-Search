@@ -54,5 +54,14 @@ class Test(unittest.TestCase):
 
         self.assertEqual(expected_length, actual_length)
 
+    def test_create_output_file_name(self):
+        input_file_name = "/home/input.txt"
+        actual_file_name = lib.create_output_file_name(input_file_name)
+
+        expected_file_name = "/home/input_out.txt"
+
+        self.assertEqual(expected_file_name, actual_file_name)
+
+
 if __name__ == "__main__":
     unittest.main()
