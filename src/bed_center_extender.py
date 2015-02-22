@@ -24,7 +24,17 @@ def interval_center_extender(bed_file, length):
     return map(lambda interval: lib.interval_extend(interval, interval_length), interval_list)
 
 
+def write_bed_file(interval_param_list, outfile):
+    for interval_param in interval_param_list:
+        outfile.write("%s\n" % lib.interval_param_list_to_str(interval_param))
+
+
 if __name__ == "__main__":
     args = parse_args()
-    interval_center_extender(args.bedfile, args.length)
-    # TODO: write to output file
+    bedfile = args.bedfile
+    extended_interval_list = interval_center_extender(bedfile, args.length)
+    output_file = args.outfile
+    if output_file is None:
+        output_file = lib.create_output_file_name(bedfile.name)
+        output_file = open(output_file, 'w')
+    write_bed_file(extended_interval_list, output_file)
