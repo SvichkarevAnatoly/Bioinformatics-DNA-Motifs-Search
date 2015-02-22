@@ -17,6 +17,10 @@ def interval_param_to_str(chr_name, start, end):
     return chr_name + ':' + str(start) + '-' + str(end)
 
 
+def interval_length(interval_param):
+    return interval_param[2] - interval_param[1]
+
+
 def interval_extend(interval_param, new_length):
     start = interval_param[1]
     end = interval_param[2]
