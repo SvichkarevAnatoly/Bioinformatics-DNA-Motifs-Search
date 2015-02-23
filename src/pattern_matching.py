@@ -1,4 +1,6 @@
 import argparse
+from Bio import SeqIO
+import Bio.motifs as motifs
 
 
 def create_parser():
@@ -11,11 +13,14 @@ def create_parser():
 
 
 def process(args):
-    # TODO:
-    pass
+    # TODO: write triggers in parser for writing input data
+    seq_list = list(SeqIO.parse(args.fasta, "fasta"))
+    pwm_records = motifs.parse(args.pwm, "TRANSFAC")
+
+    return None
 
 
-def save(result):
+def save(result, args):
     # TODO:
     pass
 
@@ -24,7 +29,8 @@ def main():
     parser = create_parser()
     args = parser.parse_args()
     result = process(args)
-    save(result)
+    save(result, args)
+
 
 if __name__ == "__main__":
     main()
