@@ -5,9 +5,11 @@ import lib
 def create_parser():
     parser = argparse.ArgumentParser(description="Resulting intervals in the input file to the same length")
     parser.add_argument("bedfile", type=argparse.FileType('r'), help="file with bed format intervals")
-    parser.add_argument("-l", dest="length", type=int, metavar='length', help="common extended length")
+    parser.add_argument("-l", "--length", dest="length", type=int, metavar='length',
+                        help="common extended length. "
+                             "If not specified, is extended to the maximum length of the interval in the input file.")
     # TODO: remove outfile if args error
-    parser.add_argument("-o", dest="outfile", type=argparse.FileType('w'), metavar='outfile',
+    parser.add_argument("-o", "--output", dest="outfile", type=argparse.FileType('w'), metavar='outfile',
                         help="output file with extended bed format intervals")
     return parser
 
