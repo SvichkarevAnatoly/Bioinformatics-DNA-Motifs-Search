@@ -1,0 +1,18 @@
+VV  January 28, 2015 08:46:03
+XX
+//
+ID  motif1
+P0      A      C      G      T
+01      1      1      1      2      N
+02      2      1      0      1      A
+03      3      4      0      0      M
+XX
+//
+ID  motif2
+P0      A      C      G      T
+01      1      1      0      0      M
+02      2      0      1      0      A
+03      3      0      0      0      A
+04      4      0      0      1      A
+XX
+//
