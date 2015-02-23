@@ -6,8 +6,8 @@ import errno
 import src.bed_center_extender as bce
 
 
-TEST_DATA_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/test_bed_file.bed")
-TEST_DATA_OUT_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/test_bed_file_out.bed")
+TEST_DATA_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/bed_file.bed")
+TEST_DATA_OUT_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/bed_file_out.bed")
 
 
 def silent_remove(file_name):
