@@ -10,7 +10,12 @@ def create_parser():
     return parser
 
 
-def workflow(args):
+def process(args):
+    # TODO:
+    pass
+
+
+def save(result):
     # TODO:
     pass
 
@@ -18,8 +23,8 @@ def workflow(args):
 def main():
     parser = create_parser()
     args = parser.parse_args()
-    workflow(args)
-
+    result = process(args)
+    save(result)
 
 if __name__ == "__main__":
     main()
