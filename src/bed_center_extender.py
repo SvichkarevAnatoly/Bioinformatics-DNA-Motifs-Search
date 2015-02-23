@@ -8,7 +8,6 @@ def create_parser():
     parser.add_argument("-l", "--length", dest="length", type=int, metavar='length',
                         help="common extended length. "
                              "If not specified, is extended to the maximum length of the interval in the input file.")
-    # TODO: remove outfile if args error
     parser.add_argument("-o", "--output", dest="outfile", type=argparse.FileType('w'), metavar='outfile',
                         help="output file with extended bed format intervals")
     return parser
