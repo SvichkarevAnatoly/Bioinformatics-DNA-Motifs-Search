@@ -1,3 +1,5 @@
+from Bio import motifs
+import os
 import unittest
 import src.lib as lib
 
@@ -61,6 +63,22 @@ class Test(unittest.TestCase):
         expected_file_name = "/home/input_out.txt"
 
         self.assertEqual(expected_file_name, actual_file_name)
+
+    def test_create_matrix_from_pwms(self):
+        # TODO: don't use reading file
+        pwms_filename = os.path.join(os.path.dirname(__file__), "test_data/pwms_transfac.dat")
+        with open(pwms_filename, 'r') as pwms_file:
+            pwm_record_list = motifs.parse(pwms_file, "TRANSFAC")
+
+        actual_matrix = lib.create_matrix_from_pwms("motif1", pwm_record_list)
+        expected_matrix = [
+            [1.0, 2.0, 3.0],
+            [1.0, 1.0, 4.0],
+            [1.0, 0.0, 0.0],
+            [2.0, 1.0, 0.0]
+        ]   # N    A    M
+
+        self.assertEqual(expected_matrix, actual_matrix)
 
 
 if __name__ == "__main__":
