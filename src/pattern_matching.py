@@ -9,6 +9,10 @@ def create_parser():
     parser.add_argument("pwm", type=argparse.FileType('r'), help="file with position weight matrices (PWM)")
     parser.add_argument("-o", "--output", dest="matching", type=argparse.FileType('w'), metavar='matching',
                         help="output file with matching results")
+
+    parser.add_argument("-tf", "--factor", dest="tf", type=int, metavar='tf',
+                        help="transcription factor name in pwm file. "
+                        "If not specified, matching with all tf in pwm file.")
     return parser
 
 
