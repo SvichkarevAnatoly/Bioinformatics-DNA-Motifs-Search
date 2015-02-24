@@ -21,9 +21,7 @@ def process(args):
     # TODO: write triggers in parser for writing input data
     seq_list = list(SeqIO.parse(args.fasta, "fasta"))
     pwm_record_list = motifs.parse(args.pwm, "TRANSFAC")
-    if args.tf is not None:
-        # TODO: if tf not exist in pwm_record_list
-        matrix = lib.create_matrix_from_pwms(args.tf, pwm_record_list)
+    matrices = lib.create_matrices_from_pwms(pwm_record_list, args.tf)
 
     return None
 

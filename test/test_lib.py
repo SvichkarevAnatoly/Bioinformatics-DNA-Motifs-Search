@@ -66,7 +66,7 @@ class TestLib(unittest.TestCase):
 
         self.assertEqual(expected_file_name, actual_file_name)
 
-    def test_create_matrix_from_pwms(self):
+    def test_create_matrices_from_pwms(self):
         tempfile = cStringIO.StringIO()
         tempfile.write('\n'.join([
             "VV  January 28, 2015 08:46:03",
@@ -78,21 +78,38 @@ class TestLib(unittest.TestCase):
             "02      2      1      0      1      A",
             "03      3      4      0      0      M",
             "XX",
+            "//",
+            "ID  motif2",
+            "P0      A      C      G      T",
+            "01      1      1      0      0      M",
+            "02      2      0      1      0      A",
+            "XX",
             "//"
         ]))
         tempfile.seek(0)
 
         pwm_record_list = motifs.parse(tempfile, "TRANSFAC")
-        actual_matrix = lib.create_matrix_from_pwms("motif1", pwm_record_list)
 
-        expected_matrix = [
+        actual_matrix1 = lib.create_matrices_from_pwms(pwm_record_list, "motif1")
+        expected_matrix1 = [
             [1.0, 2.0, 3.0],
             [1.0, 1.0, 4.0],
             [1.0, 0.0, 0.0],
             [2.0, 1.0, 0.0]
         ]  # N    A    M
+        self.assertEqual([expected_matrix1], actual_matrix1)
 
-        self.assertEqual(expected_matrix, actual_matrix)
+        actual_matrix2 = lib.create_matrices_from_pwms(pwm_record_list, None)
+        expected_matrix2 = [
+            expected_matrix1,
+            [
+                [1.0, 2.0],
+                [1.0, 0.0],
+                [0.0, 1.0],
+                [0.0, 0.0]
+            ]  # M    A
+        ]
+        self.assertEqual(expected_matrix2, actual_matrix2)
 
 
 if __name__ == "__main__":

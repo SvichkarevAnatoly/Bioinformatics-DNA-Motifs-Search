@@ -62,10 +62,12 @@ def create_output_file_name(input_file_name):
     return os.path.join(path, basename_part_list[0] + '_out' + basename_part_list[1])
 
 
-def create_matrix_from_pwms(tf_name, pwm_record_list):
-    pwm_matrix = [pwm for pwm in pwm_record_list if pwm['ID'] == tf_name][0]
-    pwm_matrix = pwm_matrix.counts
-    return [pwm_matrix[n] for n in dna_alphabet()]
+def create_matrices_from_pwms(pwm_records, tf_name=None):
+    if tf_name is not None:
+        pwm_records = [pwm for pwm in pwm_records if pwm['ID'] == tf_name]
+    matrices = [record.counts for record in pwm_records]
+    alp = dna_alphabet()
+    return [[matrix[n] for n in alp] for matrix in matrices]
 
 
 def searching_result_to_str(interval, results, rev_results, sequence_length):
