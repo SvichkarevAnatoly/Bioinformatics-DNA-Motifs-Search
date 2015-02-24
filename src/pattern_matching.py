@@ -14,6 +14,9 @@ def create_parser():
     parser.add_argument("-tf", "--factor", dest="tf", type=int, metavar='tf',
                         help="transcription factor name in pwm file. "
                         "If not specified, matching with all tf in pwm file.")
+    parser.add_argument("-th", "--threshold", dest="threshold", type=float, default=0.7, metavar='threshold',
+                        help="The parameter threshold split for better control on what parts of the scoring are used. "
+                        "If not specified, threshold=0.7.")
     return parser
 
 
