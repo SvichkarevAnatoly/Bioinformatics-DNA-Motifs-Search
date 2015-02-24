@@ -1,6 +1,7 @@
 import argparse
 from Bio import SeqIO
 import Bio.motifs as motifs
+import lib
 
 
 def create_parser():
@@ -19,7 +20,10 @@ def create_parser():
 def process(args):
     # TODO: write triggers in parser for writing input data
     seq_list = list(SeqIO.parse(args.fasta, "fasta"))
-    pwm_records = motifs.parse(args.pwm, "TRANSFAC")
+    pwm_record_list = motifs.parse(args.pwm, "TRANSFAC")
+    if args.tf is not None:
+        # TODO: if tf not exist in pwm_record_list
+        matrix = lib.create_matrix_from_pwms(args.tf, pwm_record_list)
 
     return None
 
