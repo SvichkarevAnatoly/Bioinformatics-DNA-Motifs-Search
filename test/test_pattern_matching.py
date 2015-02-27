@@ -4,8 +4,8 @@ import errno
 
 import src.pattern_matching as pm
 
-TEST_DATA_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/fasta.fa")
-TEST_DATA_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/fasta.fa")
+TEST_FASTA_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/fasta.fa")
+TEST_PWM_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/pwms_transfac.dat")
 
 
 def silent_remove(file_name):
@@ -24,7 +24,18 @@ class Test(unittest.TestCase):
 
     def test_with_empty_args(self):
         with self.assertRaises(SystemExit):
-            self.parser.parse_args([])
+            self.args = self.parser.parse_args([])
+
+    def test_positional_args(self):
+        self.args = self.parser.parse_args([str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME)])
+        # TODO: how to check open file
+        self.assertEqual(0.7, self.args.threshold)
+        # TODO: how to close in tearDown?
+        self.args.fasta.close()
+        self.args.pwm.close()
+
+    def tearDown(self):
+        super(Test, self).tearDown()
 
     @classmethod
     def tearDownClass(cls):
