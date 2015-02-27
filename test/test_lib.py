@@ -66,6 +66,22 @@ class TestLib(unittest.TestCase):
 
         self.assertEqual(expected_file_name, actual_file_name)
 
+    def test_search_motif(self):
+        seq = "ACGT"
+        matrix = [
+            [0, 0],  # A
+            [1, 0],  # C
+            [0, 1],  # G
+            [0, 0]   # T
+        ]
+        matching = lib.search_motif(seq, [matrix], 0.7, False)
+        matching = matching[0][0]
+
+        expected_position = 1
+        self.assertEqual(expected_position, matching[0])
+        expected_score = 2.0
+        self.assertEqual(expected_score, matching[1])
+
     def test_create_matrices_from_pwms(self):
         tempfile = cStringIO.StringIO()
         tempfile.write('\n'.join([
