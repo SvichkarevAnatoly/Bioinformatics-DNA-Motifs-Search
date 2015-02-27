@@ -1,6 +1,7 @@
 import os
 import re
 from Bio.Alphabet import IUPAC
+import MOODS
 
 
 def parse_interval_line(interval_line):
@@ -68,6 +69,12 @@ def create_matrices_from_pwms(pwm_records, tf_name=None):
     matrices = [record.counts for record in pwm_records]
     alp = dna_alphabet()
     return [[matrix[n] for n in alp] for matrix in matrices]
+
+
+def search_motif(sequence, matrices, threshold, both_strands=False):
+    return MOODS.search(sequence, matrices, threshold,
+                        convert_log_odds=False, both_strands=both_strands,
+                        pseudocount=0, threshold_from_p=False)
 
 
 def searching_result_to_str(interval, results, rev_results, sequence_length):
