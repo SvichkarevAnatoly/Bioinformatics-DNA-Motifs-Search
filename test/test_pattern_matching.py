@@ -34,6 +34,15 @@ class Test(unittest.TestCase):
         self.args.fasta.close()
         self.args.pwm.close()
 
+    def test_reversed_flag(self):
+        args = [str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME)]
+        self.args = self.parser.parse_args(args)
+        self.assertFalse(self.args.reversed)
+
+        args.append("--reversed")
+        self.args = self.parser.parse_args(args)
+        self.assertTrue(self.args.reversed)
+
     def tearDown(self):
         super(Test, self).tearDown()
 
