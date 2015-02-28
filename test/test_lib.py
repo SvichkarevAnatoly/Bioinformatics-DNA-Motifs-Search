@@ -99,6 +99,29 @@ class TestLib(unittest.TestCase):
         expected_pos2 = (-5, 2.0)
         self.assertEqual(expected_pos2, pos2)
 
+    def test_search_motif_two_matrices(self):
+        seq = "ACGTGC"
+        matrix1 = [
+            [0, 0, 0],  # A
+            [0, 0, 0],  # C
+            [1, 0, 1],  # G
+            [0, 1, 0]   # T
+        ]
+        matrix2 = [
+            [1, 0, 0],  # A
+            [0, 1, 0],  # C
+            [0, 0, 1],  # G
+            [0, 0, 0]   # T
+        ]
+        results = lib.search_motif(seq, [matrix1, matrix2], 0.7, False)
+        matrix1_pos = results[0][0]
+        matrix2_pos = results[1][0]
+
+        expected_matrix1_pos = (2, 3.0)
+        self.assertEqual(expected_matrix1_pos, matrix1_pos)
+        expected_matrix2_pos = (0, 3.0)
+        self.assertEqual(expected_matrix2_pos, matrix2_pos)
+
     def test_create_matrices_from_pwms(self):
         tempfile = cStringIO.StringIO()
         tempfile.write('\n'.join([
