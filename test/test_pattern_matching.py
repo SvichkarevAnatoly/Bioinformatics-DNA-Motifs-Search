@@ -50,9 +50,11 @@ class Test(unittest.TestCase):
         self.assertEqual(2, len(result))
         seq1_result = result[0]
         self.assertEqual("seq1", seq1_result[0])
-        seq1_m1_result = seq1_result[1][0]
+        seq1_tf1_result = seq1_result[1][0]
+        self.assertEqual("motif1", seq1_tf1_result[0])
         expected_pos = (0, 6.0)
-        self.assertEqual(expected_pos, seq1_m1_result[0])
+        seq1_tf1_positions = seq1_tf1_result[1]
+        self.assertEqual(expected_pos, seq1_tf1_positions[0])
 
     def tearDown(self):
         super(Test, self).tearDown()

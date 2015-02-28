@@ -63,12 +63,16 @@ def create_output_file_name(input_file_name):
     return os.path.join(path, basename_part_list[0] + '_out' + basename_part_list[1])
 
 
-def create_matrices_from_pwms(pwm_records, tf_name=None):
-    if tf_name is not None:
-        pwm_records = [pwm for pwm in pwm_records if pwm['ID'] == tf_name]
+# TODO: make for list tf_names
+def create_matrices_from_pwms(pwm_records, tf_names=None):
+    if tf_names is not None:
+        pwm_records = [pwm for pwm in pwm_records if pwm['ID'] == tf_names]
+    else:
+        tf_names = [pwm['ID'] for pwm in pwm_records]
     matrices = [record.counts for record in pwm_records]
     alp = dna_alphabet()
-    return [[matrix[n] for n in alp] for matrix in matrices]
+    matrices = [[matrix[n] for n in alp] for matrix in matrices]
+    return matrices, tf_names
 
 
 def search_motif(sequence, matrices, threshold_factor=0.7, both_strands=False):

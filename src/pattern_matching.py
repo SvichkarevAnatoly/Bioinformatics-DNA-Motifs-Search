@@ -16,6 +16,7 @@ def create_parser():
                         help="output file with matching results. "
                              "If not specified, write output to stdout.")
 
+    # TODO: make for list tf_names
     parser.add_argument("-tf", "--factor", dest="tf", type=str, metavar='tf',
                         help="transcription factor name in pwm file. "
                              "If not specified, matching with all tf in pwm file.")
@@ -36,17 +37,18 @@ def process(args):
     pwm_record_list = motifs.parse(args.pwm, "TRANSFAC")
     args.pwm.close()
 
-    matrices = lib.create_matrices_from_pwms(pwm_record_list, args.tf)
+    matrices, tf_names = lib.create_matrices_from_pwms(pwm_record_list, args.tf)
 
     results = []
     for seq in seqs:
         sequence = str(seq.seq)
         matching = lib.search_motif(sequence, matrices, args.threshold, args.reversed)
 
-        result_cortege = (seq.description, matching)
+        result_cortege = (seq.description, zip(tf_names, matching))
         if args.reversed:
             reversed_sequence = seq.seq[::-1]
             reversed_matching = lib.search_motif(reversed_sequence, matrices, args.threshold, args.reversed)
+            # TODO: test
             result_cortege = (result_cortege, reversed_matching)
 
         results.append(result_cortege)
