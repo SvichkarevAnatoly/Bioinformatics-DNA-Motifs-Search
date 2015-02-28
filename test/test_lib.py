@@ -82,6 +82,23 @@ class TestLib(unittest.TestCase):
         expected_score = 2.0
         self.assertEqual(expected_score, matching[1])
 
+    def test_search_motif_both_strand(self):
+        seq = "ACGTGC"
+        matrix = [
+            [0, 0],  # A
+            [1, 0],  # C
+            [0, 1],  # G
+            [0, 0]   # T
+        ]
+        results = lib.search_motif(seq, [matrix], 0.7, True)[0]
+        pos1 = results[0]
+        pos2 = results[1]
+
+        expected_pos1 = (1, 2.0)
+        self.assertEqual(expected_pos1, pos1)
+        expected_pos2 = (-5, 2.0)
+        self.assertEqual(expected_pos2, pos2)
+
     def test_create_matrices_from_pwms(self):
         tempfile = cStringIO.StringIO()
         tempfile.write('\n'.join([
