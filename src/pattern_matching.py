@@ -19,9 +19,8 @@ def create_parser():
     parser.add_argument("-th", "--threshold", dest="threshold", type=float, default=0.7, metavar='threshold',
                         help="The parameter threshold split for better control on what parts of the scoring are used. "
                              "If not specified, threshold=0.7.")
-    # TODO: use as flag
-    parser.add_argument("-r", "--reversed", dest="reversed", type=bool, default=False, metavar='reversed',
-                        help="For searching in both direction"
+    parser.add_argument("-r", "--reversed", action="store_true", default=False,
+                        help="For searching in both direction. "
                              "If not specified, search only in direct.")
     return parser
 
