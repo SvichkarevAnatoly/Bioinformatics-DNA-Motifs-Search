@@ -11,8 +11,8 @@ def create_parser():
     parser = argparse.ArgumentParser(description="Matching position weight matrices (PWM) against DNA sequences")
     parser.add_argument("fasta", type=argparse.FileType('r'), help="fasta file with DNA sequences")
     parser.add_argument("pwm", type=argparse.FileType('r'), help="file with position weight matrices (PWM)")
-    parser.add_argument("-o", "--output", nargs='?', dest="matching",
-                        type=argparse.FileType('w'), default=sys.stdout, metavar='matching',
+    parser.add_argument("-o", "--output", nargs='?', dest="output",
+                        type=argparse.FileType('w'), default=sys.stdout, metavar='output',
                         help="output file with matching results. "
                              "If not specified, write output to stdout.")
 
@@ -56,8 +56,15 @@ def process(args):
 
 
 def save(result, args):
-    # TODO:
-    pass
+    for seq_result in result:
+        seq_name = seq_result[0]
+        args.output.write('>' + seq_name + '\n')
+        for tf_result in seq_result[1]:
+            tf_name = tf_result[0]
+            args.output.write(tf_name + ' ')
+            positions = [pos_tuple[0] for pos_tuple in tf_result[1]]
+            args.output.write(';'.join(map(str, positions)) + '\n')
+    args.output.close()
 
 
 def main():
