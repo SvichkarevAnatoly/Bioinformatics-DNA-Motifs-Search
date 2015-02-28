@@ -31,15 +31,13 @@ def process(args):
     pwm_record_list = motifs.parse(args.pwm, "TRANSFAC")
     matrices = lib.create_matrices_from_pwms(pwm_record_list, args.tf)
 
-    threshold = args.threshold * MOODS.max_score(matrices)
     for seq in seqs:
         sequence = str(seq.seq)
-        results = MOODS.search(sequence, matrices, threshold, convert_log_odds=False, both_strands=True, pseudocount=0,
-                               threshold_from_p=False)
+        results = lib.search_motif(sequence, matrices, args.threshold, args.reversed)
 
-        reversed_sequence = seq.seq[::-1]
-        reversed_results = MOODS.search(reversed_sequence, matrices, threshold, convert_log_odds=False,
-                                        both_strands=True, pseudocount=0, threshold_from_p=False)
+        if args.reversed:
+            reversed_sequence = seq.seq[::-1]
+            reversed_results = lib.search_motif(reversed_sequence, matrices, args.threshold, args.reversed)
 
     return None
 
