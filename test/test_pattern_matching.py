@@ -43,6 +43,20 @@ class Test(unittest.TestCase):
         self.args = self.parser.parse_args(args)
         self.assertTrue(self.args.reversed)
 
+    def test_run_on_test_data(self):
+        self.args = self.parser.parse_args([str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME)])
+        result = pm.process(self.args)
+
+        self.assertEqual(2, len(result))
+        seq1_result = result[0]
+        self.assertEqual("seq1", seq1_result[0])
+        seq1_m1_result = seq1_result[1][0]
+        expected_pos = (0, 6.0)
+        self.assertEqual(expected_pos, seq1_m1_result[0])
+
+        self.args.fasta.close()
+        self.args.pwm.close()
+
     def tearDown(self):
         super(Test, self).tearDown()
 
