@@ -54,9 +54,6 @@ class Test(unittest.TestCase):
         expected_pos = (0, 6.0)
         self.assertEqual(expected_pos, seq1_m1_result[0])
 
-        self.args.fasta.close()
-        self.args.pwm.close()
-
     def tearDown(self):
         super(Test, self).tearDown()
 

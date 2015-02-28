@@ -31,7 +31,11 @@ def create_parser():
 def process(args):
     # TODO: write triggers in parser for writing input data
     seqs = list(SeqIO.parse(args.fasta, "fasta"))
+    args.fasta.close()
+
     pwm_record_list = motifs.parse(args.pwm, "TRANSFAC")
+    args.pwm.close()
+
     matrices = lib.create_matrices_from_pwms(pwm_record_list, args.tf)
 
     results = []
