@@ -2,6 +2,7 @@ import argparse
 
 from Bio import SeqIO
 import Bio.motifs as motifs
+import sys
 
 import lib
 
@@ -10,8 +11,10 @@ def create_parser():
     parser = argparse.ArgumentParser(description="Matching position weight matrices (PWM) against DNA sequences")
     parser.add_argument("fasta", type=argparse.FileType('r'), help="fasta file with DNA sequences")
     parser.add_argument("pwm", type=argparse.FileType('r'), help="file with position weight matrices (PWM)")
-    parser.add_argument("-o", "--output", dest="matching", type=argparse.FileType('w'), metavar='matching',
-                        help="output file with matching results")
+    parser.add_argument("-o", "--output", nargs='?', dest="matching",
+                        type=argparse.FileType('w'), default=sys.stdout, metavar='matching',
+                        help="output file with matching results. "
+                             "If not specified, write output to stdout.")
 
     parser.add_argument("-tf", "--factor", dest="tf", type=str, metavar='tf',
                         help="transcription factor name in pwm file. "
