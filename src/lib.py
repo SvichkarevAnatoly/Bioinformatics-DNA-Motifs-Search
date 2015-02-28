@@ -71,7 +71,7 @@ def create_matrices_from_pwms(pwm_records, tf_name=None):
     return [[matrix[n] for n in alp] for matrix in matrices]
 
 
-def search_motif(sequence, matrices, threshold_factor, both_strands=False):
+def search_motif(sequence, matrices, threshold_factor=0.7, both_strands=False):
     threshold_func = lambda m: threshold_factor * MOODS.max_score(m)
     threshold = map(threshold_func, matrices)
     return MOODS.search(sequence, matrices, threshold,
