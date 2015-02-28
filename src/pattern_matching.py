@@ -34,15 +34,19 @@ def process(args):
     pwm_record_list = motifs.parse(args.pwm, "TRANSFAC")
     matrices = lib.create_matrices_from_pwms(pwm_record_list, args.tf)
 
+    results = []
     for seq in seqs:
         sequence = str(seq.seq)
-        results = lib.search_motif(sequence, matrices, args.threshold, args.reversed)
+        matching = lib.search_motif(sequence, matrices, args.threshold, args.reversed)
 
+        result_cortege = (seq.description, matching)
         if args.reversed:
             reversed_sequence = seq.seq[::-1]
-            reversed_results = lib.search_motif(reversed_sequence, matrices, args.threshold, args.reversed)
+            reversed_matching = lib.search_motif(reversed_sequence, matrices, args.threshold, args.reversed)
+            result_cortege = (result_cortege, reversed_matching)
 
-    return None
+        results.append(result_cortege)
+    return results
 
 
 def save(result, args):
