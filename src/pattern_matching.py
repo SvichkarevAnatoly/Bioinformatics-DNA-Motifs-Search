@@ -35,8 +35,6 @@ def process(args):
     threshold = args.threshold * MOODS.max_score(matrices)
     for seq in seqs:
         sequence = str(seq.seq)
-        # TODO: created lib method
-        interval = re.split("=| ", seq.description)[2]
         results = MOODS.search(sequence, matrices, threshold, convert_log_odds=False, both_strands=True, pseudocount=0,
                                threshold_from_p=False)
 
