@@ -47,7 +47,8 @@ class Test(unittest.TestCase):
         self.args = self.parser.parse_args([str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME)])
         result = pm.process(self.args)
 
-        self.assertEqual(2, len(result))
+        expected_seq_number = 2
+        self.assertEqual(expected_seq_number, len(result))
         seq1_result = result[0]
         self.assertEqual("seq1", seq1_result[0])
         seq1_tf1_result = seq1_result[1][0]
