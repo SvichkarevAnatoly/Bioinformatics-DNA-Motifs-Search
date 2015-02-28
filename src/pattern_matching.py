@@ -12,15 +12,15 @@ def create_parser():
     parser.add_argument("fasta", type=argparse.FileType('r'), help="fasta file with DNA sequences")
     parser.add_argument("pwm", type=argparse.FileType('r'), help="file with position weight matrices (PWM)")
     parser.add_argument("-o", "--output", nargs='?', dest="output",
-                        type=argparse.FileType('w'), default=sys.stdout, metavar='output',
+                        type=argparse.FileType('w'), default=sys.stdout,
                         help="output file with matching results. "
                              "If not specified, write output to stdout.")
 
     # TODO: make for list tf_names
-    parser.add_argument("-tf", "--factor", dest="tf", type=str, metavar='tf',
+    parser.add_argument("-tf", "--factor", dest="tf", type=str,
                         help="transcription factor name in pwm file. "
                              "If not specified, matching with all tf in pwm file.")
-    parser.add_argument("-th", "--threshold", dest="threshold", type=float, default=0.7, metavar='threshold',
+    parser.add_argument("-th", "--threshold", dest="threshold", type=float, default=0.7,
                         help="The parameter threshold split for better control on what parts of the scoring are used. "
                              "If not specified, threshold=0.7.")
     parser.add_argument("-r", "--reversed", action="store_true", default=False,
