@@ -1,8 +1,8 @@
 import argparse
-import re
+
 from Bio import SeqIO
 import Bio.motifs as motifs
-import MOODS
+
 import lib
 
 
@@ -13,7 +13,7 @@ def create_parser():
     parser.add_argument("-o", "--output", dest="matching", type=argparse.FileType('w'), metavar='matching',
                         help="output file with matching results")
 
-    parser.add_argument("-tf", "--factor", dest="tf", type=int, metavar='tf',
+    parser.add_argument("-tf", "--factor", dest="tf", type=str, metavar='tf',
                         help="transcription factor name in pwm file. "
                              "If not specified, matching with all tf in pwm file.")
     parser.add_argument("-th", "--threshold", dest="threshold", type=float, default=0.7, metavar='threshold',
