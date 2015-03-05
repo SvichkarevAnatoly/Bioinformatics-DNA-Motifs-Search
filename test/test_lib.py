@@ -146,17 +146,19 @@ class TestLib(unittest.TestCase):
 
         pwm_record_list = motifs.parse(tempfile, "TRANSFAC")
 
-        actual_matrix1 = lib.create_matrices_from_pwms(pwm_record_list, "motif1")
+        tf_name = "motif1"
+        actual_cortege1 = lib.create_matrices_from_pwms(pwm_record_list, tf_name)
         expected_matrix1 = [
             [1.0, 2.0, 3.0],
             [1.0, 1.0, 4.0],
             [1.0, 0.0, 0.0],
             [2.0, 1.0, 0.0]
         ]  # N    A    M
-        self.assertEqual([expected_matrix1], actual_matrix1)
+        expected_cortege1 = ([expected_matrix1], [tf_name])
+        self.assertEqual(expected_cortege1, actual_cortege1)
 
-        actual_matrix2 = lib.create_matrices_from_pwms(pwm_record_list, None)
-        expected_matrix2 = [
+        actual_cortege2 = lib.create_matrices_from_pwms(pwm_record_list, None)
+        expected_matrices = [
             expected_matrix1,
             [
                 [1.0, 2.0],
@@ -165,7 +167,9 @@ class TestLib(unittest.TestCase):
                 [0.0, 0.0]
             ]  # M    A
         ]
-        self.assertEqual(expected_matrix2, actual_matrix2)
+        tf_names = [tf_name, "motif2"]
+        expected_cortege2 = (expected_matrices, tf_names)
+        self.assertEqual(expected_cortege2, actual_cortege2)
 
 
 if __name__ == "__main__":

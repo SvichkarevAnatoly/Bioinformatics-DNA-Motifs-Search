@@ -63,10 +63,12 @@ def create_output_file_name(input_file_name):
     return os.path.join(path, basename_part_list[0] + '_out' + basename_part_list[1])
 
 
+# TODO: refactored
 # TODO: make for list tf_names
 def create_matrices_from_pwms(pwm_records, tf_names=None):
     if tf_names is not None:
         pwm_records = [pwm for pwm in pwm_records if pwm['ID'] == tf_names]
+        tf_names = [tf_names]
     else:
         tf_names = [pwm['ID'] for pwm in pwm_records]
     matrices = [record.counts for record in pwm_records]
