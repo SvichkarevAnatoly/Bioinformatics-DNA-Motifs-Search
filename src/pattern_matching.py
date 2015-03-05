@@ -1,8 +1,9 @@
 import argparse
+import sys
+from signal import signal, SIGPIPE, SIG_DFL
 
 from Bio import SeqIO
 import Bio.motifs as motifs
-import sys
 
 import lib
 
@@ -78,4 +79,5 @@ def main():
 
 
 if __name__ == "__main__":
+    signal(SIGPIPE, SIG_DFL)
     main()
