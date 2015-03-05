@@ -26,6 +26,9 @@ def create_parser():
     parser.add_argument("-r", "--reversed", action="store_true", default=False,
                         help="For searching in both direction. "
                              "If not specified, search only in direct.")
+    parser.add_argument("-e", "--excel", action="store_true", default=False,
+                        help="For saving results in easy paste to excel format. "
+                             "If not specified, saving results in compact format.")
     return parser
 
 
