@@ -22,9 +22,9 @@ class SeqSearchResults(object):
         for i, tf in enumerate(self.tfs):
             self.tf_dict[tf].directed = matching[i]
 
-    def fill_reversed_matching(self, matching):
+    def fill_backward_matching(self, matching):
         for i, tf in enumerate(self.tfs):
-            self.tf_dict[tf].reversed = matching[i]
+            self.tf_dict[tf].backward = matching[i]
 
 
 class DirectionMatchingTF(object):
@@ -48,10 +48,13 @@ def create_parser():
     parser.add_argument("-th", "--threshold", dest="threshold", type=float, default=0.7,
                         help="The parameter threshold split for better control on what parts of the scoring are used. "
                              "If not specified, threshold=0.7.")
-    parser.add_argument("-r", "--reversed", action="store_true", default=False,
+    parser.add_argument("-rc", "--reverse-complement", dest="reverse_complement", action="store_true", default=False,
                         help="For searching in both direction. "
                              "If not specified, search only in direct.")
-    parser.add_argument("-e", "--excel", action="store_true", default=False,
+    parser.add_argument("-b", "--backward", dest="backward", action="store_true", default=False,
+                        help="For searching in both direction. "
+                             "If not specified, search only in direct.")
+    parser.add_argument("-e", "--excel", dest="excel", action="store_true", default=False,
                         help="For saving results in easy paste to excel format. "
                              "If not specified, saving results in compact format.")
     return parser
@@ -70,16 +73,16 @@ def process(args):
     results = []
     for seq in seqs:
         sequence = str(seq.seq)
-        matching = lib.search_motif(sequence, matrices, args.threshold, args.reversed)
+        matching = lib.search_motif(sequence, matrices, args.threshold, args.reverse_complement)
 
         seq_result = SeqSearchResults(seq.description)
         seq_result.create_tf_dict(tf_names)
         seq_result.fill_directed_matching(matching)
 
-        if args.reversed:
-            reversed_sequence = seq.seq[::-1]
-            reversed_matching = lib.search_motif(reversed_sequence, matrices, args.threshold, args.reversed)
-            seq_result.fill_reversed_matching(reversed_matching)
+        if args.backward:
+            backward_sequence = seq.seq[::-1]
+            backward_matching = lib.search_motif(backward_sequence, matrices, args.threshold, args.reverse_complement)
+            seq_result.fill_backward_matching(backward_matching)
 
         results.append(seq_result)
     return results
@@ -90,10 +93,12 @@ def save(result, args):
         args.output.write('>' + seq_result.seq_name + '\n')
         for tf in seq_result.tfs:
             args.output.write(tf + ' ')
-            directed_matching = seq_result.tf_dict[tf].directed
-            positions = [pos_tuple[0] for pos_tuple in directed_matching]
+            matching = seq_result.tf_dict[tf]
+            positions = [pos_tuple[0] for pos_tuple in matching.directed]
+            if hasattr(matching, 'backward'):
+                backward_positions = [pos_tuple[0] for pos_tuple in matching.backward]
+                positions.extend(backward_positions)
             args.output.write(';'.join(map(str, positions)) + '\n')
-    args.output.close()
 
 
 def main():
@@ -101,6 +106,7 @@ def main():
     args = parser.parse_args()
     result = process(args)
     save(result, args)
+    args.output.close()
 
 
 if __name__ == "__main__":
