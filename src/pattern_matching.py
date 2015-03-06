@@ -14,7 +14,7 @@ class SeqSearchResults(object):
         self.tf_dict = None
         self.tfs = None
 
-    def create_tf_dicts(self, tf_names):
+    def create_tf_dict(self, tf_names):
         self.tfs = tf_names
         self.tf_dict = {tf: DirectionMatchingTF(tf) for tf in tf_names}
 
@@ -73,7 +73,7 @@ def process(args):
         matching = lib.search_motif(sequence, matrices, args.threshold, args.reversed)
 
         seq_result = SeqSearchResults(seq.description)
-        seq_result.create_tf_dicts(tf_names)
+        seq_result.create_tf_dict(tf_names)
         seq_result.fill_directed_matching(matching)
 
         if args.reversed:
@@ -87,12 +87,11 @@ def process(args):
 
 def save(result, args):
     for seq_result in result:
-        seq_name = seq_result[0][0]
-        args.output.write('>' + seq_name + '\n')
-        for tf_result in seq_result[1]:
-            tf_name = tf_result[0]
-            args.output.write(tf_name + ' ')
-            positions = [pos_tuple[0] for pos_tuple in tf_result[1]]
+        args.output.write('>' + seq_result.seq_name + '\n')
+        for tf in seq_result.tfs:
+            args.output.write(tf + ' ')
+            directed_matching = seq_result.tf_dict[tf].directed
+            positions = [pos_tuple[0] for pos_tuple in directed_matching]
             args.output.write(';'.join(map(str, positions)) + '\n')
     args.output.close()
 
