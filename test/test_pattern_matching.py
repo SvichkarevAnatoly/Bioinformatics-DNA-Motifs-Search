@@ -66,6 +66,37 @@ class Test(unittest.TestCase):
         ]) + '\n'
         self.assertEqual(expected_contents, actual_file_contents)
 
+    def test_backward_flag(self):
+        args = [str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME)]
+        self.args = self.parser.parse_args(args)
+        self.assertFalse(self.args.backward)
+
+        args.append("--backward")
+        self.args = self.parser.parse_args(args)
+        self.assertTrue(self.args.backward)
+
+        tempfile = cStringIO.StringIO()
+        self.args.output = tempfile
+
+        result = pm.process(self.args)
+        pm.save(result, self.args)
+
+        tempfile.seek(0)
+        actual_file_contents = tempfile.read()
+        expected_contents = "\n".join([
+            ">seq1",
+            "motif1 0;3;6;11;12;15;16;17;19;28;34;41;48;49;53;58;59;62;65",
+            "backward 2;3;8;9;12;16;19;20;26;27;34;41;48;49;50;52;55;56;59;64;67;68",
+            "motif2 10;17;19;28;35;43;53;61;67",
+            "backward 16;35;41;50;52;53",
+            ">seq2",
+            "motif1 0;1;6;7;15;19;20;28;31;32;36;44;45;46",
+            "backward 0;1;5;9;12;13;14;17;18;26;30;31;34;38;39;45;46;47",
+            "motif2 0;1;2;9;13;34;42",
+            "backward 32;46;47"
+        ]) + '\n'
+        self.assertEqual(expected_contents, actual_file_contents)
+
     def test_run_on_test_data(self):
         self.args = self.parser.parse_args([str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME)])
         result = pm.process(self.args)

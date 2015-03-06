@@ -95,10 +95,13 @@ def save(result, args):
             args.output.write(tf + ' ')
             matching = seq_result.tf_dict[tf]
             positions = [pos_tuple[0] for pos_tuple in matching.directed]
-            if hasattr(matching, 'backward'):
-                backward_positions = [pos_tuple[0] for pos_tuple in matching.backward]
-                positions.extend(backward_positions)
             args.output.write(';'.join(map(str, positions)) + '\n')
+
+            if hasattr(matching, 'backward'):
+                args.output.write('backward ')
+                backward_positions = [pos_tuple[0] for pos_tuple in matching.backward]
+                args.output.write(';'.join(map(str, backward_positions)) + '\n')
+
 
 
 def main():
