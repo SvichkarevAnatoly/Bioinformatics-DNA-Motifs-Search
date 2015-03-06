@@ -8,6 +8,30 @@ import Bio.motifs as motifs
 import lib
 
 
+class SeqSearchResults(object):
+    def __init__(self, seq_name):
+        self.seq_name = seq_name
+        self.tf_dict = None
+        self.tfs = None
+
+    def create_tf_dicts(self, tf_names):
+        self.tfs = tf_names
+        self.tf_dict = {tf: DirectionMatchingTF(tf) for tf in tf_names}
+
+    def fill_directed_matching(self, matching):
+        for i, tf in enumerate(self.tfs):
+            self.tf_dict[tf].directed = matching[i]
+
+    def fill_reversed_matching(self, matching):
+        for i, tf in enumerate(self.tfs):
+            self.tf_dict[tf].reversed = matching[i]
+
+
+class DirectionMatchingTF(object):
+    def __init__(self, tf_name):
+        self.tf = tf_name
+
+
 def create_parser():
     parser = argparse.ArgumentParser(description="Matching position weight matrices (PWM) against DNA sequences")
     parser.add_argument("fasta", type=argparse.FileType('r'), help="fasta file with DNA sequences")
@@ -48,20 +72,22 @@ def process(args):
         sequence = str(seq.seq)
         matching = lib.search_motif(sequence, matrices, args.threshold, args.reversed)
 
-        result_cortege = (seq.description, zip(tf_names, matching))
+        seq_result = SeqSearchResults(seq.description)
+        seq_result.create_tf_dicts(tf_names)
+        seq_result.fill_directed_matching(matching)
+
         if args.reversed:
             reversed_sequence = seq.seq[::-1]
             reversed_matching = lib.search_motif(reversed_sequence, matrices, args.threshold, args.reversed)
-            # TODO: test
-            result_cortege = (result_cortege, reversed_matching)
+            seq_result.fill_reversed_matching(reversed_matching)
 
-        results.append(result_cortege)
+        results.append(seq_result)
     return results
 
 
 def save(result, args):
     for seq_result in result:
-        seq_name = seq_result[0]
+        seq_name = seq_result[0][0]
         args.output.write('>' + seq_name + '\n')
         for tf_result in seq_result[1]:
             tf_name = tf_result[0]
