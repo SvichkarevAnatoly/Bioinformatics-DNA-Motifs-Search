@@ -139,7 +139,26 @@ class Test(unittest.TestCase):
         ]) + '\n'
 
         self.assertEqual(expected_contents, actual_file_contents)
-        silent_remove(TEST_OUT_FILENAME)
+
+    def test_save_excel_format(self):
+        self.args = self.parser.parse_args([str(TEST_FASTA_FILENAME),
+                                            str(TEST_PWM_FILENAME),
+                                            "-e"])
+        tempfile = cStringIO.StringIO()
+        self.args.output = tempfile
+
+        result = pm.process(self.args)
+        pm.save(result, self.args)
+
+        tempfile.seek(0)
+        actual_file_contents = tempfile.read()
+
+        expected_contents = '\n'.join([
+            "seq1 4;5;-6 4;-6",
+            "seq2 4;5;-6 4;-6",
+        ]) + '\n'
+
+        self.assertEqual(expected_contents, actual_file_contents)
 
     def tearDown(self):
         super(Test, self).tearDown()

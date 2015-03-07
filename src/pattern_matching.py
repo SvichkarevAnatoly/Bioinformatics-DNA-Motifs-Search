@@ -88,7 +88,11 @@ def process(args):
     return results
 
 
-def save(result, args):
+def save_excel(result, args):
+    pass
+
+
+def save_human_readable(result, args):
     for seq_result in result:
         args.output.write('>' + seq_result.seq_name + '\n')
         for tf in seq_result.tfs:
@@ -101,6 +105,13 @@ def save(result, args):
                 args.output.write('backward ')
                 backward_positions = [pos_tuple[0] for pos_tuple in matching.backward]
                 args.output.write(';'.join(map(str, backward_positions)) + '\n')
+
+
+def save(result, args):
+    if args.excel:
+        save_excel(result, args)
+    else:
+        save_human_readable(result, args)
 
 
 def main():
