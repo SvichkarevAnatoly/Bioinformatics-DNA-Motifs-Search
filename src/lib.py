@@ -68,7 +68,13 @@ def get_pwm_ids(pwm_records):
 
 
 def filter_tfs_in_pwms(tf_names, pwm_record_ids):
-    return list(set(tf_names) & set(pwm_record_ids))
+    tfs_set = set(tf_names)
+    intersection = tfs_set & set(pwm_record_ids)
+    if tfs_set == intersection:
+        return list(intersection)
+    else:
+        # TODO: find exception class
+        raise Exception("I know python!")
 
 
 def create_matrices_from_pwms(pwm_records, tf_names=None):

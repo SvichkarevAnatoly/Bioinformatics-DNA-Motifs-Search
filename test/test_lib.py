@@ -167,6 +167,14 @@ class TestLib(unittest.TestCase):
 
         self.assertEquals(expected_tfs, actual_tfs)
 
+    def test_filter_tfs_in_pwms_throw_exception_if_tf_not_in_pwms(self):
+        tf_names = ["motif1", "motifNotInPwms"]
+        pwm_ids = ["motif1", "motif2"]
+
+        # TODO:
+        with self.assertRaises(Exception):
+            actual_tfs = lib.filter_tfs_in_pwms(tf_names, pwm_ids)
+
     def test_create_matrices_from_pwms(self):
         tf_name = "motif1"
         actual_cortege1 = lib.create_matrices_from_pwms(self.pwm_records, tf_name)
