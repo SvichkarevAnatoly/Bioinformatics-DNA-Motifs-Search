@@ -1,21 +1,11 @@
 import os
 import unittest
-import errno
 import cStringIO
 
 import src.bed_center_extender as bce
 
 
 TEST_DATA_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/bed_file.bed")
-TEST_DATA_OUT_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/bed_file_out.bed")
-
-
-def silent_remove(file_name):
-    try:
-        os.remove(file_name)
-    except OSError as e:
-        if e.errno != errno.ENOENT:  # errno.ENOENT = no such file or directory
-            raise  # re-raise exception if a different error occured
 
 
 class Test(unittest.TestCase):
@@ -57,8 +47,7 @@ class Test(unittest.TestCase):
         self.assertItemsEqual(expected_interval_list, result)
 
     def test_only_bedfile_and_outfile_cl_args(self):
-        args = self.parser.parse_args([str(TEST_DATA_FILENAME), "-o", str(TEST_DATA_OUT_FILENAME)])
-        self.assertIsNotNone(args.output)
+        args = self.parser.parse_args([str(TEST_DATA_FILENAME)])
 
         args.output = cStringIO.StringIO()
 
@@ -75,9 +64,8 @@ class Test(unittest.TestCase):
         self.assertItemsEqual(expected_contents, actual_contents)
 
     def test_full_cl_args(self):
-        args = self.parser.parse_args([str(TEST_DATA_FILENAME), "-l500", "-o", str(TEST_DATA_OUT_FILENAME)])
+        args = self.parser.parse_args([str(TEST_DATA_FILENAME), "-l500"])
         self.assertEquals(500, args.length)
-        self.assertIsNotNone(args.output)
 
         args.output = cStringIO.StringIO()
 
@@ -94,13 +82,9 @@ class Test(unittest.TestCase):
         self.assertItemsEqual(expected_contents, actual_contents)
 
     def test_wrong_cl_args_and_not_creating_file(self):
-        silent_remove(TEST_DATA_OUT_FILENAME)
-
-        args_list = [str(TEST_DATA_FILENAME), "-l", "not_number", "-o", str(TEST_DATA_OUT_FILENAME)]
+        args_list = [str(TEST_DATA_FILENAME), "-l", "not_number"]
         with self.assertRaises(SystemExit):
             self.parser.parse_args(args_list)
-
-        self.assertTrue(not os.path.isfile(TEST_DATA_OUT_FILENAME))
 
     def test_500_length(self):
         interval_param_list = bce.interval_center_extender(self.input_intervals, 500)
@@ -119,12 +103,6 @@ class Test(unittest.TestCase):
             ["chr2", 2000, 3000]
         ]
         self.assertItemsEqual(expected_interval_list, interval_param_list)
-
-    @classmethod
-    def tearDownClass(cls):
-        silent_remove(TEST_DATA_OUT_FILENAME)
-        super(Test, cls).tearDownClass()
-
 
 if __name__ == "__main__":
     unittest.main()
