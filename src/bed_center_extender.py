@@ -1,4 +1,6 @@
 import argparse
+from signal import signal, SIGPIPE, SIG_DFL
+import sys
 import lib
 
 
@@ -8,8 +10,10 @@ def create_parser():
     parser.add_argument("-l", "--length", dest="length", type=int,
                         help="common extended length. "
                              "If not specified, is extended to the maximum length of the interval in the input file.")
-    parser.add_argument("-o", "--output", dest="outfile", type=argparse.FileType('w'),
-                        help="output file with extended bed format intervals")
+    parser.add_argument("-o", "--output", nargs='?', dest="output",
+                        type=argparse.FileType('w'), default=sys.stdout,
+                        help="output file with extended bed format intervals. "
+                             "If not specified, write output to stdout.")
     return parser
 
 
@@ -25,28 +29,23 @@ def interval_center_extender(bed_file, length):
     return map(lambda interval: lib.interval_extend(interval, interval_length), interval_list)
 
 
-def write_bed_file(interval_param_list, outfile):
-    for interval_param in interval_param_list:
-        outfile.write("%s\n" % lib.interval_param_list_to_str(interval_param))
+def process(args):
+    return interval_center_extender(args.bedfile, args.length)
 
 
-def workflow(args):
-    bedfile = args.bedfile
-    extended_interval_list = interval_center_extender(bedfile, args.length)
-    output_file = args.outfile
-    if output_file is None:
-        output_file = lib.create_output_file_name(bedfile.name)
-        output_file = open(output_file, 'w')
-    write_bed_file(extended_interval_list, output_file)
-    output_file.close()
-    bedfile.close()
+def save(result, args):
+    for interval_param in result:
+        args.output.write("%s\n" % lib.interval_param_list_to_str(interval_param))
 
 
 def main():
     parser = create_parser()
     args = parser.parse_args()
-    workflow(args)
+    result = process(args)
+    save(result, args)
+    args.output.close()
 
 
 if __name__ == "__main__":
+    signal(SIGPIPE, SIG_DFL)
     main()
