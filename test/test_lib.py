@@ -7,7 +7,38 @@ import src.lib as lib
 
 
 class TestLib(unittest.TestCase):
+    @classmethod
+    def get_pwm_records(cls):
+        pwms_str = '\n'.join([
+            "VV  January 28, 2015 08:46:03",
+            "XX", "//", "ID  motif1",
+            "P0      A      C      G      T",
+            "01      1      1      1      2      N",
+            "02      2      1      0      1      A",
+            "03      3      4      0      0      M",
+            "XX",
+            "//",
+            "ID  motif2",
+            "P0      A      C      G      T",
+            "01      1      1      0      0      M",
+            "02      2      0      1      0      A",
+            "XX",
+            "//"
+        ])
+
+        tempfile = cStringIO.StringIO()
+        tempfile.write(pwms_str)
+        tempfile.seek(0)
+        pwm_records = motifs.parse(tempfile, "TRANSFAC")
+        tempfile.close()
+        return pwm_records
+
+    @classmethod
+    def setUpClass(cls):
+        cls.pwm_records = cls.get_pwm_records()
+
     # TODO: test reading pws
+
     def test_parse_interval_line(self):
         test_interval_str = "chr1:5-25"
         actual_interval = lib.parse_interval_line(test_interval_str)
@@ -72,7 +103,7 @@ class TestLib(unittest.TestCase):
             [0, 0],  # A
             [1, 0],  # C
             [0, 1],  # G
-            [0, 0]   # T
+            [0, 0]  # T
         ]
         matching = lib.search_motif(seq, [matrix], 0.7, False)
         matching = matching[0][0]
@@ -88,7 +119,7 @@ class TestLib(unittest.TestCase):
             [0, 0],  # A
             [1, 0],  # C
             [0, 1],  # G
-            [0, 0]   # T
+            [0, 0]  # T
         ]
         results = lib.search_motif(seq, [matrix], 0.7, True)[0]
         pos1 = results[0]
@@ -105,13 +136,13 @@ class TestLib(unittest.TestCase):
             [0, 0, 0],  # A
             [0, 0, 0],  # C
             [1, 0, 1],  # G
-            [0, 1, 0]   # T
+            [0, 1, 0]  # T
         ]
         matrix2 = [
             [1, 0, 0],  # A
             [0, 1, 0],  # C
             [0, 0, 1],  # G
-            [0, 0, 0]   # T
+            [0, 0, 0]  # T
         ]
         results = lib.search_motif(seq, [matrix1, matrix2], 0.7, False)
         matrix1_pos = results[0][0]
@@ -122,32 +153,17 @@ class TestLib(unittest.TestCase):
         expected_matrix2_pos = (0, 3.0)
         self.assertEqual(expected_matrix2_pos, matrix2_pos)
 
+    def test_get_pwm_ids(self):
+        actual_pwm_ids = lib.get_pwm_ids(self.pwm_records)
+        expected_pwm_ids = ["motif1", "motif2"]
+        self.assertEquals(expected_pwm_ids, actual_pwm_ids)
+
+    def test_filter_tfs_in_pwms(self):
+        pass
+
     def test_create_matrices_from_pwms(self):
-        tempfile = cStringIO.StringIO()
-        tempfile.write('\n'.join([
-            "VV  January 28, 2015 08:46:03",
-            "XX",
-            "//",
-            "ID  motif1",
-            "P0      A      C      G      T",
-            "01      1      1      1      2      N",
-            "02      2      1      0      1      A",
-            "03      3      4      0      0      M",
-            "XX",
-            "//",
-            "ID  motif2",
-            "P0      A      C      G      T",
-            "01      1      1      0      0      M",
-            "02      2      0      1      0      A",
-            "XX",
-            "//"
-        ]))
-        tempfile.seek(0)
-
-        pwm_record_list = motifs.parse(tempfile, "TRANSFAC")
-
         tf_name = "motif1"
-        actual_cortege1 = lib.create_matrices_from_pwms(pwm_record_list, tf_name)
+        actual_cortege1 = lib.create_matrices_from_pwms(self.pwm_records, tf_name)
         expected_matrix1 = [
             [1.0, 2.0, 3.0],
             [1.0, 1.0, 4.0],
@@ -157,7 +173,7 @@ class TestLib(unittest.TestCase):
         expected_cortege1 = ([expected_matrix1], [tf_name])
         self.assertEqual(expected_cortege1, actual_cortege1)
 
-        actual_cortege2 = lib.create_matrices_from_pwms(pwm_record_list, None)
+        actual_cortege2 = lib.create_matrices_from_pwms(self.pwm_records, None)
         expected_matrices = [
             expected_matrix1,
             [
