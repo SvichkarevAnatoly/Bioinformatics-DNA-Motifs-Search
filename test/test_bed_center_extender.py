@@ -2,6 +2,7 @@ import os
 from strop import strip
 import unittest
 import errno
+import cStringIO
 
 import src.bed_center_extender as bce
 
@@ -24,16 +25,13 @@ class Test(unittest.TestCase):
         super(Test, cls).setUpClass()
         cls.parser = bce.create_parser()
 
-    def setUp(self):
-        self.test_data = open(TEST_DATA_FILENAME, 'r')
-
     def test_with_empty_args(self):
         with self.assertRaises(SystemExit):
             self.parser.parse_args([])
 
     def test_only_bedfile_cl_args(self):
         args = self.parser.parse_args([str(TEST_DATA_FILENAME)])
-        bce.workflow(args)
+        bce.process(args)
         result_bed_file = open(TEST_DATA_OUT_FILENAME, 'r')
         interval_list = map(strip, result_bed_file.readlines())
 
@@ -44,18 +42,22 @@ class Test(unittest.TestCase):
 
     def test_only_bedfile_and_500_length_cl_args(self):
         args = self.parser.parse_args([str(TEST_DATA_FILENAME), "-l500"])
-        bce.workflow(args)
-        result_bed_file = open(TEST_DATA_OUT_FILENAME, 'r')
-        interval_list = map(strip, result_bed_file.readlines())
+        self.assertTrue(args.length)
 
-        expected_interval_list = ["chr1:1800-2300",
-                                  "chr9:1755-2255",
-                                  "chr2:2250-2750"]
-        self.assertItemsEqual(expected_interval_list, interval_list)
+        tempfile = cStringIO.StringIO()
+        args.output = tempfile
+
+        result = bce.process(args)
+        expected_interval_list = [
+            ["chr1", 1800, 2300],
+            ["chr9", 1755, 2255],
+            ["chr2", 2250, 2750]
+        ]
+        self.assertItemsEqual(expected_interval_list, result)
 
     def test_only_bedfile_and_outfile_cl_args(self):
         args = self.parser.parse_args([str(TEST_DATA_FILENAME), "-o", str(TEST_DATA_OUT_FILENAME)])
-        bce.workflow(args)
+        bce.process(args)
         result_bed_file = open(TEST_DATA_OUT_FILENAME, 'r')
         interval_list = map(strip, result_bed_file.readlines())
 
@@ -66,7 +68,7 @@ class Test(unittest.TestCase):
 
     def test_full_cl_args(self):
         args = self.parser.parse_args([str(TEST_DATA_FILENAME), "-l500", "-o", str(TEST_DATA_OUT_FILENAME)])
-        bce.workflow(args)
+        bce.process(args)
         result_bed_file = open(TEST_DATA_OUT_FILENAME, 'r')
         interval_list = map(strip, result_bed_file.readlines())
 
@@ -99,10 +101,6 @@ class Test(unittest.TestCase):
                                   ["chr9", 1505, 2505],
                                   ["chr2", 2000, 3000]]
         self.assertItemsEqual(expected_interval_list, interval_param_list)
-
-    def tearDown(self):
-        self.test_data.close()
-        super(Test, self).tearDown()
 
     @classmethod
     def tearDownClass(cls):
