@@ -87,8 +87,13 @@ class Test(unittest.TestCase):
         self.assertTrue(not os.path.isfile(TEST_DATA_OUT_FILENAME))
 
     def test_500_length(self):
-        interval_param_list = bce.interval_center_extender(self.test_data, 500)
+        intervals = [
+            "chr1:2000-2100",
+            "chr9:2000-2010",
+            "chr2:2000-3000"
+        ]
 
+        interval_param_list = bce.interval_center_extender(intervals, 500)
         expected_interval_list = [["chr1", 1800, 2300],
                                   ["chr9", 1755, 2255],
                                   ["chr2", 2250, 2750]]
