@@ -17,20 +17,21 @@ def create_parser():
     return parser
 
 
-def interval_center_extender(bed_file, length):
-    interval_list = bed_file.readlines()
-    interval_list = map(lib.parse_interval_line, interval_list)
+def interval_center_extender(intervals, length):
+    intervals = map(lib.parse_interval_line, intervals)
 
     if length is not None:
         interval_length = length
     else:
-        interval_length = max(map(lib.interval_length, interval_list))
+        interval_length = max(map(lib.interval_length, intervals))
 
-    return map(lambda interval: lib.interval_extend(interval, interval_length), interval_list)
+    return map(lambda interval: lib.interval_extend(interval, interval_length), intervals)
 
 
 def process(args):
-    return interval_center_extender(args.bedfile, args.length)
+    intervals = args.bedfile.readlines()
+    args.bedfile.close()
+    return interval_center_extender(intervals, args.length)
 
 
 def save(result, args):
