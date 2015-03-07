@@ -103,7 +103,6 @@ def save(result, args):
                 args.output.write(';'.join(map(str, backward_positions)) + '\n')
 
 
-
 def main():
     parser = create_parser()
     args = parser.parse_args()
