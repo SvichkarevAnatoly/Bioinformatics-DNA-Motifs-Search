@@ -68,7 +68,7 @@ def get_pwm_ids(pwm_records):
 
 
 def filter_tfs_in_pwms(tf_names, pwm_record_ids):
-    pass
+    return list(set(tf_names) & set(pwm_record_ids))
 
 
 def create_matrices_from_pwms(pwm_records, tf_names=None):

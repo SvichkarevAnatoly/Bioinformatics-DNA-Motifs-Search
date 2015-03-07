@@ -159,7 +159,13 @@ class TestLib(unittest.TestCase):
         self.assertEquals(expected_pwm_ids, actual_pwm_ids)
 
     def test_filter_tfs_in_pwms(self):
-        pass
+        tf_names = ["motif1"]
+        pwm_ids = ["motif1", "motif2"]
+
+        actual_tfs = lib.filter_tfs_in_pwms(tf_names, pwm_ids)
+        expected_tfs = ["motif1"]
+
+        self.assertEquals(expected_tfs, actual_tfs)
 
     def test_create_matrices_from_pwms(self):
         tf_name = "motif1"
