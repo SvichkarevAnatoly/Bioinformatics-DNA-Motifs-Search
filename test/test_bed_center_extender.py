@@ -1,5 +1,4 @@
 import os
-from strop import strip
 import unittest
 import errno
 import cStringIO
@@ -36,21 +35,18 @@ class Test(unittest.TestCase):
 
     def test_only_bedfile_cl_args(self):
         args = self.parser.parse_args([str(TEST_DATA_FILENAME)])
-        bce.process(args)
-        result_bed_file = open(TEST_DATA_OUT_FILENAME, 'r')
-        interval_list = map(strip, result_bed_file.readlines())
 
-        expected_interval_list = ["chr1:1550-2550",
-                                  "chr9:1505-2505",
-                                  "chr2:2000-3000"]
-        self.assertItemsEqual(expected_interval_list, interval_list)
+        result = bce.process(args)
+        expected_interval_list = [
+            ["chr1", 1550, 2550],
+            ["chr9", 1505, 2505],
+            ["chr2", 2000, 3000]
+        ]
+        self.assertItemsEqual(expected_interval_list, result)
 
     def test_only_bedfile_and_500_length_cl_args(self):
         args = self.parser.parse_args([str(TEST_DATA_FILENAME), "-l500"])
-        self.assertTrue(args.length)
-
-        tempfile = cStringIO.StringIO()
-        args.output = tempfile
+        self.assertEquals(500, args.length)
 
         result = bce.process(args)
         expected_interval_list = [
@@ -62,25 +58,40 @@ class Test(unittest.TestCase):
 
     def test_only_bedfile_and_outfile_cl_args(self):
         args = self.parser.parse_args([str(TEST_DATA_FILENAME), "-o", str(TEST_DATA_OUT_FILENAME)])
-        bce.process(args)
-        result_bed_file = open(TEST_DATA_OUT_FILENAME, 'r')
-        interval_list = map(strip, result_bed_file.readlines())
+        self.assertIsNotNone(args.output)
 
-        expected_interval_list = ["chr1:1550-2550",
-                                  "chr9:1505-2505",
-                                  "chr2:2000-3000"]
-        self.assertItemsEqual(expected_interval_list, interval_list)
+        args.output = cStringIO.StringIO()
+
+        result = bce.process(args)
+        bce.save(result, args)
+
+        args.output.seek(0)
+        actual_contents = args.output.read()
+        expected_contents = "\n".join([
+            "chr1:1550-2550",
+            "chr9:1505-2505",
+            "chr2:2000-3000"
+        ]) + '\n'
+        self.assertItemsEqual(expected_contents, actual_contents)
 
     def test_full_cl_args(self):
         args = self.parser.parse_args([str(TEST_DATA_FILENAME), "-l500", "-o", str(TEST_DATA_OUT_FILENAME)])
-        bce.process(args)
-        result_bed_file = open(TEST_DATA_OUT_FILENAME, 'r')
-        interval_list = map(strip, result_bed_file.readlines())
+        self.assertEquals(500, args.length)
+        self.assertIsNotNone(args.output)
 
-        expected_interval_list = ["chr1:1800-2300",
-                                  "chr9:1755-2255",
-                                  "chr2:2250-2750"]
-        self.assertItemsEqual(expected_interval_list, interval_list)
+        args.output = cStringIO.StringIO()
+
+        result = bce.process(args)
+        bce.save(result, args)
+
+        args.output.seek(0)
+        actual_contents = args.output.read()
+        expected_contents = "\n".join([
+            "chr1:1800-2300",
+            "chr9:1755-2255",
+            "chr2:2250-2750"
+        ]) + '\n'
+        self.assertItemsEqual(expected_contents, actual_contents)
 
     def test_wrong_cl_args_and_not_creating_file(self):
         silent_remove(TEST_DATA_OUT_FILENAME)
