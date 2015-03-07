@@ -154,8 +154,8 @@ class Test(unittest.TestCase):
         actual_file_contents = tempfile.read()
 
         expected_contents = '\n'.join([
-            "seq1 4;5;-6 4;-6",
-            "seq2 4;5;-6 4;-6",
+            "seq1 0;3;6;11;12;15;16;17;19;28;34;41;48;49;53;58;59;62;65 10;17;19;28;35;43;53;61;67",
+            "seq2 0;1;6;7;15;19;20;28;31;32;36;44;45;46 0;1;2;9;13;34;42",
         ]) + '\n'
 
         self.assertEqual(expected_contents, actual_file_contents)

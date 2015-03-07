@@ -89,7 +89,18 @@ def process(args):
 
 
 def save_excel(result, args):
-    pass
+    for seq_result in result:
+        args.output.write(seq_result.seq_name)
+        for tf in seq_result.tfs:
+            # TODO: to backward
+            matching = seq_result.tf_dict[tf].directed
+            positions = [pos for pos, score in matching]
+            if positions:
+                positions_str = ' ' + ';'.join(map(str, positions))
+            else:
+                positions_str = " #"
+            args.output.write(positions_str)
+        args.output.write('\n')
 
 
 def save_human_readable(result, args):
