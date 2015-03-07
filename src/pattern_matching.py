@@ -42,7 +42,7 @@ def create_parser():
                              "If not specified, write output to stdout.")
 
     # TODO: make for list tf_names
-    parser.add_argument("-tf", "--factor", dest="tf", type=str,
+    parser.add_argument("-tf", "--factor", nargs='+', dest="tf", type=str,
                         help="transcription factor name in pwm file. "
                              "If not specified, matching with all tf in pwm file.")
     parser.add_argument("-th", "--threshold", dest="threshold", type=float, default=0.7,
