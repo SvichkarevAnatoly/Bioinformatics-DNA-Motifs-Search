@@ -24,6 +24,11 @@ class Test(unittest.TestCase):
     def setUpClass(cls):
         super(Test, cls).setUpClass()
         cls.parser = bce.create_parser()
+        cls.input_intervals = [
+            "chr1:2000-2100",
+            "chr9:2000-2010",
+            "chr2:2000-3000"
+        ]
 
     def test_with_empty_args(self):
         with self.assertRaises(SystemExit):
@@ -87,24 +92,21 @@ class Test(unittest.TestCase):
         self.assertTrue(not os.path.isfile(TEST_DATA_OUT_FILENAME))
 
     def test_500_length(self):
-        intervals = [
-            "chr1:2000-2100",
-            "chr9:2000-2010",
-            "chr2:2000-3000"
+        interval_param_list = bce.interval_center_extender(self.input_intervals, 500)
+        expected_interval_list = [
+            ["chr1", 1800, 2300],
+            ["chr9", 1755, 2255],
+            ["chr2", 2250, 2750]
         ]
-
-        interval_param_list = bce.interval_center_extender(intervals, 500)
-        expected_interval_list = [["chr1", 1800, 2300],
-                                  ["chr9", 1755, 2255],
-                                  ["chr2", 2250, 2750]]
         self.assertItemsEqual(expected_interval_list, interval_param_list)
 
     def test_none_length(self):
-        interval_param_list = bce.interval_center_extender(self.test_data, None)
-
-        expected_interval_list = [["chr1", 1550, 2550],
-                                  ["chr9", 1505, 2505],
-                                  ["chr2", 2000, 3000]]
+        interval_param_list = bce.interval_center_extender(self.input_intervals, None)
+        expected_interval_list = [
+            ["chr1", 1550, 2550],
+            ["chr9", 1505, 2505],
+            ["chr2", 2000, 3000]
+        ]
         self.assertItemsEqual(expected_interval_list, interval_param_list)
 
     @classmethod
