@@ -175,30 +175,16 @@ class TestLib(unittest.TestCase):
             lib.filter_pwms_in_tfs(tf_names, pwm_ids)
 
     def test_create_matrices_from_pwms(self):
-        tf_name = "motif1"
-        actual_cortege1 = lib.create_matrices_from_pwms(self.pwm_records, tf_name)
+        tf_names = ["motif1"]
+        actual_pwms = lib.create_matrices_from_pwms(self.pwm_records, tf_names)
         expected_matrix1 = [
             [1.0, 2.0, 3.0],
             [1.0, 1.0, 4.0],
             [1.0, 0.0, 0.0],
             [2.0, 1.0, 0.0]
         ]  # N    A    M
-        expected_cortege1 = ([expected_matrix1], [tf_name])
-        self.assertEqual(expected_cortege1, actual_cortege1)
-
-        actual_cortege2 = lib.create_matrices_from_pwms(self.pwm_records, None)
-        expected_matrices = [
-            expected_matrix1,
-            [
-                [1.0, 2.0],
-                [1.0, 0.0],
-                [0.0, 1.0],
-                [0.0, 0.0]
-            ]  # M    A
-        ]
-        tf_names = [tf_name, "motif2"]
-        expected_cortege2 = (expected_matrices, tf_names)
-        self.assertEqual(expected_cortege2, actual_cortege2)
+        expected_pwms = [expected_matrix1]
+        self.assertEqual(expected_pwms, actual_pwms)
 
 
 if __name__ == "__main__":
