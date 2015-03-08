@@ -21,7 +21,7 @@
     -o OUTFILE, --output OUTFILE
                         output file with extended bed format intervals
 
-#### pattern_matching.py [-h] [-o [OUTPUT]] [-tf TF] [-th THRESHOLD] [-rc] [-b] [-e] fasta pwm
+#### pattern_matching.py [-h] [-o [OUTPUT]] [-tf TF [TF ...]] [-th THRESHOLD] [-rc] [-b] [-e] fasta pwm
     
     Matching position weight matrices (PWM) against DNA sequences
     
@@ -34,7 +34,8 @@
       -o [OUTPUT], --output [OUTPUT]
                             output file with matching results. If not specified,
                             write output to stdout.
-      -tf TF, --factor TF   transcription factor name in pwm file. If not
+      -tf TF [TF ...], --factor TF [TF ...]
+                            transcription factor name in pwm file. If not
                             specified, matching with all tf in pwm file.
       -th THRESHOLD, --threshold THRESHOLD
                             The parameter threshold split for better control on
