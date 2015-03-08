@@ -65,10 +65,13 @@ def process(args):
     seqs = list(SeqIO.parse(args.fasta, "fasta"))
     args.fasta.close()
 
-    pwm_record_list = motifs.parse(args.pwm, "TRANSFAC")
+    pwm_records = motifs.parse(args.pwm, "TRANSFAC")
     args.pwm.close()
 
-    matrices, tf_names = lib.create_matrices_from_pwms(pwm_record_list, args.tf)
+    if args.tf is None:
+        args.tf = lib.get_pwm_ids(pwm_records)
+    pwms = lib.filter_pwms_in_tfs(pwm_records, args.tf)
+    matrices = lib.create_matrices_from_pwms(pwms, args.tf)
 
     results = []
     for seq in seqs:
@@ -76,7 +79,7 @@ def process(args):
         matching = lib.search_motif(sequence, matrices, args.threshold, args.reverse_complement)
 
         seq_result = SeqSearchResults(seq.description)
-        seq_result.create_tf_dict(tf_names)
+        seq_result.create_tf_dict(args.tf)
         seq_result.fill_directed_matching(matching)
 
         if args.backward:

@@ -78,16 +78,13 @@ def filter_pwms_in_tfs(pwms, tf_names):
         raise Exception("I know python!")
 
 
-def create_matrices_from_pwms(pwm_records, tf_names=None):
+def create_matrices_from_pwms(pwms, tf_names):
     if tf_names is not None:
-        pwm_records = [pwm for pwm in pwm_records if pwm['ID'] == tf_names]
-        tf_names = [tf_names]
-    else:
-        tf_names = [pwm['ID'] for pwm in pwm_records]
-    matrices = [record.counts for record in pwm_records]
+        pwms = [pwm for pwm in pwms if pwm['ID'] in tf_names]
+    matrices = [record.counts for record in pwms]
     alp = dna_alphabet()
     matrices = [[matrix[n] for n in alp] for matrix in matrices]
-    return matrices, tf_names
+    return matrices
 
 
 def search_motif(sequence, matrices, threshold_factor=0.7, both_strands=False):

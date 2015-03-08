@@ -113,6 +113,31 @@ class Test(unittest.TestCase):
         actual_matching_list = seq_result.tf_dict[expected_tf].directed
         self.assertEqual(expected_first_match, actual_matching_list[0])
 
+    def test_several_tfs(self):
+        args = self.parser.parse_args([
+            str(TEST_FASTA_FILENAME),
+            str(TEST_PWM_FILENAME),
+            "-tf",
+            "motif1"
+        ])
+        self.assertEqual(1, len(args.tf))
+        self.assertEqual(["motif1"], args.tf)
+
+        result = pm.process(args)
+
+        expected_seq_number = 2
+        self.assertEqual(expected_seq_number, len(result))
+        seq_result = result[0]
+        self.assertEqual("seq1", seq_result.seq_name)
+        expected_tf = "motif1"
+        self.assertEqual(expected_tf, seq_result.tfs[0])
+        self.assertIsNotNone(seq_result.tf_dict[expected_tf])
+
+        expected_first_match = (0, 6.0)
+        actual_matching_list = seq_result.tf_dict[expected_tf].directed
+        self.assertEqual(expected_first_match, actual_matching_list[0])
+
+
     def test_output_file_result(self):
         self.args = self.parser.parse_args([str(TEST_FASTA_FILENAME),
                                             str(TEST_PWM_FILENAME),
