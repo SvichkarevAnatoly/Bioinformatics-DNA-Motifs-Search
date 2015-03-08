@@ -137,7 +137,6 @@ class Test(unittest.TestCase):
         actual_matching_list = seq_result.tf_dict[expected_tf].directed
         self.assertEqual(expected_first_match, actual_matching_list[0])
 
-
     def test_output_file_result(self):
         self.args = self.parser.parse_args([str(TEST_FASTA_FILENAME),
                                             str(TEST_PWM_FILENAME),
