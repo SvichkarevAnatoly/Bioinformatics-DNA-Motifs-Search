@@ -67,11 +67,12 @@ def get_pwm_ids(pwm_records):
     return [pwm['ID'] for pwm in pwm_records]
 
 
-def filter_tfs_in_pwms(tf_names, pwm_record_ids):
+def filter_pwms_in_tfs(pwms, tf_names):
+    pwm_ids = get_pwm_ids(pwms)
     tfs_set = set(tf_names)
-    intersection = tfs_set & set(pwm_record_ids)
+    intersection = tfs_set & set(pwm_ids)
     if tfs_set == intersection:
-        return list(intersection)
+        return [pwm for pwm in pwms if pwm['ID'] in tf_names]
     else:
         # TODO: find exception class
         raise Exception("I know python!")

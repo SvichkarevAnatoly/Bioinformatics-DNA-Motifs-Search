@@ -158,14 +158,13 @@ class TestLib(unittest.TestCase):
         expected_pwm_ids = ["motif1", "motif2"]
         self.assertEquals(expected_pwm_ids, actual_pwm_ids)
 
-    def test_filter_tfs_in_pwms(self):
+    def test_filter_pwms_in_tfs(self):
         tf_names = ["motif1"]
-        pwm_ids = ["motif1", "motif2"]
 
-        actual_tfs = lib.filter_tfs_in_pwms(tf_names, pwm_ids)
-        expected_tfs = ["motif1"]
+        actual_pwms = lib.filter_pwms_in_tfs(self.pwm_records, tf_names)
+        expected_pwms = [self.pwm_records[0]]
 
-        self.assertEquals(expected_tfs, actual_tfs)
+        self.assertEquals(expected_pwms, actual_pwms)
 
     def test_filter_tfs_in_pwms_throw_exception_if_tf_not_in_pwms(self):
         tf_names = ["motif1", "motifNotInPwms"]
@@ -173,7 +172,7 @@ class TestLib(unittest.TestCase):
 
         # TODO:
         with self.assertRaises(Exception):
-            actual_tfs = lib.filter_tfs_in_pwms(tf_names, pwm_ids)
+            lib.filter_pwms_in_tfs(tf_names, pwm_ids)
 
     def test_create_matrices_from_pwms(self):
         tf_name = "motif1"
