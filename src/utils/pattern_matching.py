@@ -94,7 +94,7 @@ def process(args):
 
 def save_excel(result, args):
     for seq_result in result:
-        args.output.write(seq_result.seq_name)
+        args.output.write('[' + seq_result.seq_name + ']')
         for tf in seq_result.tfs:
             matching = seq_result.tf_dict[tf]
             positions = [pos for pos, score in matching.directed]
