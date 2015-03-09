@@ -41,7 +41,6 @@ def create_parser():
                         help="output file with matching results. "
                              "If not specified, write output to stdout.")
 
-    # TODO: make for list tf_names
     parser.add_argument("-tf", "--factor", nargs='+', dest="tf", type=str,
                         help="transcription factor name in pwm file. "
                              "If not specified, matching with all tf in pwm file.")
@@ -95,14 +94,21 @@ def save_excel(result, args):
     for seq_result in result:
         args.output.write(seq_result.seq_name)
         for tf in seq_result.tfs:
-            # TODO: to backward
-            matching = seq_result.tf_dict[tf].directed
-            positions = [pos for pos, score in matching]
+            matching = seq_result.tf_dict[tf]
+            positions = [pos for pos, score in matching.directed]
             if positions:
                 positions_str = ' ' + ';'.join(map(str, positions))
             else:
                 positions_str = " #"
             args.output.write(positions_str)
+            if hasattr(matching, 'backward'):
+                args.output.write('|')
+                backward_positions = [pos_tuple[0] for pos_tuple in matching.backward]
+                if backward_positions:
+                    backward_positions_str = ';'.join(map(str, backward_positions))
+                else:
+                    backward_positions_str = "#"
+                args.output.write(backward_positions_str)
         args.output.write('\n')
 
 
