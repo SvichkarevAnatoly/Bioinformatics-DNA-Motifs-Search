@@ -2,7 +2,7 @@ import os
 import unittest
 import cStringIO
 
-import src.bed_center_extender as bce
+import utils.bed_center_extender as bce
 
 
 TEST_DATA_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/bed_file.bed")
