@@ -1,10 +1,12 @@
 import argparse
+import os
 import sys
 from signal import signal, SIGPIPE, SIG_DFL
 
 from Bio import SeqIO
 import Bio.motifs as motifs
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import lib
 
 

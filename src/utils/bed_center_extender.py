@@ -1,6 +1,9 @@
 import argparse
+import os
 from signal import signal, SIGPIPE, SIG_DFL
 import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import lib
 
 
