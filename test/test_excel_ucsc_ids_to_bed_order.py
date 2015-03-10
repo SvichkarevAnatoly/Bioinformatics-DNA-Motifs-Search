@@ -15,8 +15,8 @@ class Test(unittest.TestCase):
         with self.assertRaises(SystemExit):
             self.parser.parse_args([])
 
-    def createExcelFile(self, args):
-        args.excel = cStringIO.StringIO()
+    def createExcelFile(self):
+        excel = cStringIO.StringIO()
         excel_input = "\n".join([
             "[mm10_ct_UserTrack_3545_0"
             " range=chr1:184025039-184025538"
@@ -27,16 +27,17 @@ class Test(unittest.TestCase):
             " 5'pad=0 3'pad=0 strand=+ repeatMasking=none]"
             " 226;476;-250|-266;-253 34|#",
         ]) + '\n'
-        args.excel.write(excel_input)
-        args.excel.seek(0)
+        excel.write(excel_input)
+        excel.seek(0)
+        return excel
 
-    def createOutputFile(self, args):
-        args.output = cStringIO.StringIO()
+    def createOutputFile(self):
+        return cStringIO.StringIO()
 
     def test_workflow(self):
         args = argparse.Namespace()
-        self.createExcelFile(args)
-        self.createOutputFile(args)
+        args.excel = self.createExcelFile()
+        args.output = self.createOutputFile()
 
         result = eu.process(args)
         eu.save(result, args)
