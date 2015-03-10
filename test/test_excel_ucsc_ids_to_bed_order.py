@@ -48,6 +48,7 @@ class Test(unittest.TestCase):
         args = argparse.Namespace()
         args.excel = self.createExcelFile()
         args.output = self.createOutputFile()
+        args.bed = None
 
         result = eu.process(args)
         eu.save(result, args)
@@ -73,9 +74,9 @@ class Test(unittest.TestCase):
 
         args.output.seek(0)
         expected_file_contents = "\n".join([
-            "chr1:3062703-3063202"
+            "chr1:3062702-3063202"
             " 226;476;-250|-266;-253 34|#",
-            "chr1:184025039-184025538"
+            "chr1:184025038-184025538"
             " 227;-190;-65|297 #|#",
         ]) + '\n'
         actual_file_contents = args.output.read()

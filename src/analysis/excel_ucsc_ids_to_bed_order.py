@@ -5,6 +5,7 @@ import sys
 from signal import signal, SIGPIPE, SIG_DFL
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+import lib
 
 
 def create_parser():
@@ -28,12 +29,31 @@ def process(args):
     interval_pattern = re.compile(r"chr\w+:\d+-\d+")
     matching_pattern = re.compile(r"\]")
 
-    lines = args.excel.readlines()
+    excel_lines = args.excel.readlines()
+    args.excel.close()
+
     result_lines = []
-    for line in lines:
-        interval = interval_pattern.search(line).group()
-        matching = matching_pattern.split(line)[1]
-        result_lines.append(interval + matching)
+    if args.bed is not None:
+        formatted_lines_dict = {}
+        for line in excel_lines:
+            interval_str = interval_pattern.search(line).group()
+            interval = lib.parse_interval_line(interval_str)
+            matching = matching_pattern.split(line)[1]
+
+            interval[1] -= 1
+            bed_interval = lib.interval_param_list_to_str(interval)
+            formatted_lines_dict[bed_interval] = matching
+
+        bed_lines = args.bed.read().splitlines()
+        args.bed.close()
+
+        for bed_line in bed_lines:
+            result_lines.append(bed_line + formatted_lines_dict[bed_line])
+    else:
+        for line in excel_lines:
+            interval = interval_pattern.search(line).group()
+            matching = matching_pattern.split(line)[1]
+            result_lines.append(interval + matching)
 
     return result_lines
 
