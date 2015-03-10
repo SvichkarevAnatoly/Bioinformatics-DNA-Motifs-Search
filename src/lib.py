@@ -68,11 +68,11 @@ def get_pwm_ids(pwm_records):
 
 
 def filter_pwms_in_tfs(pwms, tf_names):
-    pwm_ids = get_pwm_ids(pwms)
+    pwm_ids = [id.upper() for id in get_pwm_ids(pwms)]
     tfs_set = set(tf_names)
     intersection = tfs_set & set(pwm_ids)
     if tfs_set == intersection:
-        return [pwm for pwm in pwms if pwm['ID'] in tf_names]
+        return [pwm for pwm in pwms if pwm['ID'].upper() in tf_names]
     else:
         # TODO: find exception class
         raise Exception("I know python!")
@@ -80,7 +80,7 @@ def filter_pwms_in_tfs(pwms, tf_names):
 
 def create_matrices_from_pwms(pwms, tf_names):
     if tf_names is not None:
-        pwms = [pwm for pwm in pwms if pwm['ID'] in tf_names]
+        pwms = [pwm for pwm in pwms if pwm['ID'].upper() in tf_names]
     matrices = [record.counts for record in pwms]
     alp = dna_alphabet()
     matrices = [[matrix[n] for n in alp] for matrix in matrices]

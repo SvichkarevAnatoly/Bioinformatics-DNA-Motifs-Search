@@ -42,7 +42,7 @@ def create_parser():
                         type=argparse.FileType('w'), default=sys.stdout,
                         help="output file with matching results. "
                              "Default stdout.")
-
+    # TODO: to upper case after
     parser.add_argument("-tf", "--factor", nargs='+', dest="tf", type=str,
                         help="transcription factor name in pwm file. "
                              "Default matching with all tf in pwm file.")
@@ -75,6 +75,8 @@ def process(args):
 
     if args.tf is None:
         args.tf = lib.get_pwm_ids(pwm_records)
+    args.tf = [tf.upper() for tf in args.tf]
+
     pwms = lib.filter_pwms_in_tfs(pwm_records, args.tf)
     matrices = lib.create_matrices_from_pwms(pwms, args.tf)
 
