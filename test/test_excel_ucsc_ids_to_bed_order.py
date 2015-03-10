@@ -34,6 +34,16 @@ class Test(unittest.TestCase):
     def createOutputFile(self):
         return cStringIO.StringIO()
 
+    def createBedFile(self):
+        bed = cStringIO.StringIO()
+        bed_input = "\n".join([
+            "chr1:3062702-3063202",
+            "chr1:184025038-184025538"
+        ]) + '\n'
+        bed.write(bed_input)
+        bed.seek(0)
+        return bed
+
     def test_workflow(self):
         args = argparse.Namespace()
         args.excel = self.createExcelFile()
@@ -48,6 +58,25 @@ class Test(unittest.TestCase):
             " 227;-190;-65|297 #|#",
             "chr1:3062703-3063202"
             " 226;476;-250|-266;-253 34|#",
+        ]) + '\n'
+        actual_file_contents = args.output.read()
+        self.assertEqual(expected_file_contents, actual_file_contents)
+
+    def test_bed_order(self):
+        args = argparse.Namespace()
+        args.excel = self.createExcelFile()
+        args.output = self.createOutputFile()
+        args.bed = self.createBedFile()
+
+        result = eu.process(args)
+        eu.save(result, args)
+
+        args.output.seek(0)
+        expected_file_contents = "\n".join([
+            "chr1:3062703-3063202"
+            " 226;476;-250|-266;-253 34|#",
+            "chr1:184025039-184025538"
+            " 227;-190;-65|297 #|#",
         ]) + '\n'
         actual_file_contents = args.output.read()
         self.assertEqual(expected_file_contents, actual_file_contents)
