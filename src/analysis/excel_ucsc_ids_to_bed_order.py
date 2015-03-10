@@ -13,7 +13,7 @@ def create_parser():
         description="Converting matching results in plain text excel format in bed file orders")
     parser.add_argument("excel", type=argparse.FileType('r'),
                         help="text file with excel matching")
-    parser.add_argument("-b", "--bedfile", nargs='?',
+    parser.add_argument("-b", "--bed", nargs='?',
                         type=argparse.FileType('r'),
                         help="bed file with intervals. "
                              "Order identifiers to order in bed file. "
