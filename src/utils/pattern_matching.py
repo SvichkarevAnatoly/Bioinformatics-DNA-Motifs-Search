@@ -35,10 +35,17 @@ class DirectionMatchingTF(object):
 
 
 class ReadFastaAction(argparse.Action):
-    def __call__(self, parser, args, fasta_file, option_string=None):
-        seqs = list(SeqIO.parse(fasta_file, "fasta"))
-        fasta_file.close()
+    def __call__(self, parser, args, fasta_handler, option_string=None):
+        seqs = list(SeqIO.parse(fasta_handler, "fasta"))
+        fasta_handler.close()
         setattr(args, self.dest, seqs)
+
+
+class ReadPWMAction(argparse.Action):
+    def __call__(self, parser, args, pwm_handler, option_string=None):
+        pwm_records = motifs.parse(pwm_handler, "TRANSFAC")
+        pwm_handler.close()
+        setattr(args, self.dest, pwm_records)
 
 
 class UpperCaseAction(argparse.Action):
@@ -52,7 +59,9 @@ def create_parser():
     parser.add_argument("fasta", type=argparse.FileType('r'),
                         action=ReadFastaAction,
                         help="fasta file with DNA sequences")
-    parser.add_argument("pwm", type=argparse.FileType('r'), help="file with position weight matrices (PWM)")
+    parser.add_argument("pwm", type=argparse.FileType('r'),
+                        action=ReadPWMAction,
+                        help="file with position weight matrices (PWM)")
     parser.add_argument("-o", "--output", nargs='?', dest="output",
                         type=argparse.FileType('w'), default=sys.stdout,
                         help="output file with matching results. "
@@ -81,13 +90,10 @@ def create_parser():
 
 
 def process(args):
-    pwm_records = motifs.parse(args.pwm, "TRANSFAC")
-    args.pwm.close()
-
     if args.tf is None:
-        args.tf = lib.get_pwm_ids(pwm_records)
+        args.tf = lib.get_pwm_ids(args.pwm)
 
-    pwms = lib.filter_pwms_in_tfs(pwm_records, args.tf)
+    pwms = lib.filter_pwms_in_tfs(args.pwm, args.tf)
     matrices = lib.create_matrices_from_pwms(pwms, args.tf)
 
     results = []
