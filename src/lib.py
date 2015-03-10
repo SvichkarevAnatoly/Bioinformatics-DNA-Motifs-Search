@@ -64,7 +64,7 @@ def create_output_file_name(input_file_name):
 
 
 def get_pwm_ids(pwm_records):
-    return [pwm['ID'] for pwm in pwm_records]
+    return [pwm['ID'].upper() for pwm in pwm_records]
 
 
 def filter_pwms_in_tfs(pwms, tf_names):

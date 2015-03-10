@@ -155,7 +155,7 @@ class TestLib(unittest.TestCase):
 
     def test_get_pwm_ids(self):
         actual_pwm_ids = lib.get_pwm_ids(self.pwm_records)
-        expected_pwm_ids = ["motif1", "motif2"]
+        expected_pwm_ids = ["MOTIF1", "MOTIF2"]
         self.assertEquals(expected_pwm_ids, actual_pwm_ids)
 
     def test_filter_pwms_in_tfs(self):
