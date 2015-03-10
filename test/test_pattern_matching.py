@@ -138,6 +138,15 @@ class Test(unittest.TestCase):
         actual_matching_list = seq_result.tf_dict[expected_tf].directed
         self.assertEqual(expected_first_match, actual_matching_list[0])
 
+    def test_upper_case_tfs(self):
+        args_str1 = [str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME), "-tf", "motif1"]
+        args1 = self.parser.parse_args(args_str1)
+        self.assertEqual(["MOTIF1"], args1.tf)
+
+        args_str2 = [str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME), "-tf", "MOTIF1"]
+        args2 = self.parser.parse_args(args_str2)
+        self.assertEqual(["MOTIF1"], args2.tf)
+
     def test_several_tfs(self):
         args = self.parser.parse_args([
             str(TEST_FASTA_FILENAME),
