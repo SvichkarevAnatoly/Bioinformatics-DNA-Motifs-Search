@@ -32,19 +32,21 @@
     optional arguments:
       -h, --help            show this help message and exit
       -o [OUTPUT], --output [OUTPUT]
-                            output file with matching results. If not specified,
-                            write output to stdout.
+                            output file with matching results. Default stdout.
       -tf TF [TF ...], --factor TF [TF ...]
-                            transcription factor name in pwm file. If not
-                            specified, matching with all tf in pwm file.
+                            transcription factor name in pwm file. Default
+                            matching with all tf in pwm file.
       -th THRESHOLD, --threshold THRESHOLD
                             The parameter threshold split for better control on
-                            what parts of the scoring are used. If not specified,
-                            threshold=0.7.
+                            what parts of the scoring are used. Default 0.7.
       -rc, --reverse-complement
-                            For searching in both direction. If not specified,
-                            search only in direct.
-      -b, --backward        For searching in both direction. If not specified,
-                            search only in direct.
-      -e, --excel           For saving results in easy paste to excel format. If
-                            not specified, saving results in compact format.
+                            Scans against reverse complement sequence in addition
+                            to the input sequence. Hits on reverse complement are
+                            reported at position [position - sequence_length],
+                            which is always negative. The actual hit site for any
+                            hit is always seq[pos, pos + matrix_length]. Default
+                            False.
+      -b, --backward        For searching in both direction. Default only in
+                            direct.
+      -e, --excel           For saving results in easy paste to excel format.
+                            Default human readable format.
