@@ -9,7 +9,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 def create_parser():
     parser = argparse.ArgumentParser(
         description="Converting matching results in plain text excel format in bed file orders")
-    parser.add_argument("excel_file", type=argparse.FileType('r'),
+    parser.add_argument("excel", type=argparse.FileType('r'),
                         help="text file with excel matching")
     parser.add_argument("-o", "--output", nargs='?', dest="output",
                         type=argparse.FileType('w'), default=sys.stdout,
