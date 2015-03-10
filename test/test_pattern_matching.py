@@ -146,7 +146,7 @@ class Test(unittest.TestCase):
             "motif1"
         ])
         self.assertEqual(1, len(args.tf))
-        self.assertEqual(["motif1"], args.tf)
+        self.assertEqual(["MOTIF1"], args.tf)
 
         result = pm.process(args)
 

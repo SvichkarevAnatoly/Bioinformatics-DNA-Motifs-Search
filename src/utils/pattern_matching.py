@@ -34,6 +34,12 @@ class DirectionMatchingTF(object):
         self.tf = tf_name
 
 
+class UpperCaseAction(argparse.Action):
+    def __call__(self, parser, args, values, option_string=None):
+        values = [val.upper() for val in values]
+        setattr(args, self.dest, values)
+
+
 def create_parser():
     parser = argparse.ArgumentParser(description="Matching position weight matrices (PWM) against DNA sequences")
     parser.add_argument("fasta", type=argparse.FileType('r'), help="fasta file with DNA sequences")
@@ -42,8 +48,8 @@ def create_parser():
                         type=argparse.FileType('w'), default=sys.stdout,
                         help="output file with matching results. "
                              "Default stdout.")
-    # TODO: to upper case after
     parser.add_argument("-tf", "--factor", nargs='+', dest="tf", type=str,
+                        action=UpperCaseAction,
                         help="transcription factor name in pwm file. "
                              "Default matching with all tf in pwm file.")
     parser.add_argument("-th", "--threshold", dest="threshold", type=float, default=0.7,
