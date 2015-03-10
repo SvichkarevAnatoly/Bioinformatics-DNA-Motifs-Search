@@ -18,9 +18,13 @@ class Test(unittest.TestCase):
     def createExcelFile(self, args):
         args.excel = cStringIO.StringIO()
         excel_input = "\n".join([
-            "[mm10_ct_UserTrack_3545_0 range=chr1:184025039-184025538 5'pad=0 3'pad=0 strand=+ repeatMasking=none]"
+            "[mm10_ct_UserTrack_3545_0"
+            " range=chr1:184025039-184025538"
+            " 5'pad=0 3'pad=0 strand=+ repeatMasking=none]"
             " 227;-190;-65|297 #|#",
-            "[mm10_ct_UserTrack_3545_1 range=chr1:3062703-3063202 5'pad=0 3'pad=0 strand=+ repeatMasking=none]"
+            "[mm10_ct_UserTrack_3545_1"
+            " range=chr1:3062703-3063202"
+            " 5'pad=0 3'pad=0 strand=+ repeatMasking=none]"
             " 226;476;-250|-266;-253 34|#",
         ]) + '\n'
         args.excel.write(excel_input)
