@@ -209,13 +209,6 @@ class Test(unittest.TestCase):
 
         self.assertEqual(expected_contents, actual_file_contents)
 
-    def tearDown(self):
-        super(Test, self).tearDown()
-
-    @classmethod
-    def tearDownClass(cls):
-        super(Test, cls).tearDownClass()
-
 
 if __name__ == "__main__":
     unittest.main()
