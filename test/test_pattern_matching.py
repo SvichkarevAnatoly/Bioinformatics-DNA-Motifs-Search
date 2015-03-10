@@ -29,13 +29,10 @@ class Test(unittest.TestCase):
         with self.assertRaises(SystemExit):
             self.args = self.parser.parse_args([])
 
+    # TODO: test
     def test_positional_args(self):
         self.args = self.parser.parse_args([str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME)])
-        # TODO: how to check open file
         self.assertEqual(0.7, self.args.threshold)
-        # TODO: how to close in tearDown?
-        self.args.fasta.close()
-        self.args.pwm.close()
 
     def test_reverse_complement_flag(self):
         args = [str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME)]
