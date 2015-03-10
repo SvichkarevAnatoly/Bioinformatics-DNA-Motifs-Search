@@ -41,23 +41,23 @@ def create_parser():
     parser.add_argument("-o", "--output", nargs='?', dest="output",
                         type=argparse.FileType('w'), default=sys.stdout,
                         help="output file with matching results. "
-                             "If not specified, write output to stdout.")
+                             "Default stdout.")
 
     parser.add_argument("-tf", "--factor", nargs='+', dest="tf", type=str,
                         help="transcription factor name in pwm file. "
-                             "If not specified, matching with all tf in pwm file.")
+                             "Default matching with all tf in pwm file.")
     parser.add_argument("-th", "--threshold", dest="threshold", type=float, default=0.7,
                         help="The parameter threshold split for better control on what parts of the scoring are used. "
-                             "If not specified, threshold=0.7.")
+                             "Default 0.7.")
     parser.add_argument("-rc", "--reverse-complement", dest="reverse_complement", action="store_true", default=False,
-                        help="For searching in both direction. "
-                             "If not specified, search only in direct.")
+                        help="For searching in both strands. "
+                             "Default False.")
     parser.add_argument("-b", "--backward", dest="backward", action="store_true", default=False,
                         help="For searching in both direction. "
-                             "If not specified, search only in direct.")
+                             "Default only in direct.")
     parser.add_argument("-e", "--excel", dest="excel", action="store_true", default=False,
                         help="For saving results in easy paste to excel format. "
-                             "If not specified, saving results in compact format.")
+                             "Default human readable format.")
     return parser
 
 
