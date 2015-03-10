@@ -1,5 +1,6 @@
 import argparse
 import os
+import re
 import sys
 from signal import signal, SIGPIPE, SIG_DFL
 
@@ -19,13 +20,21 @@ def create_parser():
 
 
 def process(args):
-    results = []
-    return results
+    interval_pattern = re.compile(r"chr\w+:\d+-\d+")
+    matching_pattern = re.compile(r"\]")
+
+    lines = args.excel.readlines()
+    result_lines = []
+    for line in lines:
+        interval = interval_pattern.search(line).group()
+        matching = matching_pattern.split(line)[1]
+        result_lines.append(interval + matching)
+
+    return result_lines
 
 
-# TODO
 def save(result, args):
-    pass
+    args.output.writelines(result)
 
 
 def main():
