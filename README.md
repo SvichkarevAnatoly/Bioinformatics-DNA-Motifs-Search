@@ -50,3 +50,19 @@
                             direct.
       -e, --excel           For saving results in easy paste to excel format.
                             Default human readable format.
+                            
+#### excel_ucsc_ids_to_bed_order.py [-h] [-b [BED]] [-o [OUTPUT]] excel
+    
+    Converting matching results in plain text excel format in bed file orders
+    
+    positional arguments:
+      excel                 text file with excel matching
+    
+    optional arguments:
+      -h, --help            show this help message and exit
+      -b [BED], --bed [BED]
+                            bed file with intervals. Order identifiers to order in
+                            bed file. Default not order.
+      -o [OUTPUT], --output [OUTPUT]
+                            output file with formatted matching results. Default
+                            stdout.
