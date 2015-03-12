@@ -11,8 +11,9 @@ import lib
 
 
 class SeqSearchResults(object):
-    def __init__(self, seq_name):
+    def __init__(self, seq_name, sequence):
         self.seq_name = seq_name
+        self.sequence = sequence
         self.tf_dict = None
         self.tfs = None
 
@@ -94,7 +95,7 @@ def process(args):
         sequence = str(seq.seq)
         matching = lib.search_motif(sequence, matrices, args.threshold, args.reverse_complement)
 
-        seq_result = SeqSearchResults(seq.description)
+        seq_result = SeqSearchResults(seq.description, sequence)
         seq_result.create_tf_dict(args.tf)
         seq_result.fill_matching(matching)
 
@@ -104,14 +105,19 @@ def process(args):
 
 def save_excel(result, args):
     for seq_result in result:
+        seq_length = len(seq_result.sequence)
         args.output.write('[' + seq_result.seq_name + ']')
         for tf in seq_result.tfs:
             matching_tf = seq_result.tf_dict[tf]
             positions = [pos for pos, score in matching_tf.matching]
-            positions_str = ' '
-            if positions:
-                positions_str += ';'.join(map(str, positions))
-            args.output.write(positions_str)
+            positions_str = []
+            for pos in positions:
+                if pos >= 0:
+                    positions_str.append(str(pos))
+                else:
+                    pos += seq_length
+                    positions_str.append(str(pos) + "(-)")
+            args.output.write(' ' + ';'.join(positions_str))
         args.output.write('\n')
 
 
