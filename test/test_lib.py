@@ -184,6 +184,14 @@ class TestLib(unittest.TestCase):
         expected_pwms = [expected_matrix1]
         self.assertEqual(expected_pwms, actual_pwms)
 
+    def test_get_join_position_str_positive_positions(self):
+        positions = [1, 2, 3]
+        seq_length = 10
+
+        actual_position_str = lib.get_join_position_str(positions, seq_length)
+        expected_position_str = "1;2;3"
+
+        self.assertEquals(expected_position_str, actual_position_str)
 
 if __name__ == "__main__":
     unittest.main()
