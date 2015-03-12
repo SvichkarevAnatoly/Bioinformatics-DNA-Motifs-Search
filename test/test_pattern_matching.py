@@ -77,8 +77,8 @@ class Test(unittest.TestCase):
         self.assertIsNotNone(seq_result.tf_dict[expected_tf])
 
         expected_first_match = (0, 6.0)
-        actual_matching_list = seq_result.tf_dict[expected_tf]
-        self.assertEqual(expected_first_match, actual_matching_list[0])
+        actual_matches_list = seq_result.tf_dict[expected_tf]
+        self.assertEqual(expected_first_match, actual_matches_list[0])
 
     def test_upper_case_tfs(self):
         args_str1 = [str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME), "-tf", "motif1"]
@@ -110,8 +110,8 @@ class Test(unittest.TestCase):
         self.assertIsNotNone(seq_result.tf_dict[expected_tf])
 
         expected_first_match = (0, 6.0)
-        actual_matching_list = seq_result.tf_dict[expected_tf]
-        self.assertEqual(expected_first_match, actual_matching_list[0])
+        actual_matches_list = seq_result.tf_dict[expected_tf]
+        self.assertEqual(expected_first_match, actual_matches_list[0])
 
     def test_output_file_result(self):
         self.args = self.parser.parse_args([str(TEST_FASTA_FILENAME),
@@ -164,13 +164,13 @@ class Test(unittest.TestCase):
         tf_name = "NANOG"
         seq_search_result = pm.SeqSearchResults("", "", [tf_name])
         matches = [(3, 4.0), (1, 6.0), (-6, 3.0)]
-        seq_search_result.fill_matching([matches])
+        seq_search_result.fill_matches([matches])
 
         actual_best_match = seq_search_result.best_match(tf_name)
 
-        matching_tf = seq_search_result.tf_dict[tf_name]
+        matches_tf = seq_search_result.tf_dict[tf_name]
         expected_best_match = (0, 0.0)
-        for match in matching_tf:
+        for match in matches_tf:
             if match[1] > expected_best_match[1]:
                 expected_best_match = match
 

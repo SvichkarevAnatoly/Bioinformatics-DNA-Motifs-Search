@@ -17,9 +17,9 @@ class SeqSearchResults(object):
         self.tfs = tf_names
         self.tf_dict = {tf: [] for tf in tf_names}
 
-    def fill_matching(self, matching):
+    def fill_matches(self, matches):
         for i, tf in enumerate(self.tfs):
-            self.tf_dict[tf] = matching[i]
+            self.tf_dict[tf] = matches[i]
 
     def best_match(self, tf_name):
         matches = self.tf_dict[tf_name]
@@ -92,10 +92,10 @@ def process(args):
     results = []
     for seq in args.fasta:
         sequence = str(seq.seq)
-        matching = lib.search_motif(sequence, matrices, args.threshold, args.reverse_complement)
+        matches = lib.search_motif(sequence, matrices, args.threshold, args.reverse_complement)
 
         seq_result = SeqSearchResults(seq.description, sequence, args.tf)
-        seq_result.fill_matching(matching)
+        seq_result.fill_matches(matches)
 
         results.append(seq_result)
     return results
@@ -106,8 +106,8 @@ def save_excel(result, args):
         seq_length = len(seq_result.sequence)
         args.output.write('[' + seq_result.seq_name + ']')
         for tf in seq_result.tfs:
-            matching_tf = seq_result.tf_dict[tf]
-            positions = [pos for pos, score in matching_tf]
+            matches_tf = seq_result.tf_dict[tf]
+            positions = [pos for pos, score in matches_tf]
             positions_str = lib.get_join_position_str(positions, seq_length)
             args.output.write(' ' + positions_str)
         args.output.write('\n')
@@ -119,8 +119,8 @@ def save_human_readable(result, args):
         args.output.write('>' + seq_result.seq_name + '\n')
         for tf in seq_result.tfs:
             args.output.write(tf + ' ')
-            matching_tf = seq_result.tf_dict[tf]
-            positions = [pos_tuple[0] for pos_tuple in matching_tf]
+            matches_tf = seq_result.tf_dict[tf]
+            positions = [pos_tuple[0] for pos_tuple in matches_tf]
             positions_str = lib.get_join_position_str(positions, seq_length)
             args.output.write(positions_str + '\n')
 
