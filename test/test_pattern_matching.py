@@ -2,6 +2,7 @@ import os
 import unittest
 import errno
 import cStringIO
+import sys
 
 import utils.pattern_matching as pm
 
@@ -173,6 +174,27 @@ class Test(unittest.TestCase):
         for match in matches_tf:
             if match[1] > expected_best_match[1]:
                 expected_best_match = match
+
+        self.assertEqual(expected_best_match, actual_best_match)
+
+    def test_seq_search_results_nearest_to_center_best_match(self):
+        tf_name = "NANOG"
+        sequence = "AAAAAAAAAA"
+        seq_search_result = pm.SeqSearchResults("", sequence, [tf_name])
+        matches = [(3, 4.0), (1, 6.0), (-6, 3.0), (4, 6.0)]
+        seq_search_result.fill_matches([matches])
+
+        actual_best_match = seq_search_result.best_match(tf_name)
+
+        matches_tf = seq_search_result.tf_dict[tf_name]
+        half_seq_len = len(seq_search_result.sequence) / 2
+        expected_best_match = (0, sys.float_info.min)
+        for match in matches_tf:
+            if match[1] > expected_best_match[1]:
+                expected_best_match = match
+            elif match[1] == expected_best_match[1]:
+                if abs(half_seq_len - abs(match[0])) < abs(half_seq_len - abs(expected_best_match[0])):
+                    expected_best_match = match
 
         self.assertEqual(expected_best_match, actual_best_match)
 
