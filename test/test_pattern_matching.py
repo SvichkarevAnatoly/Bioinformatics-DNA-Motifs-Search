@@ -160,6 +160,22 @@ class Test(unittest.TestCase):
 
         self.assertEqual(expected_contents, actual_file_contents)
 
+    def test_seq_search_results_best_match(self):
+        tf_name = "NANOG"
+        seq_search_result = pm.SeqSearchResults("", "", [tf_name])
+        matches = [(3, 4.0), (1, 6.0), (-6, 3.0)]
+        seq_search_result.fill_matching([matches])
+
+        actual_best_match = seq_search_result.best_match(tf_name)
+
+        matching_tf = seq_search_result.tf_dict[tf_name]
+        expected_best_match = (0, 0.0)
+        for match in matching_tf:
+            if match[1] > expected_best_match[1]:
+                expected_best_match = match
+
+        self.assertEqual(expected_best_match, actual_best_match)
+
 
 if __name__ == "__main__":
     unittest.main()
