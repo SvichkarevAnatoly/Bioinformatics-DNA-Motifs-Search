@@ -117,12 +117,14 @@ def save_excel(result, args):
 
 def save_human_readable(result, args):
     for seq_result in result:
+        seq_length = len(seq_result.sequence)
         args.output.write('>' + seq_result.seq_name + '\n')
         for tf in seq_result.tfs:
             args.output.write(tf + ' ')
             matching_tf = seq_result.tf_dict[tf]
             positions = [pos_tuple[0] for pos_tuple in matching_tf.matching]
-            args.output.write(';'.join(map(str, positions)) + '\n')
+            positions_str = lib.get_join_position_str(positions, seq_length)
+            args.output.write(positions_str + '\n')
 
 
 def save(result, args):
