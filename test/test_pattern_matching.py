@@ -182,6 +182,25 @@ class Test(unittest.TestCase):
         expected_best_match = matches[3]
         self.assertEqual(expected_best_match, actual_best_match)
 
+    # TODO: test
+    def test_seq_search_results_match_subseq(self):
+        tf_name = "NANOG"
+        sequence = "TACGTAGTACGTAGTACGTAGT"
+        seq_search_result = pm.SeqSearchResults("", sequence, [tf_name])
+
+        match = (6, 2.0)
+        tf_len = 3
+        actual_subseq = seq_search_result.match_subseq(match[0], tf_len)
+        expected_subseq = "ACGTAGTACGTAG"
+        self.assertEqual(len(expected_subseq), len(actual_subseq))
+        self.assertEqual(expected_subseq, actual_subseq)
+
+        match = (-10, 2.0)
+        tf_len = 3
+        actual_subseq = seq_search_result.match_subseq(match[0], tf_len)
+        expected_subseq = "ACTACGTACTACG"
+        self.assertEqual(len(expected_subseq), len(actual_subseq))
+        self.assertEqual(expected_subseq, actual_subseq)
 
 if __name__ == "__main__":
     unittest.main()
