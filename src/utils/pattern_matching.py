@@ -21,6 +21,14 @@ class SeqSearchResults(object):
         for i, tf in enumerate(self.tfs):
             self.tf_dict[tf] = matching[i]
 
+    def best_match(self, tf_name):
+        matches = self.tf_dict[tf_name]
+        best_match = (0, sys.float_info.min)
+        for match in matches:
+            if match[1] > best_match[1]:
+                best_match = match
+        return best_match
+
 
 class ReadFastaAction(argparse.Action):
     def __call__(self, parser, args, fasta_handler, option_string=None):
