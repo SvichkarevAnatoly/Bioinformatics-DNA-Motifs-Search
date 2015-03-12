@@ -11,13 +11,9 @@ import lib
 
 
 class SeqSearchResults(object):
-    def __init__(self, seq_name, sequence):
+    def __init__(self, seq_name, sequence, tf_names):
         self.seq_name = seq_name
         self.sequence = sequence
-        self.tf_dict = None
-        self.tfs = None
-
-    def create_tf_dict(self, tf_names):
         self.tfs = tf_names
         self.tf_dict = {tf: MatchingTF(tf) for tf in tf_names}
 
@@ -95,8 +91,7 @@ def process(args):
         sequence = str(seq.seq)
         matching = lib.search_motif(sequence, matrices, args.threshold, args.reverse_complement)
 
-        seq_result = SeqSearchResults(seq.description, sequence)
-        seq_result.create_tf_dict(args.tf)
+        seq_result = SeqSearchResults(seq.description, sequence, args.tf)
         seq_result.fill_matching(matching)
 
         results.append(seq_result)
