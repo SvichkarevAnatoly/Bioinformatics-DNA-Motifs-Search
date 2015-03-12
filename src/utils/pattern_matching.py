@@ -108,10 +108,9 @@ def save_excel(result, args):
         for tf in seq_result.tfs:
             matching_tf = seq_result.tf_dict[tf]
             positions = [pos for pos, score in matching_tf.matching]
+            positions_str = ' '
             if positions:
-                positions_str = ' ' + ';'.join(map(str, positions))
-            else:
-                positions_str = " #"
+                positions_str += ';'.join(map(str, positions))
             args.output.write(positions_str)
         args.output.write('\n')
 
