@@ -46,8 +46,6 @@
                             which is always negative. The actual hit site for any
                             hit is always seq[pos, pos + matrix_length]. Default
                             False.
-      -b, --backward        For searching in both direction. Default only in
-                            direct.
       -e, --excel           For saving results in easy paste to excel format.
                             Default human readable format.
                             
