@@ -33,6 +33,16 @@ class SeqSearchResults(object):
                     best_match = match
         return best_match
 
+    def match_subseq(self, pos, tf_len):
+        delta = 5
+        if pos >= 0:
+            subseq = self.sequence[pos-delta: pos+tf_len+delta]
+        else:
+            pos += len(self.sequence)
+            rc_seq = lib.reverse_complement(self.sequence)
+            subseq = rc_seq[pos-delta: pos+tf_len+delta]
+        return subseq
+
 
 class ReadFastaAction(argparse.Action):
     def __call__(self, parser, args, fasta_handler, option_string=None):
