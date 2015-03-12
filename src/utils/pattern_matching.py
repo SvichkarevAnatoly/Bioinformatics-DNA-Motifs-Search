@@ -80,9 +80,6 @@ def create_parser():
                              "negative. The actual hit site for any hit is always "
                              "seq[pos, pos + matrix_length]. "
                              "Default False.")
-    parser.add_argument("-b", "--backward", dest="backward", action="store_true", default=False,
-                        help="For searching in both direction. "
-                             "Default only in direct.")
     parser.add_argument("-e", "--excel", dest="excel", action="store_true", default=False,
                         help="For saving results in easy paste to excel format. "
                              "Default human readable format.")
@@ -104,11 +101,6 @@ def process(args):
         seq_result = SeqSearchResults(seq.description)
         seq_result.create_tf_dict(args.tf)
         seq_result.fill_directed_matching(matching)
-
-        if args.backward:
-            backward_sequence = seq.seq[::-1]
-            backward_matching = lib.search_motif(backward_sequence, matrices, args.threshold, args.reverse_complement)
-            seq_result.fill_backward_matching(backward_matching)
 
         results.append(seq_result)
     return results
