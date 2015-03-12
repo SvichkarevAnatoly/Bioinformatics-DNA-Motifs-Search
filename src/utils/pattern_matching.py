@@ -110,14 +110,8 @@ def save_excel(result, args):
         for tf in seq_result.tfs:
             matching_tf = seq_result.tf_dict[tf]
             positions = [pos for pos, score in matching_tf.matching]
-            positions_str = []
-            for pos in positions:
-                if pos >= 0:
-                    positions_str.append(str(pos))
-                else:
-                    pos += seq_length
-                    positions_str.append(str(pos) + "(-)")
-            args.output.write(' ' + ';'.join(positions_str))
+            positions_str = lib.get_join_position_str(positions, seq_length)
+            args.output.write(' ' + positions_str)
         args.output.write('\n')
 
 

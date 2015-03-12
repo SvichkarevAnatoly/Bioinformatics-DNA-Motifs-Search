@@ -95,6 +95,17 @@ def search_motif(sequence, matrices, threshold_factor=0.7, both_strands=False):
                         pseudocount=0, threshold_from_p=False)
 
 
+def get_join_position_str(positions, seq_length):
+    positions_str = []
+    for pos in positions:
+        if pos >= 0:
+            positions_str.append(str(pos))
+        else:
+            pos += seq_length
+            positions_str.append(str(pos) + "(-)")
+    return ';'.join(positions_str)
+
+
 def searching_result_to_str(interval, results, rev_results, sequence_length):
     result_str = ""
     if len(results[0]) == 0 and len(rev_results[0]) == 0:
