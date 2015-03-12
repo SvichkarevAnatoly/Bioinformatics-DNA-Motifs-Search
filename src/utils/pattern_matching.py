@@ -15,16 +15,11 @@ class SeqSearchResults(object):
         self.seq_name = seq_name
         self.sequence = sequence
         self.tfs = tf_names
-        self.tf_dict = {tf: MatchingTF(tf) for tf in tf_names}
+        self.tf_dict = {tf: [] for tf in tf_names}
 
     def fill_matching(self, matching):
         for i, tf in enumerate(self.tfs):
-            self.tf_dict[tf].matching = matching[i]
-
-
-class MatchingTF(object):
-    def __init__(self, tf_name):
-        self.tf = tf_name
+            self.tf_dict[tf] = matching[i]
 
 
 class ReadFastaAction(argparse.Action):
@@ -104,7 +99,7 @@ def save_excel(result, args):
         args.output.write('[' + seq_result.seq_name + ']')
         for tf in seq_result.tfs:
             matching_tf = seq_result.tf_dict[tf]
-            positions = [pos for pos, score in matching_tf.matching]
+            positions = [pos for pos, score in matching_tf]
             positions_str = lib.get_join_position_str(positions, seq_length)
             args.output.write(' ' + positions_str)
         args.output.write('\n')
@@ -117,7 +112,7 @@ def save_human_readable(result, args):
         for tf in seq_result.tfs:
             args.output.write(tf + ' ')
             matching_tf = seq_result.tf_dict[tf]
-            positions = [pos_tuple[0] for pos_tuple in matching_tf.matching]
+            positions = [pos_tuple[0] for pos_tuple in matching_tf]
             positions_str = lib.get_join_position_str(positions, seq_length)
             args.output.write(positions_str + '\n')
 

@@ -77,7 +77,7 @@ class Test(unittest.TestCase):
         self.assertIsNotNone(seq_result.tf_dict[expected_tf])
 
         expected_first_match = (0, 6.0)
-        actual_matching_list = seq_result.tf_dict[expected_tf].matching
+        actual_matching_list = seq_result.tf_dict[expected_tf]
         self.assertEqual(expected_first_match, actual_matching_list[0])
 
     def test_upper_case_tfs(self):
@@ -110,7 +110,7 @@ class Test(unittest.TestCase):
         self.assertIsNotNone(seq_result.tf_dict[expected_tf])
 
         expected_first_match = (0, 6.0)
-        actual_matching_list = seq_result.tf_dict[expected_tf].matching
+        actual_matching_list = seq_result.tf_dict[expected_tf]
         self.assertEqual(expected_first_match, actual_matching_list[0])
 
     def test_output_file_result(self):
