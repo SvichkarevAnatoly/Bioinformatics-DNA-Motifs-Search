@@ -20,13 +20,9 @@ class SeqSearchResults(object):
         self.tfs = tf_names
         self.tf_dict = {tf: DirectionMatchingTF(tf) for tf in tf_names}
 
-    def fill_directed_matching(self, matching):
+    def fill_matching(self, matching):
         for i, tf in enumerate(self.tfs):
-            self.tf_dict[tf].directed = matching[i]
-
-    def fill_backward_matching(self, matching):
-        for i, tf in enumerate(self.tfs):
-            self.tf_dict[tf].backward = matching[i]
+            self.tf_dict[tf].matching = matching[i]
 
 
 class DirectionMatchingTF(object):
@@ -100,7 +96,7 @@ def process(args):
 
         seq_result = SeqSearchResults(seq.description)
         seq_result.create_tf_dict(args.tf)
-        seq_result.fill_directed_matching(matching)
+        seq_result.fill_matching(matching)
 
         results.append(seq_result)
     return results
@@ -111,7 +107,7 @@ def save_excel(result, args):
         args.output.write('[' + seq_result.seq_name + ']')
         for tf in seq_result.tfs:
             matching = seq_result.tf_dict[tf]
-            positions = [pos for pos, score in matching.directed]
+            positions = [pos for pos, score in matching.matching]
             if positions:
                 positions_str = ' ' + ';'.join(map(str, positions))
             else:
@@ -126,7 +122,7 @@ def save_human_readable(result, args):
         for tf in seq_result.tfs:
             args.output.write(tf + ' ')
             matching = seq_result.tf_dict[tf]
-            positions = [pos_tuple[0] for pos_tuple in matching.directed]
+            positions = [pos_tuple[0] for pos_tuple in matching.matching]
             args.output.write(';'.join(map(str, positions)) + '\n')
 
 
