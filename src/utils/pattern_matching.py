@@ -23,10 +23,14 @@ class SeqSearchResults(object):
 
     def best_match(self, tf_name):
         matches = self.tf_dict[tf_name]
+        half_seq_len = len(self.sequence) / 2
         best_match = (0, sys.float_info.min)
         for match in matches:
             if match[1] > best_match[1]:
                 best_match = match
+            elif match[1] == best_match[1]:
+                if abs(half_seq_len - abs(match[0])) < abs(half_seq_len - abs(best_match[0])):
+                    best_match = match
         return best_match
 
 
