@@ -117,14 +117,6 @@ def save_excel(result, args):
             else:
                 positions_str = " #"
             args.output.write(positions_str)
-            if hasattr(matching, 'backward'):
-                args.output.write('|')
-                backward_positions = [pos_tuple[0] for pos_tuple in matching.backward]
-                if backward_positions:
-                    backward_positions_str = ';'.join(map(str, backward_positions))
-                else:
-                    backward_positions_str = "#"
-                args.output.write(backward_positions_str)
         args.output.write('\n')
 
 
@@ -136,11 +128,6 @@ def save_human_readable(result, args):
             matching = seq_result.tf_dict[tf]
             positions = [pos_tuple[0] for pos_tuple in matching.directed]
             args.output.write(';'.join(map(str, positions)) + '\n')
-
-            if hasattr(matching, 'backward'):
-                args.output.write('backward ')
-                backward_positions = [pos_tuple[0] for pos_tuple in matching.backward]
-                args.output.write(';'.join(map(str, backward_positions)) + '\n')
 
 
 def save(result, args):
