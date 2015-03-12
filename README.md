@@ -2,7 +2,7 @@
 ## Requirements
 + Recommend using [Python 2.7](http://www.python.org).
 + [Biopython](http://biopython.org/)
-+ [MOOD](http://www.cs.helsinki.fi/group/pssmfind/)
++ [MOODS](http://www.cs.helsinki.fi/group/pssmfind/)
 
 ## Usage
 #### bed_center_extender.py [-h] [-l LENGTH] [-o OUTFILE] bedfile
