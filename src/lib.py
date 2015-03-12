@@ -1,6 +1,7 @@
 import os
 import re
 from Bio.Alphabet import IUPAC
+from Bio.Seq import Seq
 import MOODS
 
 
@@ -129,3 +130,7 @@ def searching_result_to_str(interval, results, rev_results, sequence_length):
                 pos_str += str(pos) + ' '
             result_str += pos_str + '\n'
     return result_str
+
+
+def reverse_complement(sequence):
+    return str(Seq(sequence).reverse_complement())
