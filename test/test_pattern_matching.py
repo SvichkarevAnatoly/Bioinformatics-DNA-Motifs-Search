@@ -168,13 +168,7 @@ class Test(unittest.TestCase):
         seq_search_result.fill_matches([matches])
 
         actual_best_match = seq_search_result.best_match(tf_name)
-
-        matches_tf = seq_search_result.tf_dict[tf_name]
-        expected_best_match = (0, 0.0)
-        for match in matches_tf:
-            if match[1] > expected_best_match[1]:
-                expected_best_match = match
-
+        expected_best_match = matches[1]
         self.assertEqual(expected_best_match, actual_best_match)
 
     def test_seq_search_results_nearest_to_center_best_match(self):
@@ -185,17 +179,7 @@ class Test(unittest.TestCase):
         seq_search_result.fill_matches([matches])
 
         actual_best_match = seq_search_result.best_match(tf_name)
-
-        matches_tf = seq_search_result.tf_dict[tf_name]
-        half_seq_len = len(seq_search_result.sequence) / 2
-        expected_best_match = (0, sys.float_info.min)
-        for match in matches_tf:
-            if match[1] > expected_best_match[1]:
-                expected_best_match = match
-            elif match[1] == expected_best_match[1]:
-                if abs(half_seq_len - abs(match[0])) < abs(half_seq_len - abs(expected_best_match[0])):
-                    expected_best_match = match
-
+        expected_best_match = matches[3]
         self.assertEqual(expected_best_match, actual_best_match)
 
 
