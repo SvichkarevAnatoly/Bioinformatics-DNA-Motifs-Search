@@ -2,7 +2,6 @@ import os
 import unittest
 import errno
 import cStringIO
-import sys
 
 import utils.pattern_matching as pm
 
@@ -217,6 +216,24 @@ class Test(unittest.TestCase):
         delta = 1
         actual_subseq = self.seq_search_result.match_subseq(match[0], tf_len, delta)
         expected_subseq = "TGGGC"
+        self.assertEqual(len(expected_subseq), len(actual_subseq))
+        self.assertEqual(expected_subseq, actual_subseq)
+
+    def test_seq_search_results_match_subseq_positive_end_range(self):
+        match = (6, 2.0)
+        tf_len = 3
+        delta = 10
+        actual_subseq = self.seq_search_result.match_subseq(match[0], tf_len, delta)
+        expected_subseq = "AAATTTGGGCCCATGC"
+        self.assertEqual(len(expected_subseq), len(actual_subseq))
+        self.assertEqual(expected_subseq, actual_subseq)
+
+    def test_seq_search_results_match_subseq_negative_end_range(self):
+        match = (-10, 2.0)
+        tf_len = 3
+        delta = 10
+        actual_subseq = self.seq_search_result.match_subseq(match[0], tf_len, delta)
+        expected_subseq = "GCATGGGCCCAAATTT"
         self.assertEqual(len(expected_subseq), len(actual_subseq))
         self.assertEqual(expected_subseq, actual_subseq)
 
