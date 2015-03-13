@@ -39,7 +39,8 @@ class SeqSearchResults(object):
                     best_match = match
         return best_match
 
-    def match_subseq(self, pos, tf_len, delta):
+    def match_subseq(self, pos, tf_name, delta):
+        tf_len = self.tf_length_dict[tf_name]
         if pos >= 0:
             left = max(pos - delta, 0)
             right = min(pos + tf_len + delta, len(self.sequence))
