@@ -11,10 +11,11 @@ import lib
 
 
 class SeqSearchResults(object):
-    def __init__(self, seq_name, sequence, tf_names):
+    def __init__(self, seq_name, sequence, tf_names, tf_lengths):
         self.seq_name = seq_name
         self.sequence = sequence
         self.tfs = tf_names
+        self.tf_length_dict = {tf: length for tf, length in zip(tf_names, tf_lengths)}
         self.tf_dict = {tf: [] for tf in tf_names}
 
     def fill_matches(self, matches):
@@ -22,6 +23,7 @@ class SeqSearchResults(object):
             self.tf_dict[tf] = matches[i]
 
     def best_match(self, tf_name):
+        tf_len = self.tf_length_dict[tf_name]
         matches = self.tf_dict[tf_name]
         half_seq_len = len(self.sequence) / 2
         best_match = (0, sys.float_info.min)
@@ -29,7 +31,11 @@ class SeqSearchResults(object):
             if match[1] > best_match[1]:
                 best_match = match
             elif match[1] == best_match[1]:
-                if abs(half_seq_len - abs(match[0])) < abs(half_seq_len - abs(best_match[0])):
+                match_pos = match[0] if match[0] >= 0 else match[0] + tf_len
+                best_match_pos = best_match[0] if best_match[0] >= 0 else best_match[0] + tf_len
+                match_dist_to_center = abs(half_seq_len - (match_pos + tf_len / 2))
+                best_match_dist_to_center = abs(half_seq_len - (best_match_pos + tf_len / 2))
+                if match_dist_to_center < best_match_dist_to_center:
                     best_match = match
         return best_match
 
@@ -105,13 +111,14 @@ def process(args):
 
     pwms = lib.filter_pwms_in_tfs(args.pwm, args.tf)
     matrices = lib.create_matrices_from_pwms(pwms, args.tf)
+    tf_lengths = [len(m[0]) for m in matrices]
 
     results = []
     for seq in args.fasta:
         sequence = str(seq.seq)
         matches = lib.search_motif(sequence, matrices, args.threshold, args.reverse_complement)
 
-        seq_result = SeqSearchResults(seq.description, sequence, args.tf)
+        seq_result = SeqSearchResults(seq.description, sequence, args.tf, tf_lengths)
         seq_result.fill_matches(matches)
 
         results.append(seq_result)

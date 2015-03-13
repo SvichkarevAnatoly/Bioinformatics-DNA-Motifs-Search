@@ -32,7 +32,7 @@ class Test(unittest.TestCase):
         sequence = "AAATTTGGGCCCATGC"
         # complem  "TTTAAACCCGGGTACG"
         # rev_com  "GCATGGGCCCAAATTT"
-        seq_search_result = pm.SeqSearchResults("", sequence, [tf_name])
+        seq_search_result = pm.SeqSearchResults("", sequence, [tf_name], [3])
         return seq_search_result
 
 
@@ -173,7 +173,7 @@ class Test(unittest.TestCase):
 
     def test_seq_search_results_best_match(self):
         tf_name = "NANOG"
-        seq_search_result = pm.SeqSearchResults("", "", [tf_name])
+        seq_search_result = pm.SeqSearchResults("", "", [tf_name], [3])
         matches = [(3, 4.0), (1, 6.0), (-6, 3.0)]
         seq_search_result.fill_matches([matches])
 
@@ -184,7 +184,7 @@ class Test(unittest.TestCase):
     def test_seq_search_results_nearest_to_center_best_match(self):
         tf_name = "NANOG"
         sequence = "AAAAAAAAAA"
-        seq_search_result = pm.SeqSearchResults("", sequence, [tf_name])
+        seq_search_result = pm.SeqSearchResults("", sequence, [tf_name], [3])
         matches = [(3, 4.0), (1, 6.0), (-6, 3.0), (4, 6.0)]
         seq_search_result.fill_matches([matches])
 
