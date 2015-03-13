@@ -25,6 +25,17 @@ class Test(unittest.TestCase):
     def setUpClass(cls):
         super(Test, cls).setUpClass()
         cls.parser = pm.create_parser()
+        cls.seq_search_result = cls.create_seq_search_result()
+
+    @classmethod
+    def create_seq_search_result(cls):
+        tf_name = "NANOG"
+        sequence = "AAATTTGGGCCCATGC"
+        # complem  "TTTAAACCCGGGTACG"
+        # rev_com  "GCATGGGCCCAAATTT"
+        seq_search_result = pm.SeqSearchResults("", sequence, [tf_name])
+        return seq_search_result
+
 
     def test_with_empty_args(self):
         with self.assertRaises(SystemExit):
@@ -182,31 +193,24 @@ class Test(unittest.TestCase):
         expected_best_match = matches[3]
         self.assertEqual(expected_best_match, actual_best_match)
 
-    # TODO: test
     def test_seq_search_results_match_subseq(self):
-        tf_name = "NANOG"
-        sequence = "AAATTTGGGCCCATGC"
-        # complem  "TTTAAACCCGGGTACG"
-        # rev_com  "GCATGGGCCCAAATTT"
-        seq_search_result = pm.SeqSearchResults("", sequence, [tf_name])
-
         match = (6, 2.0)
         tf_len = 3
         delta = 0
-        actual_subseq = seq_search_result.match_subseq(match[0], tf_len, delta)
+        actual_subseq = self.seq_search_result.match_subseq(match[0], tf_len, delta)
         expected_subseq = "GGG"
         self.assertEqual(len(expected_subseq), len(actual_subseq))
         self.assertEqual(expected_subseq, actual_subseq)
 
         match = (-10, 2.0)  # -10 + 16 = 6
-        actual_subseq = seq_search_result.match_subseq(match[0], tf_len, delta)
+        actual_subseq = self.seq_search_result.match_subseq(match[0], tf_len, delta)
         expected_subseq = "GCC"
         self.assertEqual(len(expected_subseq), len(actual_subseq))
         self.assertEqual(expected_subseq, actual_subseq)
 
         match = (6, 2.0)
         delta = 1
-        actual_subseq = seq_search_result.match_subseq(match[0], tf_len, delta)
+        actual_subseq = self.seq_search_result.match_subseq(match[0], tf_len, delta)
         expected_subseq = "TGGGC"
         self.assertEqual(len(expected_subseq), len(actual_subseq))
         self.assertEqual(expected_subseq, actual_subseq)
