@@ -33,8 +33,7 @@ class SeqSearchResults(object):
                     best_match = match
         return best_match
 
-    def match_subseq(self, pos, tf_len):
-        delta = 5
+    def match_subseq(self, pos, tf_len, delta):
         if pos >= 0:
             subseq = self.sequence[pos-delta: pos+tf_len+delta]
         else:
