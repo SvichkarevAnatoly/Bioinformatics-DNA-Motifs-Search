@@ -134,7 +134,11 @@ def save_excel(result, args):
             matches_tf = seq_result.tf_dict[tf]
             positions = [pos for pos, score in matches_tf]
             positions_str = lib.get_join_position_str(positions, seq_length)
-            args.output.write(' ' + positions_str)
+
+            best_match = seq_result.best_match(tf)
+            best_subseq = seq_result.match_subseq(best_match[0], tf, 5)
+
+            args.output.write(' ' + positions_str + ' ' + best_subseq)
         args.output.write('\n')
 
 
