@@ -1,3 +1,6 @@
+from argparse import Namespace
+from Bio import motifs
+from Bio import SeqIO
 import os
 import unittest
 import errno
@@ -244,6 +247,68 @@ class Test(unittest.TestCase):
         expected_subseq = "GCATGGGCCCAAATTT"
         self.assertEqual(len(expected_subseq), len(actual_subseq))
         self.assertEqual(expected_subseq, actual_subseq)
+
+    def fill_args(self):
+        args = Namespace()
+        args.pwm = self.create_pwm()
+        args.fasta = self.create_fasta()
+        args.output = cStringIO.StringIO()
+        args.tf = ["MOTIF1"]
+        args.reverse_complement = True
+        args.excel = True
+        args.threshold = 0.7
+
+        return args
+
+    # TODO: continue
+    def test_reverse_complement_excel_best_match_seq(self):
+        args = self.fill_args()
+
+        result = pm.process(args)
+        pm.save(result, args)
+
+        args.output.seek(0)
+        actual_file_contents = args.output.read()
+
+        expected_contents = "[seq2]" \
+                            " 0;1;6;7;15;19;20;28;31;32;36;44;45;46" \
+                            ";4(-);11(-);12(-);18(-);19(-);23(-);25(-);36(-);40(-);41(-);44(-)" \
+                            " AGGCATACTTTCC\n"
+
+        self.assertEqual(expected_contents, actual_file_contents)
+
+    def create_pwm(self):
+        pwm_str = '\n'.join([
+            "VV  January 28, 2015 08:46:03",
+            "XX",
+            "//",
+            "ID  motif1",
+            "P0      A      C      G      T",
+            "01      1      1      1      2      N",
+            "02      2      1      0      1      A",
+            "03      3      4      0      0      M",
+            "XX",
+            "//"
+        ]) + '\n'
+        pwm_handler = cStringIO.StringIO()
+        pwm_handler.write(pwm_str)
+        pwm_handler.seek(0)
+        pwm_records = motifs.parse(pwm_handler, "TRANSFAC")
+        pwm_handler.close()
+        return pwm_records
+
+    def create_fasta(self):
+        fasta_str = '\n'.join([
+            ">seq2",
+            "CAAAGATGCCAGGCATACTTTCCGAGTAGCCTGCCATTCTGGCAGTCCCG"
+        ]) + '\n'
+        fasta_handler = cStringIO.StringIO()
+        fasta_handler.write(fasta_str)
+        fasta_handler.seek(0)
+        fasta = list(SeqIO.parse(fasta_handler, "fasta"))
+        fasta_handler.close()
+        return fasta
+
 
 if __name__ == "__main__":
     unittest.main()
