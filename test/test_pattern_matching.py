@@ -38,7 +38,7 @@ class Test(unittest.TestCase):
 
     def test_with_empty_args(self):
         with self.assertRaises(SystemExit):
-            args = self.parser.parse_args([])
+            self.parser.parse_args([])
 
     def test_default_args(self):
         args = self.parser.parse_args([str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME)])
@@ -57,14 +57,13 @@ class Test(unittest.TestCase):
         args = self.parser.parse_args(args_str)
         self.assertTrue(args.reverse_complement)
 
-        tempfile = cStringIO.StringIO()
-        args.output = tempfile
+        args.output = cStringIO.StringIO()
 
         result = pm.process(args)
         pm.save(result, args)
 
-        tempfile.seek(0)
-        actual_file_contents = tempfile.read()
+        args.output.seek(0)
+        actual_file_contents = args.output.read()
         expected_contents = "\n".join([
             ">seq1",
             "MOTIF1 0;3;6;11;12;15;16;17;19;28;34;41;48;49;53;58;59;"
@@ -134,14 +133,13 @@ class Test(unittest.TestCase):
                                        str(TEST_OUT_FILENAME)])
         self.assertEquals(TEST_OUT_FILENAME, args.output.name)
         silent_remove(TEST_OUT_FILENAME)
-        tempfile = cStringIO.StringIO()
-        args.output = tempfile
+        args.output = cStringIO.StringIO()
 
         result = pm.process(args)
         pm.save(result, args)
 
-        tempfile.seek(0)
-        actual_file_contents = tempfile.read()
+        args.output.seek(0)
+        actual_file_contents = args.output.read()
 
         expected_contents = '\n'.join([
             ">seq1",
@@ -158,14 +156,13 @@ class Test(unittest.TestCase):
         args = self.parser.parse_args([str(TEST_FASTA_FILENAME),
                                        str(TEST_PWM_FILENAME),
                                        "-e"])
-        tempfile = cStringIO.StringIO()
-        args.output = tempfile
+        args.output = cStringIO.StringIO()
 
         result = pm.process(args)
         pm.save(result, args)
 
-        tempfile.seek(0)
-        actual_file_contents = tempfile.read()
+        args.output.seek(0)
+        actual_file_contents = args.output.read()
 
         expected_contents = '\n'.join([
             "[seq1]"
