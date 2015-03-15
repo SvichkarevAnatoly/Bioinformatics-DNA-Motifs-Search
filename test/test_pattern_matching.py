@@ -3,7 +3,7 @@ import unittest
 import errno
 import cStringIO
 
-import utils.pattern_matching as pm
+import utils.pattern_matching.pattern_matching as pm
 
 
 TEST_FASTA_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/fasta.fa")
