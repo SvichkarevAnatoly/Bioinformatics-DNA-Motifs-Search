@@ -1,7 +1,5 @@
-from argparse import Namespace
 import os
 import unittest
-import errno
 import cStringIO
 import sys
 
