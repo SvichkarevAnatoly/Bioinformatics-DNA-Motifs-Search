@@ -1,27 +1,18 @@
 from argparse import Namespace
-from Bio import motifs
-from Bio import SeqIO
 import os
 import unittest
 import errno
 import cStringIO
 import sys
-import lib
 
+import lib
+import suite
 import utils.pattern_matching.pattern_matching as pm
 
 
 TEST_FASTA_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/fasta.fa")
 TEST_PWM_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/pwms_transfac.dat")
 TEST_OUT_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/output.dat")
-
-
-def silent_remove(file_name):
-    try:
-        os.remove(file_name)
-    except OSError as e:
-        if e.errno != errno.ENOENT:  # errno.ENOENT = no such file or directory
-            raise  # re-raise exception if a different error occured
 
 
 class Test(unittest.TestCase):
@@ -136,7 +127,7 @@ class Test(unittest.TestCase):
                                        "-o",
                                        str(TEST_OUT_FILENAME)])
         self.assertEquals(TEST_OUT_FILENAME, args.output.name)
-        silent_remove(TEST_OUT_FILENAME)
+        suite.silent_remove(TEST_OUT_FILENAME)
         args.output = cStringIO.StringIO()
 
         result = pm.process(args)
@@ -249,23 +240,6 @@ class Test(unittest.TestCase):
         self.assertEqual(len(expected_subseq), len(actual_subseq))
         self.assertEqual(expected_subseq, actual_subseq)
 
-    def create_args(self, sequence, pwm_str=None):
-        args = Namespace()
-        args.pwm = self.create_pwm(pwm_str)
-        args.fasta = self.create_fasta(sequence)
-        args.output = cStringIO.StringIO()
-        args.tf = None
-        args.reverse_complement = False
-        args.excel = False
-        args.threshold = 0.7
-
-        return args
-
-    def read_output_file(self, output):
-        output.seek(0)
-        actual_file_contents = output.read()
-        return actual_file_contents
-
     # def test_reverse_complement_excel_best_match_seq(self):
     # # reverse complement for ACGTAAA
     #     args = self.create_args("TTTTTTTTTTTGGGGGGTTTTTTTTTTT")
@@ -282,36 +256,15 @@ class Test(unittest.TestCase):
 
     def test_direct_best_match_seq(self):
         pwm_str = lib.generate_pwm_str("motif1", "ACGTAAA")
-        args = self.create_args("ACGTAAA", pwm_str)
+        args = suite.create_args("ACGTAAA", pwm_str)
         args.excel = True
 
         result = pm.process(args)
         pm.save(result, args)
 
-        actual_file_contents = self.read_output_file(args.output)
+        actual_file_contents = suite.read_output_file(args.output)
         expected_contents = "[seq] 0 ACGTAAA\n"
         self.assertEqual(expected_contents, actual_file_contents)
-
-    def create_pwm(self, pwm_str):
-        pwm_handler = cStringIO.StringIO()
-        pwm_handler.write(pwm_str)
-        pwm_handler.seek(0)
-        pwm_records = motifs.parse(pwm_handler, "TRANSFAC")
-        pwm_handler.close()
-        return pwm_records
-
-    def create_fasta(self, sequence):
-        fasta_str = '\n'.join([
-            ">seq",
-            sequence
-        ]) + '\n'
-        fasta_handler = cStringIO.StringIO()
-        fasta_handler.write(fasta_str)
-        fasta_handler.seek(0)
-        fasta = list(SeqIO.parse(fasta_handler, "fasta"))
-        fasta_handler.close()
-        return fasta
-
 
 if __name__ == "__main__":
     unittest.main()
