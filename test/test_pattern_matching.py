@@ -38,7 +38,7 @@ class Test(unittest.TestCase):
 
     def test_with_empty_args(self):
         with self.assertRaises(SystemExit):
-            self.args = self.parser.parse_args([])
+            args = self.parser.parse_args([])
 
     def test_default_args(self):
         args = self.parser.parse_args([str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME)])
@@ -49,19 +49,19 @@ class Test(unittest.TestCase):
         self.assertFalse(args.excel)
 
     def test_reverse_complement_flag(self):
-        args = [str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME)]
-        self.args = self.parser.parse_args(args)
-        self.assertFalse(self.args.reverse_complement)
+        args_str = [str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME)]
+        args = self.parser.parse_args(args_str)
+        self.assertFalse(args.reverse_complement)
 
-        args.append("--reverse-complement")
-        self.args = self.parser.parse_args(args)
-        self.assertTrue(self.args.reverse_complement)
+        args_str.append("--reverse-complement")
+        args = self.parser.parse_args(args_str)
+        self.assertTrue(args.reverse_complement)
 
         tempfile = cStringIO.StringIO()
-        self.args.output = tempfile
+        args.output = tempfile
 
-        result = pm.process(self.args)
-        pm.save(result, self.args)
+        result = pm.process(args)
+        pm.save(result, args)
 
         tempfile.seek(0)
         actual_file_contents = tempfile.read()
@@ -79,8 +79,8 @@ class Test(unittest.TestCase):
         self.assertEqual(expected_contents, actual_file_contents)
 
     def test_run_on_test_data(self):
-        self.args = self.parser.parse_args([str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME)])
-        result = pm.process(self.args)
+        args = self.parser.parse_args([str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME)])
+        result = pm.process(args)
 
         expected_seq_number = 2
         self.assertEqual(expected_seq_number, len(result))
@@ -128,17 +128,17 @@ class Test(unittest.TestCase):
         self.assertEqual(expected_first_match, actual_matches_list[0])
 
     def test_output_file_result(self):
-        self.args = self.parser.parse_args([str(TEST_FASTA_FILENAME),
-                                            str(TEST_PWM_FILENAME),
-                                            "-o",
-                                            str(TEST_OUT_FILENAME)])
-        self.assertEquals(TEST_OUT_FILENAME, self.args.output.name)
+        args = self.parser.parse_args([str(TEST_FASTA_FILENAME),
+                                       str(TEST_PWM_FILENAME),
+                                       "-o",
+                                       str(TEST_OUT_FILENAME)])
+        self.assertEquals(TEST_OUT_FILENAME, args.output.name)
         silent_remove(TEST_OUT_FILENAME)
         tempfile = cStringIO.StringIO()
-        self.args.output = tempfile
+        args.output = tempfile
 
-        result = pm.process(self.args)
-        pm.save(result, self.args)
+        result = pm.process(args)
+        pm.save(result, args)
 
         tempfile.seek(0)
         actual_file_contents = tempfile.read()
@@ -155,14 +155,14 @@ class Test(unittest.TestCase):
         self.assertEqual(expected_contents, actual_file_contents)
 
     def test_save_excel_format(self):
-        self.args = self.parser.parse_args([str(TEST_FASTA_FILENAME),
-                                            str(TEST_PWM_FILENAME),
-                                            "-e"])
+        args = self.parser.parse_args([str(TEST_FASTA_FILENAME),
+                                       str(TEST_PWM_FILENAME),
+                                       "-e"])
         tempfile = cStringIO.StringIO()
-        self.args.output = tempfile
+        args.output = tempfile
 
-        result = pm.process(self.args)
-        pm.save(result, self.args)
+        result = pm.process(args)
+        pm.save(result, args)
 
         tempfile.seek(0)
         actual_file_contents = tempfile.read()
