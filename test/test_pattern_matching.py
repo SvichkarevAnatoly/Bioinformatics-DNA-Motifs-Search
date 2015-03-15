@@ -251,7 +251,7 @@ class Test(unittest.TestCase):
     def fill_args(self):
         args = Namespace()
         args.pwm = self.create_pwm()
-        args.fasta = self.create_fasta()
+        args.fasta = self.create_fasta("ACGTAAA")
         args.output = cStringIO.StringIO()
         args.tf = ["MOTIF1"]
         args.reverse_complement = True
@@ -297,10 +297,10 @@ class Test(unittest.TestCase):
         pwm_handler.close()
         return pwm_records
 
-    def create_fasta(self):
+    def create_fasta(self, sequence):
         fasta_str = '\n'.join([
             ">seq",
-            "ACGTAAA"
+            sequence
         ]) + '\n'
         fasta_handler = cStringIO.StringIO()
         fasta_handler.write(fasta_str)
