@@ -2,6 +2,7 @@ import os
 import unittest
 import errno
 import cStringIO
+import sys
 
 import utils.pattern_matching.pattern_matching as pm
 
@@ -35,15 +36,17 @@ class Test(unittest.TestCase):
         seq_search_result = pm.SeqSearchResults("", sequence, [tf_name], [3])
         return seq_search_result
 
-
     def test_with_empty_args(self):
         with self.assertRaises(SystemExit):
             self.args = self.parser.parse_args([])
 
-    # TODO: test
-    def test_positional_args(self):
-        self.args = self.parser.parse_args([str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME)])
-        self.assertEqual(0.7, self.args.threshold)
+    def test_default_args(self):
+        args = self.parser.parse_args([str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME)])
+        self.assertEqual(sys.stdout, args.output)
+        self.assertEqual(None, args.tf)
+        self.assertEqual(0.7, args.threshold)
+        self.assertFalse(args.reverse_complement)
+        self.assertFalse(args.excel)
 
     def test_reverse_complement_flag(self):
         args = [str(TEST_FASTA_FILENAME), str(TEST_PWM_FILENAME)]
