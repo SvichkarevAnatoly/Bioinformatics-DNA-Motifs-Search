@@ -141,3 +141,14 @@ def to_ind(nucleotide):
             'C': 1,
             'G': 2,
             'T': 3}[nucleotide]
+
+
+def generate_pwm_str(motif_name, sequence):
+    pwm_str = "ID " + motif_name + "\n" \
+              "P0  A C G T\n"
+    for i, nucleotide in enumerate(sequence):
+        counters = [0] * 4
+        counters[to_ind(nucleotide)] = 9
+        pwm_str += str(i+1) + "   " + " ".join(map(str, counters)) + '\n'
+    pwm_str += "//\n"
+    return pwm_str
