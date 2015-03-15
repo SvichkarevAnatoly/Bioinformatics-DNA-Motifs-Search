@@ -260,15 +260,18 @@ class Test(unittest.TestCase):
 
         return args
 
-    # TODO: continue
+    def read_output_file(self, output):
+        output.seek(0)
+        actual_file_contents = output.read()
+        return actual_file_contents
+
     def test_reverse_complement_excel_best_match_seq(self):
         args = self.fill_args()
 
         result = pm.process(args)
         pm.save(result, args)
 
-        args.output.seek(0)
-        actual_file_contents = args.output.read()
+        actual_file_contents = self.read_output_file(args.output)
 
         expected_contents = "[seq2]" \
                             " 0;1;6;7;15;19;20;28;31;32;36;44;45;46" \
@@ -279,15 +282,11 @@ class Test(unittest.TestCase):
 
     def create_pwm(self):
         pwm_str = '\n'.join([
-            "VV  January 28, 2015 08:46:03",
-            "XX",
-            "//",
             "ID  motif1",
             "P0      A      C      G      T",
             "01      1      1      1      2      N",
             "02      2      1      0      1      A",
             "03      3      4      0      0      M",
-            "XX",
             "//"
         ]) + '\n'
         pwm_handler = cStringIO.StringIO()
