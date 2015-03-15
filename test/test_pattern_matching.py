@@ -248,14 +248,14 @@ class Test(unittest.TestCase):
         self.assertEqual(len(expected_subseq), len(actual_subseq))
         self.assertEqual(expected_subseq, actual_subseq)
 
-    def create_args(self, sequence):
+    def create_args(self, sequence, pwm_str=None):
         args = Namespace()
-        args.pwm = self.create_pwm()
+        args.pwm = self.create_pwm(pwm_str)
         args.fasta = self.create_fasta(sequence)
         args.output = cStringIO.StringIO()
         args.tf = None
         args.reverse_complement = False
-        args.excel = True
+        args.excel = False
         args.threshold = 0.7
 
         return args
@@ -266,18 +266,6 @@ class Test(unittest.TestCase):
         return actual_file_contents
 
     def test_direct_best_match_seq(self):
-        args = self.create_args("ACGTAAA")
-
-        result = pm.process(args)
-        pm.save(result, args)
-
-        actual_file_contents = self.read_output_file(args.output)
-
-        expected_contents = "[seq] 0 ACGTAAA\n"
-
-        self.assertEqual(expected_contents, actual_file_contents)
-
-    def create_pwm(self):
         pwm_str = '\n'.join([
             "ID  motif1",
             "P0      A      C      G      T",
@@ -290,6 +278,31 @@ class Test(unittest.TestCase):
             "07      9      0      0      0      A",
             "//"
         ]) + '\n'
+        args = self.create_args("ACGTAAA", pwm_str)
+        args.excel = True
+
+        result = pm.process(args)
+        pm.save(result, args)
+
+        actual_file_contents = self.read_output_file(args.output)
+        expected_contents = "[seq] 0 ACGTAAA\n"
+        self.assertEqual(expected_contents, actual_file_contents)
+
+    # def test_reverse_complement_excel_best_match_seq(self):
+    #     # reverse complement for ACGTAAA
+    #     args = self.create_args("TTTTTTTTTTTGGGGGGTTTTTTTTTTT")
+    #     args.reverse_complement = True
+    #     args.excel = True
+    #     args.threshold = 1
+    #
+    #     result = pm.process(args)
+    #     pm.save(result, args)
+    #
+    #     actual_file_contents = self.read_output_file(args.output)
+    #     expected_contents = "[seq] 11(-) AATTT ACGTAAA AAAAA\n"
+    #     self.assertEqual(expected_contents, actual_file_contents)
+
+    def create_pwm(self, pwm_str):
         pwm_handler = cStringIO.StringIO()
         pwm_handler.write(pwm_str)
         pwm_handler.seek(0)
