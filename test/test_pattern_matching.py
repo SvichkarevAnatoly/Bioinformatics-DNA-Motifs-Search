@@ -240,19 +240,20 @@ class Test(unittest.TestCase):
         self.assertEqual(len(expected_subseq), len(actual_subseq))
         self.assertEqual(expected_subseq, actual_subseq)
 
-    # def test_reverse_complement_excel_best_match_seq(self):
-    # # reverse complement for ACGTAAA
-    #     args = self.create_args("TTTTTTTTTTTGGGGGGTTTTTTTTTTT")
-    #     args.reverse_complement = True
-    #     args.excel = True
-    #     args.threshold = 1
-    #
-    #     result = pm.process(args)
-    #     pm.save(result, args)
-    #
-    #     actual_file_contents = self.read_output_file(args.output)
-    #     expected_contents = "[seq] 11(-) AATTT ACGTAAA AAAAA\n"
-    #     self.assertEqual(expected_contents, actual_file_contents)
+    def test_reverse_complement_excel_best_match_seq(self):
+        # reverse complement for GGGGGG
+        pwm_str = lib.generate_pwm_str("motif1", "CCCCCC")
+        args = suite.create_args("GTTTTTGGGGGGTTTTTG", pwm_str)
+        args.reverse_complement = True
+        args.excel = True
+        args.threshold = 1
+
+        result = pm.process(args)
+        pm.save(result, args)
+
+        actual = suite.read_output_file(args.output)
+        expected = "[seq] 6(-) AAAAACCCCCCAAAAA\n"
+        self.assertEqual(expected, actual)
 
     def test_direct_best_match_seq(self):
         pwm_str = lib.generate_pwm_str("motif1", "ACGTAAA")
