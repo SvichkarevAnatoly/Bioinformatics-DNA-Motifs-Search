@@ -273,10 +273,7 @@ class Test(unittest.TestCase):
 
         actual_file_contents = self.read_output_file(args.output)
 
-        expected_contents = "[seq2]" \
-                            " 0;1;6;7;15;19;20;28;31;32;36;44;45;46" \
-                            ";4(-);11(-);12(-);18(-);19(-);23(-);25(-);36(-);40(-);41(-);44(-)" \
-                            " AGGCATACTTTCC\n"
+        expected_contents = "[seq] 0 ACGTAAA\n"
 
         self.assertEqual(expected_contents, actual_file_contents)
 
@@ -284,9 +281,13 @@ class Test(unittest.TestCase):
         pwm_str = '\n'.join([
             "ID  motif1",
             "P0      A      C      G      T",
-            "01      1      1      1      2      N",
-            "02      2      1      0      1      A",
-            "03      3      4      0      0      M",
+            "01      9      0      0      0      A",
+            "02      0      9      0      0      C",
+            "03      0      0      9      0      G",
+            "04      0      0      0      9      T",
+            "05      9      0      0      0      A",
+            "06      9      0      0      0      A",
+            "07      9      0      0      0      A",
             "//"
         ]) + '\n'
         pwm_handler = cStringIO.StringIO()
@@ -298,8 +299,8 @@ class Test(unittest.TestCase):
 
     def create_fasta(self):
         fasta_str = '\n'.join([
-            ">seq2",
-            "CAAAGATGCCAGGCATACTTTCCGAGTAGCCTGCCATTCTGGCAGTCCCG"
+            ">seq",
+            "ACGTAAA"
         ]) + '\n'
         fasta_handler = cStringIO.StringIO()
         fasta_handler.write(fasta_str)
