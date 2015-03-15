@@ -202,6 +202,11 @@ class TestLib(unittest.TestCase):
 
         self.assertEquals(expected_position_str, actual_position_str)
 
+    def test_nucleotide_to_index(self):
+        self.assertEqual(0, lib.to_ind('A'))
+        self.assertEqual(1, lib.to_ind('C'))
+        self.assertEqual(2, lib.to_ind('G'))
+        self.assertEqual(3, lib.to_ind('T'))
 
 if __name__ == "__main__":
     unittest.main()
