@@ -266,8 +266,8 @@ class Test(unittest.TestCase):
         actual_file_contents = output.read()
         return actual_file_contents
 
-    def generate_pwm_str(self, sequence):
-        pwm_str = "ID motif1\n" \
+    def generate_pwm_str(self, motif_name, sequence):
+        pwm_str = "ID " + motif_name + "\n" \
                   "P0  A C G T\n"
 
         for i, nucleotide in enumerate(sequence):
@@ -293,7 +293,7 @@ class Test(unittest.TestCase):
     #     self.assertEqual(expected_contents, actual_file_contents)
 
     def test_direct_best_match_seq(self):
-        pwm_str = self.generate_pwm_str("ACGTAAA")
+        pwm_str = self.generate_pwm_str("motif1", "ACGTAAA")
         args = self.create_args("ACGTAAA", pwm_str)
         args.excel = True
 
