@@ -6,6 +6,7 @@ import unittest
 import errno
 import cStringIO
 import sys
+import lib
 
 import utils.pattern_matching.pattern_matching as pm
 
@@ -265,31 +266,20 @@ class Test(unittest.TestCase):
         actual_file_contents = output.read()
         return actual_file_contents
 
-    def test_direct_best_match_seq(self):
-        pwm_str = '\n'.join([
-            "ID  motif1",
-            "P0      A      C      G      T",
-            "01      9      0      0      0      A",
-            "02      0      9      0      0      C",
-            "03      0      0      9      0      G",
-            "04      0      0      0      9      T",
-            "05      9      0      0      0      A",
-            "06      9      0      0      0      A",
-            "07      9      0      0      0      A",
-            "//"
-        ]) + '\n'
-        args = self.create_args("ACGTAAA", pwm_str)
-        args.excel = True
+    def generate_pwm_str(self, sequence):
+        pwm_str = "ID motif1\n" \
+                  "P0  A C G T\n"
 
-        result = pm.process(args)
-        pm.save(result, args)
+        for i, nucleotide in enumerate(sequence):
+            counters = [0] * 4
+            counters[lib.to_ind(nucleotide)] = 9
+            pwm_str += str(i+1) + "   " + " ".join(map(str, counters)) + '\n'
 
-        actual_file_contents = self.read_output_file(args.output)
-        expected_contents = "[seq] 0 ACGTAAA\n"
-        self.assertEqual(expected_contents, actual_file_contents)
+        pwm_str += "//\n"
+        return pwm_str
 
     # def test_reverse_complement_excel_best_match_seq(self):
-    #     # reverse complement for ACGTAAA
+    # # reverse complement for ACGTAAA
     #     args = self.create_args("TTTTTTTTTTTGGGGGGTTTTTTTTTTT")
     #     args.reverse_complement = True
     #     args.excel = True
@@ -301,6 +291,18 @@ class Test(unittest.TestCase):
     #     actual_file_contents = self.read_output_file(args.output)
     #     expected_contents = "[seq] 11(-) AATTT ACGTAAA AAAAA\n"
     #     self.assertEqual(expected_contents, actual_file_contents)
+
+    def test_direct_best_match_seq(self):
+        pwm_str = self.generate_pwm_str("ACGTAAA")
+        args = self.create_args("ACGTAAA", pwm_str)
+        args.excel = True
+
+        result = pm.process(args)
+        pm.save(result, args)
+
+        actual_file_contents = self.read_output_file(args.output)
+        expected_contents = "[seq] 0 ACGTAAA\n"
+        self.assertEqual(expected_contents, actual_file_contents)
 
     def create_pwm(self, pwm_str):
         pwm_handler = cStringIO.StringIO()
