@@ -134,3 +134,10 @@ def searching_result_to_str(interval, results, rev_results, sequence_length):
 
 def reverse_complement(sequence):
     return str(Seq(sequence).reverse_complement())
+
+
+def to_ind(nucleotide):
+    return {'A': 0,
+            'C': 1,
+            'G': 2,
+            'T': 3}[nucleotide]
