@@ -248,13 +248,13 @@ class Test(unittest.TestCase):
         self.assertEqual(len(expected_subseq), len(actual_subseq))
         self.assertEqual(expected_subseq, actual_subseq)
 
-    def fill_args(self):
+    def create_args(self, sequence):
         args = Namespace()
         args.pwm = self.create_pwm()
-        args.fasta = self.create_fasta("ACGTAAA")
+        args.fasta = self.create_fasta(sequence)
         args.output = cStringIO.StringIO()
-        args.tf = ["MOTIF1"]
-        args.reverse_complement = True
+        args.tf = None
+        args.reverse_complement = False
         args.excel = True
         args.threshold = 0.7
 
@@ -265,8 +265,8 @@ class Test(unittest.TestCase):
         actual_file_contents = output.read()
         return actual_file_contents
 
-    def test_reverse_complement_excel_best_match_seq(self):
-        args = self.fill_args()
+    def test_direct_best_match_seq(self):
+        args = self.create_args("ACGTAAA")
 
         result = pm.process(args)
         pm.save(result, args)
