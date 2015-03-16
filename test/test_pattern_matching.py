@@ -265,5 +265,10 @@ class Test(unittest.TestCase):
         expected_contents = "[seq] 0 ACGTAAA\n"
         self.assertEqual(expected_contents, actual_file_contents)
 
+    def test_revers_complement_best_match_seq_multi_T(self):
+        sequence = "AACACAGCTGCCACCATTTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" \
+                   "AGCGGCTCAAGTGTTACAGTGGATGCACTGATTATTTACAGGGAAATCTC"
+        pass
+
 if __name__ == "__main__":
     unittest.main()
