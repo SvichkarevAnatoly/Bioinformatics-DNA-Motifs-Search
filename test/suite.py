@@ -46,6 +46,15 @@ def generate_simple_pwm_str(motif_name, sequence):
     return pwm_str
 
 
+def generate_pwm_str(motif_name, pwm_matrix):
+    pwm_str = "ID " + motif_name + "\n" \
+              "P0  A C G T\n"
+    for i, counters in enumerate(pwm_matrix):
+        pwm_str += str(i+1) + "   " + " ".join(map(str, counters)) + '\n'
+    pwm_str += "//\n"
+    return pwm_str
+
+
 def create_args(sequence, pwm_str=None):
     args = Namespace()
     args.pwm = create_pwm(pwm_str)
