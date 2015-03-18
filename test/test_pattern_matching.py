@@ -240,7 +240,7 @@ class Test(unittest.TestCase):
 
     def test_reverse_complement_excel_best_match_seq(self):
         # reverse complement for GGGGGG
-        pwm_str = suite.generate_pwm_str("motif1", "CCCCCC")
+        pwm_str = suite.generate_simple_pwm_str("motif1", "CCCCCC")
         args = suite.create_args("GTTTTTGGGGGGTTTTTG", pwm_str)
         args.reverse_complement = True
         args.excel = True
@@ -254,7 +254,7 @@ class Test(unittest.TestCase):
         self.assertEqual(expected, actual)
 
     def test_direct_best_match_seq(self):
-        pwm_str = suite.generate_pwm_str("motif1", "ACGTAAA")
+        pwm_str = suite.generate_simple_pwm_str("motif1", "ACGTAAA")
         args = suite.create_args("ACGTAAA", pwm_str)
         args.excel = True
 

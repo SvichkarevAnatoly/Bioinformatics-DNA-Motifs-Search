@@ -35,7 +35,7 @@ def to_ind(nucleotide):
             'T': 3}[nucleotide]
 
 
-def generate_pwm_str(motif_name, sequence):
+def generate_simple_pwm_str(motif_name, sequence):
     pwm_str = "ID " + motif_name + "\n" \
               "P0  A C G T\n"
     for i, nucleotide in enumerate(sequence):

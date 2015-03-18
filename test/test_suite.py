@@ -9,7 +9,7 @@ class TestLib(unittest.TestCase):
         self.assertEqual(2, suite.to_ind('G'))
         self.assertEqual(3, suite.to_ind('T'))
 
-    def test_generate_pwm_str(self):
+    def test_generate_simple_pwm_str(self):
         expected = '\n'.join([
             "ID motif1",
             "P0  A C G T",
@@ -19,7 +19,7 @@ class TestLib(unittest.TestCase):
             "4   0 0 0 9",
             "//"
         ]) + '\n'
-        actual = suite.generate_pwm_str("motif1", "ACGT")
+        actual = suite.generate_simple_pwm_str("motif1", "ACGT")
         self.assertEqual(expected, actual)
 
 if __name__ == "__main__":
