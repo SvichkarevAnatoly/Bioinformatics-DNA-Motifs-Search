@@ -202,24 +202,6 @@ class TestLib(unittest.TestCase):
 
         self.assertEquals(expected_position_str, actual_position_str)
 
-    def test_nucleotide_to_index(self):
-        self.assertEqual(0, lib.to_ind('A'))
-        self.assertEqual(1, lib.to_ind('C'))
-        self.assertEqual(2, lib.to_ind('G'))
-        self.assertEqual(3, lib.to_ind('T'))
-
-    def test_generate_pwm_str(self):
-        expected = '\n'.join([
-            "ID motif1",
-            "P0  A C G T",
-            "1   9 0 0 0",
-            "2   0 9 0 0",
-            "3   0 0 9 0",
-            "4   0 0 0 9",
-            "//"
-        ]) + '\n'
-        actual = lib.generate_pwm_str("motif1", "ACGT")
-        self.assertEqual(expected, actual)
 
 if __name__ == "__main__":
     unittest.main()
