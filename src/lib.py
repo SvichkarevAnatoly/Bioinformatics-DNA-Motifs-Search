@@ -134,3 +134,7 @@ def searching_result_to_str(interval, results, rev_results, sequence_length):
 
 def reverse_complement(sequence):
     return str(Seq(sequence).reverse_complement())
+
+
+def complement(sequence):
+    return str(Seq(sequence).complement())
