@@ -1,7 +1,9 @@
+from Bio import motifs
 import os
 import unittest
 import cStringIO
 import sys
+import MOODS
 
 import lib
 import suite
@@ -298,7 +300,8 @@ class Test(unittest.TestCase):
             [ 72, 205,  41, 226],  # 18
             [248,  98, 168,  30]   # 19
         ]
-        pwm_str = suite.generate_pwm_str("ctcf", pwm_matrix)
+        motif_name = "ctcf"
+        pwm_str = suite.generate_pwm_str(motif_name, pwm_matrix)
         args = suite.create_args(sequence, pwm_str)
         args.reverse_complement = True
         args.excel = True
@@ -307,9 +310,27 @@ class Test(unittest.TestCase):
         pm.save(result, args)
 
         actual_file_contents = suite.read_output_file(args.output)
-        expected_contents = "[seq] 261;259(-) TTAAAAAAAAAAAAAAAAA\n"
+        expected_best_sequence = "TTAAAAAAAAAAAAAAAAA"
+        expected_contents = "[seq] 261;259(-) " + expected_best_sequence + "\n"
         self.assertEqual(expected_contents, actual_file_contents)
+        # self.assertTrue(False)
 
+        pwm = suite.create_pwm(pwm_str)
+        matrices = lib.create_matrices_from_pwms(pwm, [motif_name.upper()])
+        matrix = matrices[0]
+
+        max_score = MOODS.max_score(matrix)
+        expected_max_score = 7040
+        self.assertEqual(expected_max_score, max_score)
+        self.assertEqual(4928, 0.7 * max_score)
+
+        score = 0
+        for i, nucleotide in enumerate(expected_best_sequence):
+            nucl_ind = suite.to_ind(nucleotide)
+            score += matrix[nucl_ind][i]
+
+        self.assertEqual(2567, score)
+        self.assertTrue(score >= 0.7 * max_score)
 
 if __name__ == "__main__":
     unittest.main()
