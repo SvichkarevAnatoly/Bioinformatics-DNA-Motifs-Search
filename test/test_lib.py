@@ -217,5 +217,18 @@ class TestLib(unittest.TestCase):
         # m.weblogo("mymotif.png")
         self.assertEqual("TACGC", str(m.consensus))
 
+    def test_complement(self):
+        seq = "AACCGGG"
+        expected_complement = "TTGGCCC"
+        complement = lib.complement(seq)
+        self.assertEqual(expected_complement, complement)
+
+    def test_reverse_complement(self):
+        seq = "AACCGGG"
+        expected_complement = "CCCGGTT"
+        complement = lib.reverse_complement(seq)
+        self.assertEqual(expected_complement, complement)
+
+
 if __name__ == "__main__":
     unittest.main()
