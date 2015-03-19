@@ -160,14 +160,14 @@ class Test(unittest.TestCase):
         expected_contents = '\n'.join([
             "[seq1]"
             " 0;3;6;11;12;15;16;17;19;28;34;41;48;49;53;58;59;62;65"
-            " GGGCGCACGCGGA"
+            " CAC"
             " 10;17;19;28;35;43;53;61;67"
-            " CGCGGAAGGGAG",
+            " AA",
             "[seq2]"
             " 0;1;6;7;15;19;20;28;31;32;36;44;45;46"
-            " AGGCATACTTTCC"
+            " TAC"
             " 0;1;2;9;13;34;42"
-            " CCTGCCATTCTG",
+            " CA",
         ]) + '\n'
 
         self.assertEqual(expected_contents, actual_file_contents)
@@ -250,7 +250,7 @@ class Test(unittest.TestCase):
         pm.save(result, args)
 
         actual = suite.read_output_file(args.output)
-        expected = "[seq] 6(-) AAAAACCCCCCAAAAA\n"
+        expected = "[seq] 6(-) CCCCCC\n"
         self.assertEqual(expected, actual)
 
     def test_direct_best_match_seq(self):
@@ -307,7 +307,7 @@ class Test(unittest.TestCase):
         pm.save(result, args)
 
         actual_file_contents = suite.read_output_file(args.output)
-        expected_contents = "[seq] 261;259(-) TGCCATTAAAAAAAAAAAAAAAAAAAAAA\n"
+        expected_contents = "[seq] 261;259(-) TTAAAAAAAAAAAAAAAAA\n"
         self.assertEqual(expected_contents, actual_file_contents)
 
 

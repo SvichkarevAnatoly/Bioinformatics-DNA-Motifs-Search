@@ -139,7 +139,7 @@ def save_excel(result, args):
             positions_str = lib.get_join_position_str(positions, seq_length)
 
             best_match = seq_result.best_match(tf)
-            best_subseq = seq_result.match_subseq(best_match[0], tf, 5)
+            best_subseq = seq_result.match_subseq(best_match[0], tf, 0)
 
             args.output.write(' ' + positions_str + ' ' + best_subseq)
         args.output.write('\n')
