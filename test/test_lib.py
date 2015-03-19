@@ -202,6 +202,20 @@ class TestLib(unittest.TestCase):
 
         self.assertEquals(expected_position_str, actual_position_str)
 
+    def test_create_motif_logo(self):
+        from Bio.Seq import Seq
+
+        instances = [Seq("TACAA"),
+                     Seq("TACGC"),
+                     Seq("TACAC"),
+                     Seq("TACCC"),
+                     Seq("AACCC"),
+                     Seq("AATGC"),
+                     Seq("AATGC")
+        ]
+        m = motifs.create(instances)
+        # m.weblogo("mymotif.png")
+        self.assertEqual("TACGC", str(m.consensus))
 
 if __name__ == "__main__":
     unittest.main()
