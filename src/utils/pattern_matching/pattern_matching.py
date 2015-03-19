@@ -47,7 +47,7 @@ class SeqSearchResults(object):
             subseq = self.sequence[left: right]
         else:
             pos += len(self.sequence)
-            rc_seq = lib.reverse_complement(self.sequence)
+            rc_seq = lib.complement(self.sequence)
             left = max(pos - delta, 0)
             right = min(pos + tf_len + delta, len(self.sequence))
             subseq = rc_seq[left: right]

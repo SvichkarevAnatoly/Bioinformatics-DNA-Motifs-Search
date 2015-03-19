@@ -209,7 +209,7 @@ class Test(unittest.TestCase):
         match = (-10, 2.0)  # -10 + 16 = 6
         delta = 0
         actual_subseq = self.seq_search_result.match_subseq(match[0], tf_name, delta)
-        expected_subseq = "GCC"
+        expected_subseq = "CCC"
         self.assertEqual(len(expected_subseq), len(actual_subseq))
         self.assertEqual(expected_subseq, actual_subseq)
 
@@ -236,14 +236,14 @@ class Test(unittest.TestCase):
         match = (-10, 2.0)
         delta = 10
         actual_subseq = self.seq_search_result.match_subseq(match[0], tf_name, delta)
-        expected_subseq = "GCATGGGCCCAAATTT"
+        expected_subseq = "TTTAAACCCGGGTACG"
         self.assertEqual(len(expected_subseq), len(actual_subseq))
         self.assertEqual(expected_subseq, actual_subseq)
 
     def test_reverse_complement_excel_best_match_seq(self):
         # reverse complement for GGGGGG
         pwm_str = suite.generate_simple_pwm_str("motif1", "CCCCCC")
-        args = suite.create_args("GTTTTTGGGGGGTTTTTG", pwm_str)
+        args = suite.create_args("TTGGGGGGACTTGA", pwm_str)
         args.reverse_complement = True
         args.excel = True
         args.threshold = 1
@@ -252,7 +252,7 @@ class Test(unittest.TestCase):
         pm.save(result, args)
 
         actual = suite.read_output_file(args.output)
-        expected = "[seq] 6(-) CCCCCC\n"
+        expected = "[seq] 2(-) CCCCCC\n"
         self.assertEqual(expected, actual)
 
     def test_direct_best_match_seq(self):
@@ -268,16 +268,7 @@ class Test(unittest.TestCase):
         self.assertEqual(expected_contents, actual_file_contents)
 
     def test_revers_complement_best_match_seq_multi_A(self):
-        sequence = "CCTAAGCACGTATGCCAGGACCCACTTAGGAAGATGTGTGTCACATCCCC" \
-        "TCTACAGGCTCACCAGACTCCAGCGTCAAAGGTGTCTAGCCTCACCAGGT" \
-        "CCCTGTCCCCAGGGAAACAAAGTAGTCACATCTCTAAGACAGGCTCAGAA" \
-        "CTTACAAATTGGGTTTCAAGGAAGTCAACACCCTAGTTGTTCTGGAGTGA" \
-        "TTTTGAAGTGACAGCTTTTTTTTTTTTTTTTTTTTTTTTAATGGCAGGAA" \
-        "CCAAGAGGTGAGCGCCACCTGGTGGAGAGGCTATTTCTCAGTGGCAGTAG" \
-        "GGCACCACCCCCCCAACATCCCTTCTCACTTACTTGGATCCAAGCAACAC" \
-        "ATTGTGAAAGAATAATTCTCAACATTCTTTTGGAGCTTAAACAACAACAA" \
-        "AAATTTAAGAGCCCAATGTCACACTATTTATTTACAAAATAACACATTCA" \
-        "TTTTTGATTGTATGTTTCTCTCTACCTTGGCACTGGAGATGCTGAAATGA"
+        sequence = "GAGCGCCACCTGGTGGAGA"
 
         pwm_matrix = [
             [ 65, 161,  41, 277],  # 1
@@ -310,8 +301,8 @@ class Test(unittest.TestCase):
         pm.save(result, args)
 
         actual_file_contents = suite.read_output_file(args.output)
-        expected_best_sequence = "TTAAAAAAAAAAAAAAAAA"
-        expected_contents = "[seq] 261;259(-) " + expected_best_sequence + "\n"
+        expected_best_sequence = "CTCGCGGTGGACCACCTCT"
+        expected_contents = "[seq] 0(-) " + expected_best_sequence + "\n"
         self.assertEqual(expected_contents, actual_file_contents)
         # self.assertTrue(False)
 
@@ -329,7 +320,7 @@ class Test(unittest.TestCase):
             nucl_ind = suite.to_ind(nucleotide)
             score += matrix[nucl_ind][i]
 
-        self.assertEqual(2567, score)
+        self.assertEqual(2801, score)
         self.assertTrue(score >= 0.7 * max_score)
 
 if __name__ == "__main__":
