@@ -12,7 +12,7 @@ class TestLib(unittest.TestCase):
 
     def test_generate_simple_pwm_str(self):
         expected = '\n'.join([
-            "ID motif1",
+            "ID  motif1",
             "P0  A C G T",
             "1   9 0 0 0",
             "2   0 9 0 0",
@@ -25,7 +25,7 @@ class TestLib(unittest.TestCase):
 
     def test_generate_pwm_str(self):
         expected = '\n'.join([
-            "ID motif1",
+            "ID  motif1",
             "P0  A C G T",
             "1   9 75 0 7",
             "2   0 9 3 5",

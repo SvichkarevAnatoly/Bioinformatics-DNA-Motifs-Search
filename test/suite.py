@@ -36,7 +36,7 @@ def to_ind(nucleotide):
 
 
 def generate_simple_pwm_str(motif_name, sequence):
-    pwm_str = "ID " + motif_name + "\n" \
+    pwm_str = "ID  " + motif_name + "\n" \
               "P0  A C G T\n"
     for i, nucleotide in enumerate(sequence):
         counters = [0] * 4
@@ -47,7 +47,7 @@ def generate_simple_pwm_str(motif_name, sequence):
 
 
 def generate_pwm_str(motif_name, pwm_matrix):
-    pwm_str = "ID " + motif_name + "\n" \
+    pwm_str = "ID  " + motif_name + "\n" \
               "P0  A C G T\n"
     for i, counters in enumerate(pwm_matrix):
         pwm_str += str(i+1) + "   " + " ".join(map(str, counters)) + '\n'
