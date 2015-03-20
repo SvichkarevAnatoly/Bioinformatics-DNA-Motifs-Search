@@ -72,6 +72,14 @@ def read_output_file(output):
     return output.read()
 
 
+def get_score(sequence, matrix):
+    score = 0
+    for i, nucleotide in enumerate(sequence):
+        nucleotide_ind = to_ind(nucleotide)
+        score += matrix[nucleotide_ind][i]
+    return score
+
+
 def silent_remove(file_name):
     try:
         os.remove(file_name)

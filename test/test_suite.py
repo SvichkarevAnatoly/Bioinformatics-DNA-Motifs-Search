@@ -44,5 +44,17 @@ class TestLib(unittest.TestCase):
 
         self.assertEqual(expected, actual)
 
+    def test_get_score(self):
+        sequence = "TA"
+        matrix = [
+            [0, 1],
+            [0, 1],
+            [0, 0],
+            [2, 0]
+        ]
+        score = suite.get_score(sequence, matrix)
+        self.assertEqual(3, score)
+
+
 if __name__ == "__main__":
     unittest.main()

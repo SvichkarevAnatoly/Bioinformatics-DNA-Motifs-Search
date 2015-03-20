@@ -315,10 +315,7 @@ class Test(unittest.TestCase):
         self.assertEqual(expected_max_score, max_score)
         self.assertEqual(4928, 0.7 * max_score)
 
-        score = 0
-        for i, nucleotide in enumerate(expected_best_sequence):
-            nucl_ind = suite.to_ind(nucleotide)
-            score += matrix[nucl_ind][i]
+        score = suite.get_score(expected_best_sequence, matrix)
 
         self.assertEqual(2801, score)
         self.assertTrue(score >= 0.7 * max_score)
