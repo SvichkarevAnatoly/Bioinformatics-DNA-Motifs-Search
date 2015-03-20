@@ -267,7 +267,7 @@ class Test(unittest.TestCase):
         expected_contents = "[seq] 0 ACGTAAA\n"
         self.assertEqual(expected_contents, actual_file_contents)
 
-    def test_revers_complement_best_match_seq_multi_A(self):
+    def test_revers_complement_best_match_error_score(self):
         sequence = "GAGCGCCACCTGGTGGAGA"
 
         pwm_matrix = [
@@ -319,7 +319,7 @@ class Test(unittest.TestCase):
         self.assertEqual(2801, score)
         self.assertTrue(score >= 0.7 * max_score)
 
-    def test_best_match_seq_score_threshold(self):
+    def test_forward_best_match_seq_score_threshold(self):
         sequence = "CTCGCGGTGGACCACCTCT"
         pwm_matrix = [
             [ 65, 161,  41, 277],  # 1
@@ -368,6 +368,38 @@ class Test(unittest.TestCase):
 
         self.assertEqual(2801, score)
         self.assertTrue(score <= 0.7 * max_score)
+
+    def test_MOODS_score(self):
+        sequence = "TGG"
+        pwm_matrix = [
+            [ 65, 161,  41, 277],  # 1
+            [113,  82, 257,  92],  # 2
+            [175,  22, 269,  78],  # 3
+        ]
+        motif_name = "ctcf"
+        pwm_str = suite.generate_pwm_str(motif_name, pwm_matrix)
+        args = suite.create_args(sequence, pwm_str)
+        args.excel = True
+        args.threshold = 0.0
+
+        result = pm.process(args)
+        pm.save(result, args)
+
+        actual_file_contents = suite.read_output_file(args.output)
+        expected_contents = "[seq] 0 " + sequence + "\n"
+        self.assertEqual(expected_contents, actual_file_contents)
+
+        pwm = suite.create_pwm(pwm_str)
+        matrices = lib.create_matrices_from_pwms(pwm, [motif_name.upper()])
+        matrix = matrices[0]
+
+        max_score = MOODS.max_score(matrix)
+        expected_max_score = 803
+        self.assertEqual(expected_max_score, max_score)
+        score = suite.get_score(sequence, matrix)
+
+        self.assertEqual(803, score)
+        self.assertTrue(score >= 0.7 * max_score)
 
 
 if __name__ == "__main__":
