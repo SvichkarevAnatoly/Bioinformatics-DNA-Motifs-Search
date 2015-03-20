@@ -369,12 +369,7 @@ class Test(unittest.TestCase):
         self.assertEqual(2801, score)
         self.assertTrue(score <= 0.7 * max_score)
 
-    def assertScore(self, sequence, expected_score):
-        pwm_matrix = [
-            [ 65, 161,  41, 277],  # 1
-            [113,  82, 257,  92],  # 2
-            [175,  22, 269,  78],  # 3
-        ]
+    def assertScore(self, pwm_matrix, sequence, expected_score):
         motif_name = "ctcf"
         pwm_str = suite.generate_pwm_str(motif_name, pwm_matrix)
         args = suite.create_args(sequence, pwm_str)
@@ -395,10 +390,17 @@ class Test(unittest.TestCase):
         max_score = MOODS.max_score(matrix)
         expected_max_score = 803
         self.assertEqual(expected_max_score, max_score)
+        moods_score = result[0].tf_dict["CTCF"][0][1]
         score = suite.get_score(sequence, matrix)
         self.assertEqual(expected_score, score)
+        self.assertEqual(expected_score, moods_score)
 
     def test_MOODS_scores(self):
+        pwm_matrix = [
+            [ 65, 161,  41, 277],  # 1
+            [113,  82, 257,  92],  # 2
+            [175,  22, 269,  78],  # 3
+        ]
         sequences = [
             "TGG",
             "AAA",
@@ -410,7 +412,7 @@ class Test(unittest.TestCase):
             200
         ]
         for seq, score in zip(sequences, expected_scores):
-            self.assertScore(seq, score)
+            self.assertScore(pwm_matrix, seq, score)
 
 
 if __name__ == "__main__":
