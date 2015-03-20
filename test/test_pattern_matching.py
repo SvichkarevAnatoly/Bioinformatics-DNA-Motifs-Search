@@ -369,8 +369,7 @@ class Test(unittest.TestCase):
         self.assertEqual(2801, score)
         self.assertTrue(score <= 0.7 * max_score)
 
-    def test_MOODS_score(self):
-        sequence = "TGG"
+    def assertScore(self, sequence, expected_score):
         pwm_matrix = [
             [ 65, 161,  41, 277],  # 1
             [113,  82, 257,  92],  # 2
@@ -397,9 +396,21 @@ class Test(unittest.TestCase):
         expected_max_score = 803
         self.assertEqual(expected_max_score, max_score)
         score = suite.get_score(sequence, matrix)
+        self.assertEqual(expected_score, score)
 
-        self.assertEqual(803, score)
-        self.assertTrue(score >= 0.7 * max_score)
+    def test_MOODS_scores(self):
+        sequences = [
+            "TGG",
+            "AAA",
+            "AAC"
+        ]
+        expected_scores = [
+            803,
+            353,
+            200
+        ]
+        for seq, score in zip(sequences, expected_scores):
+            self.assertScore(seq, score)
 
 
 if __name__ == "__main__":
