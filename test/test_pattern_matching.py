@@ -304,7 +304,6 @@ class Test(unittest.TestCase):
         expected_best_sequence = "CTCGCGGTGGACCACCTCT"
         expected_contents = "[seq] 0(-) " + expected_best_sequence + "\n"
         self.assertEqual(expected_contents, actual_file_contents)
-        # self.assertTrue(False)
 
         pwm = suite.create_pwm(pwm_str)
         matrices = lib.create_matrices_from_pwms(pwm, [motif_name.upper()])
@@ -319,6 +318,57 @@ class Test(unittest.TestCase):
 
         self.assertEqual(2801, score)
         self.assertTrue(score >= 0.7 * max_score)
+
+    def test_best_match_seq_score_threshold(self):
+        sequence = "CTCGCGGTGGACCACCTCT"
+        pwm_matrix = [
+            [ 65, 161,  41, 277],  # 1
+            [113,  82, 257,  92],  # 2
+            [175,  22, 269,  78],  # 3
+            [ 32, 481,  14,  17],  # 4
+            [  0, 544,   0,   0],  # 5
+            [437,   3,  39,  65],  # 6
+            [ 17, 304, 216,   7],  # 7
+            [ 62, 278,  22, 182],  # 8
+            [520,   0,  15,   9],  # 9
+            [  0,   0, 544,   0],  # 10
+            [220,   3, 318,   3],  # 11
+            [ 33,   6, 300, 205],  # 12
+            [  5,   0, 536,   3],  # 13
+            [ 42,   2, 464,  36],  # 14
+            [ 58, 441,   1,  44],  # 15
+            [230,   4, 298,  12],  # 16
+            [ 47, 298, 175,  24],  # 17
+            [ 72, 205,  41, 226],  # 18
+            [248,  98, 168,  30]   # 19
+        ]
+        motif_name = "ctcf"
+        pwm_str = suite.generate_pwm_str(motif_name, pwm_matrix)
+        args = suite.create_args(sequence, pwm_str)
+        args.excel = True
+
+        result = pm.process(args)
+        pm.save(result, args)
+
+        actual_file_contents = suite.read_output_file(args.output)
+        expected_best_sequence = "CTCGCGGTGGACCACCTCT"
+        expected_contents = "[seq]\n"
+        self.assertEqual(expected_contents, actual_file_contents)
+
+        pwm = suite.create_pwm(pwm_str)
+        matrices = lib.create_matrices_from_pwms(pwm, [motif_name.upper()])
+        matrix = matrices[0]
+
+        max_score = MOODS.max_score(matrix)
+        expected_max_score = 7040
+        self.assertEqual(expected_max_score, max_score)
+        self.assertEqual(4928, 0.7 * max_score)
+
+        score = suite.get_score(expected_best_sequence, matrix)
+
+        self.assertEqual(2801, score)
+        self.assertTrue(score <= 0.7 * max_score)
+
 
 if __name__ == "__main__":
     unittest.main()
