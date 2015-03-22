@@ -42,10 +42,10 @@
       -rc, --reverse-complement
                             Scans against reverse complement sequence in addition
                             to the input sequence. Hits on reverse complement are
-                            reported at position [position - sequence_length],
-                            which is always negative. The actual hit site for any
-                            hit is always seq[pos, pos + matrix_length]. Default
-                            False.
+                            reported at position [position - sequence_length] in
+                            complement of input sequence, which is always
+                            negative. The actual hit site for any hit is always
+                            seq[pos, pos + matrix_length]. Default False.
       -e, --excel           For saving results in easy paste to excel format.
                             Default human readable format.
                             

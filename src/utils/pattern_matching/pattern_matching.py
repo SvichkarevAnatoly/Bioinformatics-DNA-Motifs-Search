@@ -97,7 +97,8 @@ def create_parser():
     parser.add_argument("-rc", "--reverse-complement", dest="reverse_complement", action="store_true", default=False,
                         help="Scans against reverse complement sequence in addition to "
                              "the input sequence. Hits on reverse complement are reported "
-                             "at position [position - sequence_length], which is always "
+                             "at position [position - sequence_length] "
+                             "in complement of input sequence, which is always "
                              "negative. The actual hit site for any hit is always "
                              "seq[pos, pos + matrix_length]. "
                              "Default False.")
