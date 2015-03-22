@@ -362,7 +362,7 @@ class Test(unittest.TestCase):
         self.assertEqual(2801, score)
         self.assertTrue(score <= 0.7 * max_score)
 
-    def assertScore(self, pwm_matrix, sequence, expected_score):
+    def assertScore(self, sequence, pwm_matrix, expected_score):
         motif_name = "CTCF"
         pwm_str = suite.generate_pwm_str(motif_name, pwm_matrix)
         args = suite.create_args(sequence, pwm_str, threshold=0.0)
@@ -403,7 +403,7 @@ class Test(unittest.TestCase):
             200
         ]
         for seq, score in zip(sequences, expected_scores):
-            self.assertScore(pwm_matrix, seq, score)
+            self.assertScore(seq, pwm_matrix, score)
 
 
 if __name__ == "__main__":
