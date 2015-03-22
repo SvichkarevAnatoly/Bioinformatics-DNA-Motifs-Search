@@ -370,7 +370,7 @@ class Test(unittest.TestCase):
         self.assertTrue(score <= 0.7 * max_score)
 
     def assertScore(self, pwm_matrix, sequence, expected_score):
-        motif_name = "ctcf"
+        motif_name = "CTCF"
         pwm_str = suite.generate_pwm_str(motif_name, pwm_matrix)
         args = suite.create_args(sequence, pwm_str)
         args.excel = True
@@ -384,13 +384,13 @@ class Test(unittest.TestCase):
         self.assertEqual(expected_contents, actual_file_contents)
 
         pwm = suite.create_pwm(pwm_str)
-        matrices = lib.create_matrices_from_pwms(pwm, [motif_name.upper()])
+        matrices = lib.create_matrices_from_pwms(pwm, [motif_name])
         matrix = matrices[0]
 
         max_score = MOODS.max_score(matrix)
         expected_max_score = 803
         self.assertEqual(expected_max_score, max_score)
-        moods_score = result[0].tf_dict["CTCF"][0][1]
+        moods_score = result[0].tf_dict[motif_name][0][1]
         score = suite.get_score(sequence, matrix)
         self.assertEqual(expected_score, score)
         self.assertEqual(expected_score, moods_score)
