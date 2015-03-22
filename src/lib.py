@@ -93,7 +93,8 @@ def search_motif(sequence, matrices, threshold_factor=0.7, both_strands=False):
     threshold = map(threshold_func, matrices)
     return MOODS.search(sequence, matrices, threshold,
                         convert_log_odds=False, both_strands=both_strands,
-                        pseudocount=0, threshold_from_p=False)
+                        pseudocount=0, threshold_from_p=False,
+                        algorithm="naive")
 
 
 def get_join_position_str(positions, seq_length):
