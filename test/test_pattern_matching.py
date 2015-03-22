@@ -309,10 +309,13 @@ class Test(unittest.TestCase):
         self.assertEqual(expected_max_score, max_score)
         self.assertEqual(4928, 0.7 * max_score)
 
-        score = suite.get_score(expected_best_sequence, matrix)
+        moods_score = result[0].tf_dict[motif_name][0][1]
+        self.assertEqual(6429, moods_score)
+        self.assertGreaterEqual(moods_score, 0.7 * max_score)
 
+        score = suite.get_score(expected_best_sequence, matrix)
         self.assertEqual(2801, score)
-        self.assertTrue(score >= 0.7 * max_score)
+        self.assertGreaterEqual(score, 0.7 * max_score)
 
     def test_forward_best_match_seq_score_threshold(self):
         sequence = "CTCGCGGTGGACCACCTCT"
