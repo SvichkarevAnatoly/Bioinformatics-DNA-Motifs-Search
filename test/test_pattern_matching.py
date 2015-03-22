@@ -370,17 +370,13 @@ class Test(unittest.TestCase):
         ]
         tf_name = "CTCF"
         pwm_str = suite.generate_pwm_str(tf_name, pwm_matrix)
-        sequences = [
-            "TGG",
-            "AAA",
-            "AAC"
-        ]
-        expected_scores = [
-            803,
-            353,
-            200
-        ]
-        for seq, score in zip(sequences, expected_scores):
+
+        sequence_score_dict = {
+            "TGG": 803,
+            "AAA": 353,
+            "AAC": 200
+        }
+        for seq, score in sequence_score_dict.iteritems():
             self.assertScore(seq, pwm_str, tf_name, score)
 
 
