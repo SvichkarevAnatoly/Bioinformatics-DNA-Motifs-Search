@@ -55,15 +55,15 @@ def generate_pwm_str(motif_name, pwm_matrix):
     return pwm_str
 
 
-def create_args(sequence, pwm_str=None):
+def create_args(sequence, pwm_str, is_excel=True, reverse_complement=False, threshold=0.7, tf_names=None):
     args = Namespace()
     args.pwm = create_pwm(pwm_str)
     args.fasta = create_fasta(sequence)
     args.output = cStringIO.StringIO()
-    args.tf = None
-    args.reverse_complement = False
-    args.excel = False
-    args.threshold = 0.7
+    args.tf = tf_names
+    args.reverse_complement = reverse_complement
+    args.excel = is_excel
+    args.threshold = threshold
     return args
 
 

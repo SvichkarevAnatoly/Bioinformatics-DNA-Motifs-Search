@@ -243,10 +243,7 @@ class Test(unittest.TestCase):
     def test_reverse_complement_excel_best_match_seq(self):
         # reverse complement for GGGGGG
         pwm_str = suite.generate_simple_pwm_str("motif1", "CCCCCC")
-        args = suite.create_args("TTGGGGGGACTTGA", pwm_str)
-        args.reverse_complement = True
-        args.excel = True
-        args.threshold = 1
+        args = suite.create_args("TTGGGGGGACTTGA", pwm_str, True, True, 1.0)
 
         result = pm.process(args)
         pm.save(result, args)
@@ -258,7 +255,6 @@ class Test(unittest.TestCase):
     def test_direct_best_match_seq(self):
         pwm_str = suite.generate_simple_pwm_str("motif1", "ACGTAAA")
         args = suite.create_args("ACGTAAA", pwm_str)
-        args.excel = True
 
         result = pm.process(args)
         pm.save(result, args)
@@ -293,9 +289,7 @@ class Test(unittest.TestCase):
         ]
         motif_name = "ctcf"
         pwm_str = suite.generate_pwm_str(motif_name, pwm_matrix)
-        args = suite.create_args(sequence, pwm_str)
-        args.reverse_complement = True
-        args.excel = True
+        args = suite.create_args(sequence, pwm_str, reverse_complement=True)
 
         result = pm.process(args)
         pm.save(result, args)
@@ -345,7 +339,6 @@ class Test(unittest.TestCase):
         motif_name = "ctcf"
         pwm_str = suite.generate_pwm_str(motif_name, pwm_matrix)
         args = suite.create_args(sequence, pwm_str)
-        args.excel = True
 
         result = pm.process(args)
         pm.save(result, args)
@@ -372,9 +365,7 @@ class Test(unittest.TestCase):
     def assertScore(self, pwm_matrix, sequence, expected_score):
         motif_name = "CTCF"
         pwm_str = suite.generate_pwm_str(motif_name, pwm_matrix)
-        args = suite.create_args(sequence, pwm_str)
-        args.excel = True
-        args.threshold = 0.0
+        args = suite.create_args(sequence, pwm_str, threshold=0.0)
 
         result = pm.process(args)
         pm.save(result, args)
