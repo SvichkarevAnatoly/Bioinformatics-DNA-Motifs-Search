@@ -256,8 +256,10 @@ class Test(unittest.TestCase):
         tf_name = "NANOG"
         match = (-10, 2.0)
         delta = 10
+
+        expected_subseq = "GCATGGGCCCAAATTT"
         actual_subseq = self.seq_search_result.match_subseq(match[0], tf_name, delta)
-        expected_subseq = "TTTAAACCCGGGTACG"
+
         self.assertEqual(len(expected_subseq), len(actual_subseq))
         self.assertEqual(expected_subseq, actual_subseq)
 
