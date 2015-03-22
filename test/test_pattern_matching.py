@@ -286,20 +286,22 @@ class Test(unittest.TestCase):
 
     def test_revers_complement_best_match_error_score(self):
         sequence = "GAGCGCCACCTGGTGGAGA"
-        motif_name = "ctcf"
+        motif_name = "CTCF"
         pwm_str = suite.generate_pwm_str(motif_name, self.pwm_matrix_ctcf)
         args = suite.create_args(sequence, pwm_str, reverse_complement=True)
 
         result = pm.process(args)
         pm.save(result, args)
 
-        actual_file_contents = suite.read_output_file(args.output)
         expected_best_sequence = "CTCGCGGTGGACCACCTCT"
+        self.assertEqual(expected_best_sequence, lib.complement(sequence))
+
+        actual_file_contents = suite.read_output_file(args.output)
         expected_contents = "[seq] 0(-) " + expected_best_sequence + "\n"
         self.assertEqual(expected_contents, actual_file_contents)
 
         pwm = suite.create_pwm(pwm_str)
-        matrices = lib.create_matrices_from_pwms(pwm, [motif_name.upper()])
+        matrices = lib.create_matrices_from_pwms(pwm, [motif_name])
         matrix = matrices[0]
 
         max_score = MOODS.max_score(matrix)
