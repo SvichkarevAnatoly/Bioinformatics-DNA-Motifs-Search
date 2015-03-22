@@ -21,6 +21,27 @@ class Test(unittest.TestCase):
         super(Test, cls).setUpClass()
         cls.parser = pm.create_parser()
         cls.seq_search_result = cls.create_seq_search_result()
+        cls.pwm_matrix_ctcf = [
+            [ 65, 161,  41, 277],  # 1
+            [113,  82, 257,  92],  # 2
+            [175,  22, 269,  78],  # 3
+            [ 32, 481,  14,  17],  # 4
+            [  0, 544,   0,   0],  # 5
+            [437,   3,  39,  65],  # 6
+            [ 17, 304, 216,   7],  # 7
+            [ 62, 278,  22, 182],  # 8
+            [520,   0,  15,   9],  # 9
+            [  0,   0, 544,   0],  # 10
+            [220,   3, 318,   3],  # 11
+            [ 33,   6, 300, 205],  # 12
+            [  5,   0, 536,   3],  # 13
+            [ 42,   2, 464,  36],  # 14
+            [ 58, 441,   1,  44],  # 15
+            [230,   4, 298,  12],  # 16
+            [ 47, 298, 175,  24],  # 17
+            [ 72, 205,  41, 226],  # 18
+            [248,  98, 168,  30]   # 19
+        ]
 
     @classmethod
     def create_seq_search_result(cls):
@@ -265,30 +286,8 @@ class Test(unittest.TestCase):
 
     def test_revers_complement_best_match_error_score(self):
         sequence = "GAGCGCCACCTGGTGGAGA"
-
-        pwm_matrix = [
-            [ 65, 161,  41, 277],  # 1
-            [113,  82, 257,  92],  # 2
-            [175,  22, 269,  78],  # 3
-            [ 32, 481,  14,  17],  # 4
-            [  0, 544,   0,   0],  # 5
-            [437,   3,  39,  65],  # 6
-            [ 17, 304, 216,   7],  # 7
-            [ 62, 278,  22, 182],  # 8
-            [520,   0,  15,   9],  # 9
-            [  0,   0, 544,   0],  # 10
-            [220,   3, 318,   3],  # 11
-            [ 33,   6, 300, 205],  # 12
-            [  5,   0, 536,   3],  # 13
-            [ 42,   2, 464,  36],  # 14
-            [ 58, 441,   1,  44],  # 15
-            [230,   4, 298,  12],  # 16
-            [ 47, 298, 175,  24],  # 17
-            [ 72, 205,  41, 226],  # 18
-            [248,  98, 168,  30]   # 19
-        ]
         motif_name = "ctcf"
-        pwm_str = suite.generate_pwm_str(motif_name, pwm_matrix)
+        pwm_str = suite.generate_pwm_str(motif_name, self.pwm_matrix_ctcf)
         args = suite.create_args(sequence, pwm_str, reverse_complement=True)
 
         result = pm.process(args)
@@ -315,29 +314,8 @@ class Test(unittest.TestCase):
 
     def test_forward_best_match_seq_score_threshold(self):
         sequence = "CTCGCGGTGGACCACCTCT"
-        pwm_matrix = [
-            [ 65, 161,  41, 277],  # 1
-            [113,  82, 257,  92],  # 2
-            [175,  22, 269,  78],  # 3
-            [ 32, 481,  14,  17],  # 4
-            [  0, 544,   0,   0],  # 5
-            [437,   3,  39,  65],  # 6
-            [ 17, 304, 216,   7],  # 7
-            [ 62, 278,  22, 182],  # 8
-            [520,   0,  15,   9],  # 9
-            [  0,   0, 544,   0],  # 10
-            [220,   3, 318,   3],  # 11
-            [ 33,   6, 300, 205],  # 12
-            [  5,   0, 536,   3],  # 13
-            [ 42,   2, 464,  36],  # 14
-            [ 58, 441,   1,  44],  # 15
-            [230,   4, 298,  12],  # 16
-            [ 47, 298, 175,  24],  # 17
-            [ 72, 205,  41, 226],  # 18
-            [248,  98, 168,  30]   # 19
-        ]
         motif_name = "ctcf"
-        pwm_str = suite.generate_pwm_str(motif_name, pwm_matrix)
+        pwm_str = suite.generate_pwm_str(motif_name, self.pwm_matrix_ctcf)
         args = suite.create_args(sequence, pwm_str)
 
         result = pm.process(args)
