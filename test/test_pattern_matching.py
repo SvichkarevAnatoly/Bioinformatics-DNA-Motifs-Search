@@ -313,8 +313,8 @@ class Test(unittest.TestCase):
         self.assertEqual(6429, moods_score)
         self.assertGreaterEqual(moods_score, 0.7 * max_score)
 
-        score = suite.get_score(expected_best_sequence, matrix)
-        self.assertEqual(2801, score)
+        score = suite.get_score(reversed(expected_best_sequence), matrix)
+        self.assertEqual(6429, score)
         self.assertGreaterEqual(score, 0.7 * max_score)
 
     def test_forward_best_match_seq_score_threshold(self):
