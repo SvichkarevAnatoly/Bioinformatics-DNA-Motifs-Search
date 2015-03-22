@@ -340,12 +340,9 @@ class Test(unittest.TestCase):
         self.assertEqual(2801, score)
         self.assertTrue(score <= 0.7 * max_score)
 
-    def assertEqualsMatches(self, sequence, tf_pwm, expected_matches):
-        pwm_str = tf_pwm[1]
-        args = suite.create_args(sequence, pwm_str, threshold=0.0)
+    def assertEqualsMatches(self, args, tf_name, expected_matches):
         result = pm.process(args)[0]
 
-        tf_name = tf_pwm[0]
         matches = result.tf_dict[tf_name]
         self.assertItemsEqual(expected_matches, matches)
 
@@ -357,7 +354,6 @@ class Test(unittest.TestCase):
         ]
         tf_name = "CTCF"
         pwm_str = suite.generate_pwm_str(tf_name, pwm_matrix)
-        tf_pwm = (tf_name, pwm_str)
 
         sequence_score_dict = {
             "AAA": [(0, 111)],
@@ -366,7 +362,8 @@ class Test(unittest.TestCase):
             }
 
         for seq, matches in sequence_score_dict.iteritems():
-            self.assertEqualsMatches(seq, tf_pwm, matches)
+            args = suite.create_args(seq, pwm_str, threshold=0.0)
+            self.assertEqualsMatches(args, tf_name, matches)
 
 
 if __name__ == "__main__":
