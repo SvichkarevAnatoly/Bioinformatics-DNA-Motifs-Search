@@ -354,9 +354,6 @@ class Test(unittest.TestCase):
         matrices = lib.create_matrices_from_pwms(pwm, [tf_name])
         matrix = matrices[0]
 
-        max_score = MOODS.max_score(matrix)
-        expected_max_score = 803
-        self.assertEqual(expected_max_score, max_score)
         moods_score = result[0].tf_dict[tf_name][0][1]
         score = suite.get_score(sequence, matrix)
         self.assertEqual(expected_score, score)
@@ -364,17 +361,17 @@ class Test(unittest.TestCase):
 
     def test_MOODS_scores(self):
         pwm_matrix = [
-            [ 65, 161,  41, 277],  # 1
-            [113,  82, 257,  92],  # 2
-            [175,  22, 269,  78],  # 3
+            [100, 200, 300, 400],  # 1
+            [ 10,  20,  30,  40],  # 2
+            [  1,   2,   3,   4],  # 3
         ]
         tf_name = "CTCF"
         pwm_str = suite.generate_pwm_str(tf_name, pwm_matrix)
 
         sequence_score_dict = {
-            "TGG": 803,
-            "AAA": 353,
-            "AAC": 200
+            "AAA": 111,
+            "AAC": 112,
+            "TGG": 433,
         }
         for seq, score in sequence_score_dict.iteritems():
             self.assertScore(seq, pwm_str, tf_name, score)
