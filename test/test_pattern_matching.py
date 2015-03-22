@@ -284,7 +284,7 @@ class Test(unittest.TestCase):
         expected_contents = "[seq] 0 ACGTAAA\n"
         self.assertEqual(expected_contents, actual_file_contents)
 
-    def test_revers_complement_best_match_error_score(self):
+    def test_revers_complement_best_match_ctcf(self):
         sequence = "GAGCGCCACCTGGTGGAGA"
         motif_name = "CTCF"
         pwm_str = suite.generate_pwm_str(motif_name, self.pwm_matrix_ctcf)
@@ -293,8 +293,8 @@ class Test(unittest.TestCase):
         result = pm.process(args)
         pm.save(result, args)
 
-        expected_best_sequence = "CTCGCGGTGGACCACCTCT"
-        self.assertEqual(expected_best_sequence, lib.complement(sequence))
+        expected_best_sequence = "TCTCCACCAGGTGGCGCTC"
+        self.assertEqual(expected_best_sequence, lib.reverse_complement(sequence))
 
         actual_file_contents = suite.read_output_file(args.output)
         expected_contents = "[seq] 0(-) " + expected_best_sequence + "\n"
@@ -310,12 +310,10 @@ class Test(unittest.TestCase):
         self.assertEqual(4928, 0.7 * max_score)
 
         moods_score = result[0].tf_dict[motif_name][0][1]
-        self.assertEqual(6429, moods_score)
-        self.assertGreaterEqual(moods_score, 0.7 * max_score)
+        expected_score = suite.get_score(expected_best_sequence, matrix)
 
-        score = suite.get_score(reversed(expected_best_sequence), matrix)
-        self.assertEqual(6429, score)
-        self.assertGreaterEqual(score, 0.7 * max_score)
+        self.assertEqual(expected_score, moods_score)
+        self.assertGreaterEqual(moods_score, 0.7 * max_score)
 
     def test_forward_best_match_seq_score_threshold(self):
         sequence = "CTCGCGGTGGACCACCTCT"
