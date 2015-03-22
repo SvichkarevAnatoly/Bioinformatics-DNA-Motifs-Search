@@ -346,7 +346,7 @@ class Test(unittest.TestCase):
         matches = result.tf_dict[tf_name]
         self.assertItemsEqual(expected_matches, matches)
 
-    def test_MOODS_scores(self):
+    def test_direct_MOODS_scores(self):
         pwm_matrix = [
             [100, 200, 300, 400],  # 1
             [ 10,  20,  30,  40],  # 2
@@ -359,10 +359,27 @@ class Test(unittest.TestCase):
             "AAA": [(0, 111)],
             "AAC": [(0, 112)],
             "TGG": [(0, 433)],
-            }
+        }
 
         for seq, matches in sequence_score_dict.iteritems():
             args = suite.create_args(seq, pwm_str, threshold=0.0)
+            self.assertEqualsMatches(args, tf_name, matches)
+
+    def test_reverse_complement_MOODS_scores(self):
+        pwm_matrix = [
+            [100, 200, 300, 400],  # 1
+            [ 10,  20,  30,  40],  # 2
+            [  1,   2,   3,   4],  # 3
+        ]
+        tf_name = "CTCF"
+        pwm_str = suite.generate_pwm_str(tf_name, pwm_matrix)
+
+        sequence_score_dict = {
+            "AAA": [(0, 111), (-3, 444)],
+        }
+
+        for seq, matches in sequence_score_dict.iteritems():
+            args = suite.create_args(seq, pwm_str, reverse_complement=True, threshold=0.0)
             self.assertEqualsMatches(args, tf_name, matches)
 
 
