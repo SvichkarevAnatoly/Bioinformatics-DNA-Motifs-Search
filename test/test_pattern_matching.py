@@ -340,24 +340,12 @@ class Test(unittest.TestCase):
         self.assertEqual(2801, score)
         self.assertTrue(score <= 0.7 * max_score)
 
-    def assertScore(self, sequence, pwm_str, tf_name, expected_score):
+    def assertEqualsMatches(self, sequence, pwm_str, tf_name, expected_matches):
         args = suite.create_args(sequence, pwm_str, threshold=0.0)
+        result = pm.process(args)[0]
 
-        result = pm.process(args)
-        pm.save(result, args)
-
-        actual_file_contents = suite.read_output_file(args.output)
-        expected_contents = "[seq] 0 " + sequence + "\n"
-        self.assertEqual(expected_contents, actual_file_contents)
-
-        pwm = suite.create_pwm(pwm_str)
-        matrices = lib.create_matrices_from_pwms(pwm, [tf_name])
-        matrix = matrices[0]
-
-        moods_score = result[0].tf_dict[tf_name][0][1]
-        score = suite.get_score(sequence, matrix)
-        self.assertEqual(expected_score, score)
-        self.assertEqual(expected_score, moods_score)
+        matches = result.tf_dict[tf_name]
+        self.assertItemsEqual(expected_matches, matches)
 
     def test_MOODS_scores(self):
         pwm_matrix = [
@@ -369,12 +357,12 @@ class Test(unittest.TestCase):
         pwm_str = suite.generate_pwm_str(tf_name, pwm_matrix)
 
         sequence_score_dict = {
-            "AAA": 111,
-            "AAC": 112,
-            "TGG": 433,
+            "AAA": [(0, 111)],
+            "AAC": [(0, 112)],
+            "TGG": [(0, 433)],
         }
-        for seq, score in sequence_score_dict.iteritems():
-            self.assertScore(seq, pwm_str, tf_name, score)
+        for seq, matches in sequence_score_dict.iteritems():
+            self.assertEqualsMatches(seq, pwm_str, tf_name, matches)
 
 
 if __name__ == "__main__":
