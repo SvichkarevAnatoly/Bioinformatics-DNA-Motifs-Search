@@ -182,15 +182,15 @@ class Test(unittest.TestCase):
 
         expected_contents = '\n'.join([
             "[seq1]"
-            " 0;3;6;11;12;15;16;17;19;28;34;41;48;49;53;58;59;62;65"
-            " CAC"
-            " 10;17;19;28;35;43;53;61;67"
-            " AA",
+            "\t0;3;6;11;12;15;16;17;19;28;34;41;48;49;53;58;59;62;65"
+            "\tCAC"
+            "\t10;17;19;28;35;43;53;61;67"
+            "\tAA",
             "[seq2]"
-            " 0;1;6;7;15;19;20;28;31;32;36;44;45;46"
-            " TAC"
-            " 0;1;2;9;13;34;42"
-            " CA",
+            "\t0;1;6;7;15;19;20;28;31;32;36;44;45;46"
+            "\tTAC"
+            "\t0;1;2;9;13;34;42"
+            "\tCA",
         ]) + '\n'
 
         self.assertEqual(expected_contents, actual_file_contents)
@@ -272,7 +272,7 @@ class Test(unittest.TestCase):
         pm.save(result, args)
 
         actual = suite.read_output_file(args.output)
-        expected = "[seq] 2(-) CCCCCC\n"
+        expected = "[seq]\t2(-)\tCCCCCC\n"
         self.assertEqual(expected, actual)
 
     def test_direct_best_match_seq(self):
@@ -283,7 +283,7 @@ class Test(unittest.TestCase):
         pm.save(result, args)
 
         actual_file_contents = suite.read_output_file(args.output)
-        expected_contents = "[seq] 0 ACGTAAA\n"
+        expected_contents = "[seq]\t0\tACGTAAA\n"
         self.assertEqual(expected_contents, actual_file_contents)
 
     def test_revers_complement_best_match_ctcf(self):
@@ -299,7 +299,7 @@ class Test(unittest.TestCase):
         self.assertEqual(expected_best_sequence, lib.reverse_complement(sequence))
 
         actual_file_contents = suite.read_output_file(args.output)
-        expected_contents = "[seq] 0(-) " + expected_best_sequence + "\n"
+        expected_contents = "[seq]\t0(-)\t" + expected_best_sequence + "\n"
         self.assertEqual(expected_contents, actual_file_contents)
 
         pwm = suite.create_pwm(pwm_str)
@@ -328,7 +328,7 @@ class Test(unittest.TestCase):
 
         actual_file_contents = suite.read_output_file(args.output)
         expected_best_sequence = "CTCGCGGTGGACCACCTCT"
-        expected_contents = "[seq]\n"
+        expected_contents = "[seq]\t\t\n"
         self.assertEqual(expected_contents, actual_file_contents)
 
         pwm = suite.create_pwm(pwm_str)
