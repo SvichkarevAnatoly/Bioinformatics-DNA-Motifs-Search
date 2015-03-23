@@ -1,4 +1,3 @@
-from Bio import motifs
 import os
 import unittest
 import cStringIO
@@ -7,7 +6,7 @@ import MOODS
 
 import lib
 import suite
-import utils.pattern_matching.pattern_matching as pm
+import utils.pattern_matching as pm
 
 
 TEST_FASTA_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/fasta.fa")
