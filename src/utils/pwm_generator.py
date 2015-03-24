@@ -5,6 +5,7 @@ import sys
 from Bio.Alphabet import IUPAC
 from Bio import Alphabet
 from Bio.Seq import Seq
+from Bio import motifs
 
 
 class ReadSeqAction(argparse.Action):
@@ -41,6 +42,8 @@ def check(seqs):
 
 def process(args):
     check(args.seqs)
+    motif = motifs.create(args.seqs)
+    return motif
 
 
 def save(result, args):
