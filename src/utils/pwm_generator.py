@@ -47,7 +47,7 @@ def process(args):
 
 
 def save(result, args):
-    pass
+    args.output.write(result.format("transfac"))
 
 
 def main():
