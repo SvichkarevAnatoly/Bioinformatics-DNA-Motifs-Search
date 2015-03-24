@@ -33,7 +33,7 @@ def create_parser():
 
 
 def check(seqs):
-    pwm_length = seqs[0]
+    pwm_length = len(seqs[0])
     for seq in seqs:
         Alphabet._verify_alphabet(seq)
         if len(seq) != pwm_length:
