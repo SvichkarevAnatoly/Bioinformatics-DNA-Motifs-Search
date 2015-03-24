@@ -20,13 +20,15 @@ class ReadSeqAction(argparse.Action):
 
 
 def create_parser():
-    parser = argparse.ArgumentParser(description="TODO")
+    parser = argparse.ArgumentParser(
+        description="Create position weight matrices (PWM) from DNA sequences")
     parser.add_argument("seqs", type=argparse.FileType('r'),
                         action=ReadSeqAction,
-                        help="TODO")
+                        help="file with DNA sequences same length."
+                             " One sequence in on line")
     parser.add_argument("-o", "--output", nargs='?', dest="output",
                         type=argparse.FileType('w'), default=sys.stdout,
-                        help="TODO")
+                        help="output file with PWM")
     return parser
 
 
