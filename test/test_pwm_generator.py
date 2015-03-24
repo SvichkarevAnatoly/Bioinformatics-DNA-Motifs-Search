@@ -4,6 +4,7 @@ import cStringIO
 
 from Bio.Alphabet import IUPAC
 from Bio.Seq import Seq
+import suite
 
 import utils.pwm_generator as pg
 
@@ -47,6 +48,27 @@ class Test(unittest.TestCase):
 
         with self.assertRaisesRegexp(ValueError, "Seq contains letter not from Alphabet"):
             pg.check(args.seqs)
+
+    def test_save(self):
+        seqs = [
+            "ACGT",
+            "AAAA"
+        ]
+        args = self.create_args(seqs)
+        motif = pg.process(args)
+        pg.save(motif, args)
+
+        expected_file_contents = '\n'.join([
+            "P0      A      C      G      T",
+            "01      2      0      0      0      A",
+            "02      1      1      0      0      M",
+            "03      1      0      1      0      R",
+            "04      1      0      0      1      W",
+            "XX",
+            "//"
+        ]) + '\n'
+        actual_file_contents = suite.read_output_file(args.output)
+        self.assertEqual(expected_file_contents, actual_file_contents)
 
 if __name__ == "__main__":
     unittest.main()
