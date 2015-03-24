@@ -29,16 +29,24 @@ class Test(unittest.TestCase):
         motif_seqs = map(str, motif.instances)
         self.assertItemsEqual(seqs, motif_seqs)
 
-    def test_raise_diff_len(self):
+    def test_check_raise_value_error_diff_len(self):
         seqs = [
             "ACGT",
             "A"
         ]
         args = self.create_args(seqs)
 
-        with self.assertRaises(ValueError):
-            pg.process(args)
+        with self.assertRaisesRegexp(ValueError, "Seqs length differ"):
+            pg.check(args.seqs)
 
+    def test_check_raise_value_error_alphabet(self):
+        seqs = [
+            "ACGX",
+        ]
+        args = self.create_args(seqs)
+
+        with self.assertRaisesRegexp(ValueError, "Seq contains letter not from Alphabet"):
+            pg.check(args.seqs)
 
 if __name__ == "__main__":
     unittest.main()
