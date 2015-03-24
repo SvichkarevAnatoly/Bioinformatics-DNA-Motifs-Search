@@ -35,9 +35,10 @@ def create_parser():
 def check(seqs):
     pwm_length = len(seqs[0])
     for seq in seqs:
-        Alphabet._verify_alphabet(seq)
+        if not Alphabet._verify_alphabet(seq):
+            raise ValueError("Seq contains letter not from Alphabet")
         if len(seq) != pwm_length:
-            raise ValueError("seqs length differ")
+            raise ValueError("Seqs length differ")
 
 
 def process(args):
