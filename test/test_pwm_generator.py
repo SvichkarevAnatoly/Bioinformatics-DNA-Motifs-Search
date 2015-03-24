@@ -29,5 +29,16 @@ class Test(unittest.TestCase):
         motif_seqs = map(str, motif.instances)
         self.assertItemsEqual(seqs, motif_seqs)
 
+    def test_raise_diff_len(self):
+        seqs = [
+            "ACGT",
+            "A"
+        ]
+        args = self.create_args(seqs)
+
+        with self.assertRaises(ValueError):
+            pg.process(args)
+
+
 if __name__ == "__main__":
     unittest.main()
