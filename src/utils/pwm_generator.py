@@ -14,8 +14,6 @@ class ReadSeqAction(argparse.Action):
         for seq_line in seqs_handler:
             seq_string = seq_line.strip()
             seq = Seq(seq_string, IUPAC.unambiguous_dna)
-            Alphabet._verify_alphabet(seq)
-            # TODO: check same length
             seqs.append(seq)
         seqs_handler.close()
         setattr(args, self.dest, seqs)
