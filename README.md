@@ -64,3 +64,16 @@
       -o [OUTPUT], --output [OUTPUT]
                             output file with formatted matching results. Default
                             stdout.
+                            
+#### usage: pwm_generator.py [-h] [-o [OUTPUT]] seqs
+
+    Create position weight matrices (PWM) from DNA sequences
+    
+    positional arguments:
+      seqs                  file with DNA sequences same length. One sequence in
+                            on line
+    
+    optional arguments:
+      -h, --help            show this help message and exit
+      -o [OUTPUT], --output [OUTPUT]
+                            output file with PWM
