@@ -229,6 +229,15 @@ class TestLib(unittest.TestCase):
         complement = lib.reverse_complement(seq)
         self.assertEqual(expected_complement, complement)
 
+    def test_check_pwm_correct(self):
+        seqs = lib.biopython_seqs(["ACGT", "A"])
+        with self.assertRaisesRegexp(ValueError, "Seqs length differ"):
+            lib.check_seq_correct(seqs)
+
+        seqs = lib.biopython_seqs(["ACGX"])
+        with self.assertRaisesRegexp(ValueError, "Seq contains letter not from Alphabet"):
+            lib.check_seq_correct(seqs)
+
 
 if __name__ == "__main__":
     unittest.main()
