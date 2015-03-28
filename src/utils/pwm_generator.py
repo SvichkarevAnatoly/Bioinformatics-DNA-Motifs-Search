@@ -1,4 +1,5 @@
 import argparse
+import os
 from signal import signal, SIGPIPE, SIG_DFL
 import sys
 
@@ -6,6 +7,7 @@ from Bio.Alphabet import IUPAC
 from Bio.Seq import Seq
 from Bio import motifs
 
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 import lib
 
 
