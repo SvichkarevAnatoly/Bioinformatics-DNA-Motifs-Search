@@ -1,6 +1,5 @@
 import argparse
 from signal import signal, SIGPIPE, SIG_DFL
-import sys
 
 from Bio.Alphabet import IUPAC
 from Bio import Alphabet
@@ -26,9 +25,8 @@ def create_parser():
                         action=ReadSeqAction,
                         help="file with DNA sequences same length."
                              " One sequence in on line")
-    # TODO: one args requirement
-    parser.add_argument("-o", "--output", nargs='?', dest="output",
-                        type=argparse.FileType('w'),
+    parser.add_argument("-o", "--output", required=True,
+                        dest="output", type=argparse.FileType('w'),
                         help="output file with logo")
 
     return parser
