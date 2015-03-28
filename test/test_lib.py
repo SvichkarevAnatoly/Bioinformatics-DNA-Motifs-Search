@@ -214,7 +214,6 @@ class TestLib(unittest.TestCase):
                      Seq("AATGC")
         ]
         m = motifs.create(instances)
-        # m.weblogo("mymotif.png")
         self.assertEqual("TACGC", str(m.consensus))
 
     def test_complement(self):
