@@ -4,8 +4,8 @@ import cStringIO
 
 from Bio.Alphabet import IUPAC
 from Bio.Seq import Seq
-import suite
 
+import suite
 import utils.pwm_generator as pg
 
 
@@ -30,25 +30,6 @@ class Test(unittest.TestCase):
 
         motif_seqs = map(str, motif.instances)
         self.assertItemsEqual(seqs, motif_seqs)
-
-    def test_check_raise_value_error_diff_len(self):
-        seqs = [
-            "ACGT",
-            "A"
-        ]
-        args = self.create_args(seqs, None)
-
-        with self.assertRaisesRegexp(ValueError, "Seqs length differ"):
-            pg.check(args.seqs)
-
-    def test_check_raise_value_error_alphabet(self):
-        seqs = [
-            "ACGX",
-        ]
-        args = self.create_args(seqs, None)
-
-        with self.assertRaisesRegexp(ValueError, "Seq contains letter not from Alphabet"):
-            pg.check(args.seqs)
 
     def test_save(self):
         seqs = [

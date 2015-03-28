@@ -3,9 +3,10 @@ from signal import signal, SIGPIPE, SIG_DFL
 import sys
 
 from Bio.Alphabet import IUPAC
-from Bio import Alphabet
 from Bio.Seq import Seq
 from Bio import motifs
+
+import lib
 
 
 class ReadSeqAction(argparse.Action):
@@ -36,17 +37,8 @@ def create_parser():
     return parser
 
 
-def check(seqs):
-    pwm_length = len(seqs[0])
-    for seq in seqs:
-        if not Alphabet._verify_alphabet(seq):
-            raise ValueError("Seq contains letter not from Alphabet")
-        if len(seq) != pwm_length:
-            raise ValueError("Seqs length differ")
-
-
 def process(args):
-    check(args.seqs)
+    lib.check_seq_correct(args.seqs)
     motif = motifs.create(args.seqs)
     return motif
 
