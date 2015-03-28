@@ -29,6 +29,10 @@ def create_parser():
     parser.add_argument("-o", "--output", nargs='?', dest="output",
                         type=argparse.FileType('w'), default=sys.stdout,
                         help="output file with PWM")
+    parser.add_argument("-m", "--motif", nargs='?', dest="motif",
+                        type=str, default=None,
+                        help="pwm motif name. Default no name.")
+
     return parser
 
 
@@ -48,6 +52,8 @@ def process(args):
 
 
 def save(result, args):
+    if args.motif is not None:
+        args.output.write("ID  " + args.motif + '\n')
     args.output.write(result.format("transfac"))
 
 
