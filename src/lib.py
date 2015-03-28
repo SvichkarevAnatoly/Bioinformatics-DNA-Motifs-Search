@@ -1,6 +1,8 @@
 import os
 import re
+
 from Bio.Alphabet import IUPAC
+from Bio import Alphabet
 from Bio.Seq import Seq
 import MOODS
 
@@ -114,3 +116,16 @@ def reverse_complement(sequence):
 
 def complement(sequence):
     return str(Seq(sequence).complement())
+
+
+def biopython_seqs(sequences):
+    return [Seq(seq, IUPAC.unambiguous_dna) for seq in sequences]
+
+
+def check_seq_correct(seqs):
+    pwm_length = len(seqs[0])
+    for seq in seqs:
+        if not Alphabet._verify_alphabet(seq):
+            raise ValueError("Seq contains letter not from Alphabet")
+        if len(seq) != pwm_length:
+            raise ValueError("Seqs length differ")
