@@ -1,0 +1,3 @@
+# for get best matching sequences from excel file results (last column if exists)
+# example:
+awk '{print $NF}' mm10_500_excel.txt | sed "/repeatMasking=none]/d" > mm10_500_best_matches.txt
