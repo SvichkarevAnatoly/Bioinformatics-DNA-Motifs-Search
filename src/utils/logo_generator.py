@@ -43,7 +43,7 @@ def create_parser():
                        help="file with PWM.")
     parser.add_argument("-o", "--output", required=True,
                         dest="output", type=argparse.FileType('w'),
-                        help="output file with logo")
+                        help="output file with logo in vector SVG format")
 
     return parser
 
