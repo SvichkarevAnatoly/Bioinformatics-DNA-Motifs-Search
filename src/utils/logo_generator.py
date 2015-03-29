@@ -58,7 +58,9 @@ def process(args):
 
 
 def save(result, args):
-    result.weblogo(args.output.name, format='SVG')
+    result.weblogo(args.output.name,
+                   format='SVG',
+                   color_scheme='color_classic')
 
 
 def main():
