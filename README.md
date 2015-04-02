@@ -1,6 +1,6 @@
 # Bioinformatics-DNA-Motifs-Search
 ## Requirements
-+ Recommend using [Python 2.7](http://www.python.org).
++ [Python 2.7](http://www.python.org).
 + [Biopython](http://biopython.org/)
 + [MOODS](http://www.cs.helsinki.fi/group/pssmfind/)
 
