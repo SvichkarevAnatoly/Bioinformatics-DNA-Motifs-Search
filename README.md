@@ -85,7 +85,7 @@
       -o [OUTPUT], --output [OUTPUT]
                             output file with PWM
 
-#### usage: logo_generator.py [-h] (-s SEQS | -p PWM) -o OUTPUT
+#### usage: logo_generator.py \[-h] (-s SEQS | -p PWM) -o OUTPUT
 
     Create sequence logo from sequences
     
