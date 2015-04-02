@@ -12,7 +12,7 @@
 + [logo_generator.py](#usage-logo_generatorpy--h--s-seqs---p-pwm--o-output)
 
 ## Usage
-#### usage: bed_center_extender.py [-h] [-l LENGTH] [-o OUTFILE] bedfile
+#### usage: bed_center_extender.py \[-h] \[-l LENGTH] \[-o OUTFILE] bedfile
 
     Resulting intervals in the input file to the same length
 
@@ -28,7 +28,7 @@
     -o OUTFILE, --output OUTFILE
                         output file with extended bed format intervals
 
-#### usage: pattern_matching.py [-h] [-o [OUTPUT]] [-tf TF [TF ...]] [-th THRESHOLD] [-rc] [-b] [-e] fasta pwm
+#### usage: pattern_matching.py \[-h] \[-o \[OUTPUT]] \[-tf TF \[TF ...]] \[-th THRESHOLD] \[-rc] \[-b] \[-e] fasta pwm
     
     Matching position weight matrices (PWM) against DNA sequences
     
@@ -56,7 +56,7 @@
       -e, --excel           For saving results in easy paste to excel format.
                             Default human readable format.
                             
-#### usage: excel_ucsc_ids_to_bed_order.py [-h] [-b [BED]] [-o [OUTPUT]] excel
+#### usage: excel_ucsc_ids_to_bed_order.py \[-h] \[-b \[BED]] \[-o \[OUTPUT]] excel
     
     Converting matching results in plain text excel format in bed file orders
     
@@ -72,7 +72,7 @@
                             output file with formatted matching results. Default
                             stdout.
                             
-#### usage: pwm_generator.py [-h] [-o [OUTPUT]] seqs
+#### usage: pwm_generator.py \[-h] \[-o \[OUTPUT]] seqs
 
     Create position weight matrices (PWM) from DNA sequences
     
