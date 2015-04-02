@@ -9,7 +9,7 @@
 + [pattern_matching.py](#usage-pattern_matchingpy--h--o-output--tf-tf-tf---th-threshold--rc--b--e-fasta-pwm-pattern_matching)
 + [excel_ucsc_ids_to_bed_order.py](#usage-excel_ucsc_ids_to_bed_orderpy--h--b-bed--o-output-excel)
 + [pwm_generator.py](#usage-pwm_generatorpy--h--o-output-seqs)
-+ [logo_generator.py](#usage-logo_generatorpy--h--o-output)
++ [logo_generator.py](#usage-logo_generatorpy--h--s-seqs---p-pwm--o-output)
 
 ## Usage
 #### usage: bed_center_extender.py [-h] [-l LENGTH] [-o OUTFILE] bedfile
