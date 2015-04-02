@@ -1,15 +1,15 @@
 # Bioinformatics-DNA-Motifs-Search
 ## Requirements
-+ [Python 2.7](http://www.python.org).
++ [Python 2.7](http://www.python.org)
 + [Biopython](http://biopython.org/)
 + [MOODS](http://www.cs.helsinki.fi/group/pssmfind/)
 
 ## Contain utilities
-+ bed_center_extender.py
-+ pattern_matching.py
-+ excel_ucsc_ids_to_bed_order.py
-+ pwm_generator.py
-+ logo_generator.py
++ [bed_center_extender.py](#usage:-bed_center_extender.py-[-h]-[-l-length]-[-o-outfile]-bedfile)
++ [pattern_matching.py](pattern_matching)
++ [excel_ucsc_ids_to_bed_order.py]()
++ [pwm_generator.py]()
++ [logo_generator.py]()
 
 ## Usage
 ### usage: bed_center_extender.py [-h] [-l LENGTH] [-o OUTFILE] bedfile
@@ -28,7 +28,7 @@
     -o OUTFILE, --output OUTFILE
                         output file with extended bed format intervals
 
-### usage: pattern_matching.py [-h] [-o [OUTPUT]] [-tf TF [TF ...]] [-th THRESHOLD] [-rc] [-b] [-e] fasta pwm
+### usage: pattern_matching.py [-h] [-o [OUTPUT]] [-tf TF [TF ...]] [-th THRESHOLD] [-rc] [-b] [-e] fasta pwm [pattern_matching]
     
     Matching position weight matrices (PWM) against DNA sequences
     
