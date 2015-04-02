@@ -6,7 +6,7 @@
 
 ## Contain utilities
 + [bed_center_extender.py](#usage-bed_center_extenderpy--h--l-length--o-outfile-bedfile)
-+ [pattern_matching.py](#usage-pattern_matchingpy--h--o-output--tf-tf-tf---th-threshold--rc--b--e-fasta-pwm-pattern_matching)
++ [pattern_matching.py](#usage-pattern_matchingpy--h--o-output--tf-tf-tf---th-threshold--rc--b--e-fasta-pwm)
 + [excel_ucsc_ids_to_bed_order.py](#usage-excel_ucsc_ids_to_bed_orderpy--h--b-bed--o-output-excel)
 + [pwm_generator.py](#usage-pwm_generatorpy--h--o-output-seqs)
 + [logo_generator.py](#usage-logo_generatorpy--h--s-seqs---p-pwm--o-output)
