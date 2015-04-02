@@ -77,3 +77,15 @@
       -h, --help            show this help message and exit
       -o [OUTPUT], --output [OUTPUT]
                             output file with PWM
+
+#### usage: logo_generator.py [-h] (-s SEQS | -p PWM) -o OUTPUT
+
+    Create sequence logo from sequences
+    
+    optional arguments:
+      -h, --help            show this help message and exit
+      -s SEQS, --seqs SEQS  file with DNA sequences same length. One sequence in
+                            on line
+      -p PWM, --pwm PWM     file with PWM.
+      -o OUTPUT, --output OUTPUT
+                            output file with logo in vector SVG format
