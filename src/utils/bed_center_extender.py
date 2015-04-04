@@ -8,7 +8,8 @@ import lib
 
 
 def create_parser():
-    parser = argparse.ArgumentParser(description="Resulting intervals in the input file to the same length")
+    parser = argparse.ArgumentParser(
+        description="Central extension each interval of the specified file to the same length")
     parser.add_argument("bedfile", type=argparse.FileType('r'), help="file with bed format intervals")
     parser.add_argument("-l", "--length", dest="length", type=int,
                         help="common extended length. "

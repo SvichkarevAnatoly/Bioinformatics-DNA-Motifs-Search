@@ -14,7 +14,7 @@
 ## Usage
 #### usage: bed_center_extender.py \[-h] \[-l LENGTH] \[-o OUTFILE] bedfile
 
-    Resulting intervals in the input file to the same length
+    Central extension each interval of the specified file to the same length
 
     positional arguments:
     bedfile               file with bed format intervals
