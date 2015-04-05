@@ -1,6 +1,9 @@
-language: python
+language:
+  - python
+
 python:
   - "2.7"
+
 # command to install dependencies
 install:
   - wget -c http://www.cs.helsinki.fi/group/pssmfind/MOODS-1.0.2.1.tar.gz
@@ -10,17 +13,18 @@ install:
   - cd ../python
   - python setup.py install
 
-#  - wget -c http://downloads.sourceforge.net/project/numpy/NumPy/1.9.2/numpy-1.9.2.tar.gz
-#  - tar -zxvf numpy-1.9.2.tar.gz
-#  - cd numpy-1.9.2/
-#  - python setup.py build
-#  - python setup.py install
+# - wget -c http://downloads.sourceforge.net/project/numpy/NumPy/1.9.2/numpy-1.9.2.tar.gz
+# - tar -zxvf numpy-1.9.2.tar.gz
+# - cd numpy-1.9.2/
+# - python setup.py build
+# - python setup.py install
 
-# need sudo
+# need sudo (maybe)
   - easy_install -f http://biopython.org/DIST/ biopython
 
 # command to run tests
 script:
   - python -m unittest discover
+
 notifications:
   email: false
