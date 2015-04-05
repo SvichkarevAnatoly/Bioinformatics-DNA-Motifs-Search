@@ -9,6 +9,13 @@ install:
   - make
   - cd ../python
   - python setup.py install
+
+#  - wget -c http://downloads.sourceforge.net/project/numpy/NumPy/1.9.2/numpy-1.9.2.tar.gz
+#  - tar -zxvf numpy-1.9.2.tar.gz
+#  - cd numpy-1.9.2/
+#  - python setup.py build
+#  - python setup.py install
+
 # command to run tests
 script:
   - python -m unittest discover
