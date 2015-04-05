@@ -9,9 +9,9 @@ import suite
 import utils.pattern_matching as pm
 
 
-TEST_FASTA_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/fasta.fa")
-TEST_PWM_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/pwms_transfac.dat")
-TEST_OUT_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/output.dat")
+TEST_FASTA_FILENAME = os.path.join(os.path.dirname(__file__), "../data_samples/fasta.fa")
+TEST_PWM_FILENAME = os.path.join(os.path.dirname(__file__), "../data_samples/transfac.dat")
+TEST_OUT_FILENAME = os.path.join(os.path.dirname(__file__), "../data_samples/output.dat")
 
 
 class Test(unittest.TestCase):

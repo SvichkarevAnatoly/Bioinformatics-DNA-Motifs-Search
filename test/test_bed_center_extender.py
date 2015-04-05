@@ -5,7 +5,7 @@ import cStringIO
 import utils.bed_center_extender as bce
 
 
-TEST_DATA_FILENAME = os.path.join(os.path.dirname(__file__), "test_data/bed_file.bed")
+TEST_DATA_FILENAME = os.path.join(os.path.dirname(__file__), "../data_samples/bed_file.bed")
 
 
 class Test(unittest.TestCase):
