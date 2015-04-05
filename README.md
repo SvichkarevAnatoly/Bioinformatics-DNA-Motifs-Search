@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/SvichkarevAnatoly/Bioinformatics-DNA-Motifs-Search.svg?branch=master)](https://travis-ci.org/SvichkarevAnatoly/Bioinformatics-DNA-Motifs-Search)
+
 # Bioinformatics-DNA-Motifs-Search
 ## Requirements
 + [Python 2.7](http://www.python.org)
