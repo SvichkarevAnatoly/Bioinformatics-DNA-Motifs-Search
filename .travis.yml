@@ -16,6 +16,9 @@ install:
 #  - python setup.py build
 #  - python setup.py install
 
+# need sudo
+  - easy_install -f http://biopython.org/DIST/ biopython
+
 # command to run tests
 script:
   - python -m unittest discover
