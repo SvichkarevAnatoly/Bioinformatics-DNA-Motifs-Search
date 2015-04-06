@@ -6,8 +6,7 @@ python:
 
 # command to install dependencies
 install:
-  - wget -c http://www.cs.helsinki.fi/group/pssmfind/MOODS-1.0.2.1.tar.gz
-  - tar xzvf MOODS-1.0.2.1.tar.gz
+  - git clone https://github.com/jhkorhonen/MOODS.git
   - make -C MOODS/src/
   - cd MOODS/python
   - python setup.py install
