@@ -23,9 +23,6 @@ install:
 # need sudo (maybe)
   - easy_install -f http://biopython.org/DIST/ biopython
 
-  - ls
-  - dir
-
 # command to run tests
 script:
   - python -m unittest discover
