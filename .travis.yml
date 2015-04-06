@@ -13,13 +13,6 @@ install:
   - python setup.py install
   - cd ../..
 
-# - wget -c http://downloads.sourceforge.net/project/numpy/NumPy/1.9.2/numpy-1.9.2.tar.gz
-# - tar -zxvf numpy-1.9.2.tar.gz
-# - cd numpy-1.9.2/
-# - python setup.py build
-# - python setup.py install
-
-# need sudo (maybe)
   - easy_install -f http://biopython.org/DIST/ biopython
 
 # command to run tests
