@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/SvichkarevAnatoly/Bioinformatics-DNA-Motifs-Search.svg?branch=master)](https://travis-ci.org/SvichkarevAnatoly/Bioinformatics-DNA-Motifs-Search)
+[![Code Health](https://landscape.io/github/SvichkarevAnatoly/Bioinformatics-DNA-Motifs-Search/master/landscape.svg?style=flat)](https://landscape.io/github/SvichkarevAnatoly/Bioinformatics-DNA-Motifs-Search/master)
 
 # Bioinformatics-DNA-Motifs-Search
 ## Requirements
