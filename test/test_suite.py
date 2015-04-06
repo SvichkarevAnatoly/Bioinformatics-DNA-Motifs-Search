@@ -3,7 +3,7 @@ import unittest
 import suite
 
 
-class TestLib(unittest.TestCase):
+class Test(unittest.TestCase):
     def test_nucleotide_to_index(self):
         self.assertEqual(0, suite.to_ind('A'))
         self.assertEqual(1, suite.to_ind('C'))

@@ -6,7 +6,7 @@ from Bio import motifs
 import src.lib as lib
 
 
-class TestLib(unittest.TestCase):
+class Test(unittest.TestCase):
     @classmethod
     def get_pwm_records(cls):
         pwms_str = '\n'.join([
