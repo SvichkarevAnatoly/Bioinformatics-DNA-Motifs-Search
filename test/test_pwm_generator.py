@@ -1,6 +1,10 @@
 from argparse import Namespace
+import os
 import unittest
 import cStringIO
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '../src'))
 import lib
 
 import suite

@@ -2,9 +2,13 @@ import os
 import unittest
 import cStringIO
 import sys
+
 import MOODS
 
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '../src'))
 import lib
+
 import suite
 import utils.pattern_matching as pm
 
@@ -21,25 +25,25 @@ class Test(unittest.TestCase):
         cls.parser = pm.create_parser()
         cls.seq_search_result = cls.create_seq_search_result()
         cls.pwm_matrix_ctcf = [
-            [ 65, 161,  41, 277],  # 1
-            [113,  82, 257,  92],  # 2
-            [175,  22, 269,  78],  # 3
-            [ 32, 481,  14,  17],  # 4
-            [  0, 544,   0,   0],  # 5
-            [437,   3,  39,  65],  # 6
-            [ 17, 304, 216,   7],  # 7
-            [ 62, 278,  22, 182],  # 8
-            [520,   0,  15,   9],  # 9
-            [  0,   0, 544,   0],  # 10
-            [220,   3, 318,   3],  # 11
-            [ 33,   6, 300, 205],  # 12
-            [  5,   0, 536,   3],  # 13
-            [ 42,   2, 464,  36],  # 14
-            [ 58, 441,   1,  44],  # 15
-            [230,   4, 298,  12],  # 16
-            [ 47, 298, 175,  24],  # 17
-            [ 72, 205,  41, 226],  # 18
-            [248,  98, 168,  30]   # 19
+            [65, 161, 41, 277],  # 1
+            [113, 82, 257, 92],  # 2
+            [175, 22, 269, 78],  # 3
+            [32, 481, 14, 17],  # 4
+            [0, 544, 0, 0],  # 5
+            [437, 3, 39, 65],  # 6
+            [17, 304, 216, 7],  # 7
+            [62, 278, 22, 182],  # 8
+            [520, 0, 15, 9],  # 9
+            [0, 0, 544, 0],  # 10
+            [220, 3, 318, 3],  # 11
+            [33, 6, 300, 205],  # 12
+            [5, 0, 536, 3],  # 13
+            [42, 2, 464, 36],  # 14
+            [58, 441, 1, 44],  # 15
+            [230, 4, 298, 12],  # 16
+            [47, 298, 175, 24],  # 17
+            [72, 205, 41, 226],  # 18
+            [248, 98, 168, 30]  # 19
         ]
 
     @classmethod
@@ -353,8 +357,8 @@ class Test(unittest.TestCase):
     def test_direct_MOODS_scores(self):
         pwm_matrix = [
             [100, 200, 300, 400],  # 1
-            [ 10,  20,  30,  40],  # 2
-            [  1,   2,   3,   4],  # 3
+            [10, 20, 30, 40],  # 2
+            [1, 2, 3, 4],  # 3
         ]
         tf_name = "CTCF"
         pwm_str = suite.generate_pwm_str(tf_name, pwm_matrix)
@@ -372,8 +376,8 @@ class Test(unittest.TestCase):
     def test_reverse_complement_MOODS_scores(self):
         pwm_matrix = [
             [100, 200, 300, 400],  # 1
-            [ 10,  20,  30,  40],  # 2
-            [  1,   2,   3,   4],  # 3
+            [10, 20, 30, 40],  # 2
+            [1, 2, 3, 4],  # 3
         ]
         tf_name = "CTCF"
         pwm_str = suite.generate_pwm_str(tf_name, pwm_matrix)

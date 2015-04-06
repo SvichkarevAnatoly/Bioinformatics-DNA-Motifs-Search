@@ -1,9 +1,10 @@
 import os
 import unittest
 import cStringIO
+import sys
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '../src'))
 import utils.bed_center_extender as bce
-
 
 TEST_DATA_FILENAME = os.path.join(os.path.dirname(__file__), "../data_samples/bed_file.bed")
 
@@ -103,6 +104,7 @@ class Test(unittest.TestCase):
             ["chr2", 2000, 3000]
         ]
         self.assertItemsEqual(expected_interval_list, interval_param_list)
+
 
 if __name__ == "__main__":
     unittest.main()
