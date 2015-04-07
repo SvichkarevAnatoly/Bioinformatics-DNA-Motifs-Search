@@ -5,6 +5,9 @@ python:
   - "2.7"
   - "pypy"
 
+before_install:
+  - pip install codecov
+
 # command to install dependencies
 install:
   - git clone https://github.com/jhkorhonen/MOODS.git
@@ -18,6 +21,9 @@ install:
 # command to run tests
 script:
   - python -m unittest discover -bv
+
+after_success:
+  - codecov
 
 notifications:
   email: false
