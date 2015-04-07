@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/SvichkarevAnatoly/Bioinformatics-DNA-Motifs-Search.svg?branch=master)](https://travis-ci.org/SvichkarevAnatoly/Bioinformatics-DNA-Motifs-Search)
 [![codecov.io](https://codecov.io/github/SvichkarevAnatoly/Bioinformatics-DNA-Motifs-Search/coverage.svg?branch=master)](https://codecov.io/github/SvichkarevAnatoly/Bioinformatics-DNA-Motifs-Search?branch=master)
 [![Code Health](https://landscape.io/github/SvichkarevAnatoly/Bioinformatics-DNA-Motifs-Search/master/landscape.svg?style=flat)](https://landscape.io/github/SvichkarevAnatoly/Bioinformatics-DNA-Motifs-Search/master)
+[![Codacy Badge](https://www.codacy.com/project/badge/399de443bf424f1ab69bbb9e33ba844e)](https://www.codacy.com/app/svichkarev-anatoly/Bioinformatics-DNA-Motifs-Search)
 
 # Bioinformatics-DNA-Motifs-Search
 ## Requirements
