@@ -5,9 +5,22 @@
 
 # Bioinformatics-DNA-Motifs-Search
 ## Requirements
-+ [Python 2.7](http://www.python.org)
 + [Biopython](http://biopython.org/)
 + [MOODS](http://www.cs.helsinki.fi/group/pssmfind/)
+
+## Quickstart (for Linux)
+
+Assuming git, [Python 2.7](http://www.python.org) installed:
+
+```bash
+git clone https://github.com/jhkorhonen/MOODS.git
+cd MOODS/src
+make
+cd ../python
+python setup.py install
+pip install biopython
+cd path/to/Bioinformatics-DNA-Motifs-Search/src/utils
+```
 
 ## Contain utilities
 + [bed_center_extender.py](#usage-bed_center_extenderpy--h--l-length--o-outfile-bedfile)
