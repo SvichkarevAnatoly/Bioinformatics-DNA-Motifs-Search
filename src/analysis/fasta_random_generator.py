@@ -28,8 +28,7 @@ def to_nucleotide(number):
             3: 'T'}[number]
 
 
-def process(args):
-    fasta_seqs = []
+def save(args):
     for i in range(args.number):
         seq = ""
         for j in range(args.length):
@@ -37,19 +36,15 @@ def process(args):
 
         id = "seq" + str(i)
         seq = Seq(seq)
-        fasta_seqs.append(SeqRecord(seq, id, description=""))
-    return fasta_seqs
+        seq_record = SeqRecord(seq, id, description="")
 
-
-def save(result, args):
-    SeqIO.write(result, args.output, "fasta")
+        SeqIO.write(seq_record, args.output, "fasta")
 
 
 def main():
     parser = create_parser()
     args = parser.parse_args()
-    result = process(args)
-    save(result, args)
+    save(args)
     args.output.close()
 
 
