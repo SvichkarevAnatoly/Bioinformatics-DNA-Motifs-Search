@@ -1,14 +1,11 @@
 import argparse
-import os
+import random
 from signal import signal, SIGPIPE, SIG_DFL
 import sys
 
-from Bio.Alphabet import IUPAC
+from Bio import SeqIO
 from Bio.Seq import Seq
-from Bio import motifs
-
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-import lib
+from Bio.SeqRecord import SeqRecord
 
 
 def create_parser():
@@ -24,12 +21,28 @@ def create_parser():
     return parser
 
 
+def to_nucleotide(number):
+    return {0: 'A',
+            1: 'C',
+            2: 'G',
+            3: 'T'}[number]
+
+
 def process(args):
-    return None
+    fasta_seqs = []
+    for i in range(args.number):
+        seq = ""
+        for j in range(args.length):
+            seq += to_nucleotide(random.randrange(4))
+
+        id = "seq" + str(i)
+        seq = Seq(seq)
+        fasta_seqs.append(SeqRecord(seq, id, description=""))
+    return fasta_seqs
 
 
 def save(result, args):
-    pass
+    SeqIO.write(result, args.output, "fasta")
 
 
 def main():
