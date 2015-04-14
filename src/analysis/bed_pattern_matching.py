@@ -5,6 +5,7 @@ from signal import signal, SIGPIPE, SIG_DFL
 
 from Bio import SeqIO
 import Bio.motifs as motifs
+from bbcflib.track import track
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 import lib
@@ -69,6 +70,23 @@ class ReadPWMAction(argparse.Action):
         setattr(args, self.dest, pwm_records)
 
 
+class ReadBedAction(argparse.Action):
+    def __call__(self, parser, args, bed_handler, option_string=None):
+        bed_handler.close()
+        all_bed_fields = ['chrom', 'chromStart', 'chromEnd',
+                          'c1', 'c2', 'c3', 'c4', 'c5', 'c6',
+                          'peakName']
+        select_fields = ['chrom', 'chromStart', 'chromEnd', 'peakName']
+
+        t = track(bed_handler.name, format='txt',
+                  separator='\t', fields=all_bed_fields)
+
+        bed_peaks = t.read(fields=select_fields)
+        t.close()
+
+        setattr(args, self.dest, bed_peaks)
+
+
 class UpperCaseAction(argparse.Action):
     def __call__(self, parser, args, tf_names, option_string=None):
         tf_names = [val.upper() for val in tf_names]
@@ -83,6 +101,10 @@ def create_parser():
     parser.add_argument("pwm", type=argparse.FileType('r'),
                         action=ReadPWMAction,
                         help="file with position weight matrices (PWM)")
+    parser.add_argument("bed", type=argparse.FileType('r'),
+                        action=ReadBedAction,
+                        help="bed file with peaks")
+
     parser.add_argument("-o", "--output", nargs='?', dest="output",
                         type=argparse.FileType('w'), default=sys.stdout,
                         help="output file with matching results. "
