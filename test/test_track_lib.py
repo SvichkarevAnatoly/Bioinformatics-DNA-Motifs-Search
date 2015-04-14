@@ -11,10 +11,10 @@ class Test(unittest.TestCase):
     def setUpClass(cls):
         cls.bed_file_path = os.path.join(
             os.path.dirname(__file__),
-            "../data_samples/analysis/csv_like.bed")
+            "../data_samples/analysis/in.bed")
         cls.bed_out_file_path = os.path.join(
             os.path.dirname(__file__),
-            "../data_samples/analysis/csv_like_out.bed")
+            "../data_samples/analysis/out.bed")
 
         cls.bed_fields = ['chrom', 'chromStart', 'chromEnd',
                           'c1', 'c2', 'c3', 'c4', 'c5', 'c6',
