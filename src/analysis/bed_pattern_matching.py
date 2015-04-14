@@ -121,9 +121,8 @@ def create_parser():
                              "negative. The actual hit site for any hit is always "
                              "seq[pos, pos + matrix_length]. "
                              "Default False.")
-    parser.add_argument("-e", "--excel", dest="excel", action="store_true", default=False,
-                        help="For saving results in easy paste to excel format. "
-                             "Default human readable format.")
+    parser.add_argument("-c", "--constriction", dest="constriction", type=int, default=100,
+                        help="Distance at which peak-caller MACS (MACS and 2) expands the boundaries of localization.")
     return parser
 
 
