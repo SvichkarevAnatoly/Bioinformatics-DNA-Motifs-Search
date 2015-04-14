@@ -9,6 +9,7 @@ python:
 install:
   - pip install codecov
 
+  # install MOODS
   - git clone https://github.com/jhkorhonen/MOODS.git
   - make -C MOODS/src/
   - cd MOODS/python
@@ -16,6 +17,12 @@ install:
   - cd ../..
 
   - pip install biopython
+
+  # install bbcflib
+  - git clone https://github.com/bbcf/bbcflib.git
+  - cd bbcflib/
+  - python setup.py install
+  - cd ..
 
 # command to run tests
 script:
