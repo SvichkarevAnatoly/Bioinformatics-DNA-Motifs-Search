@@ -31,12 +31,12 @@ def to_nucleotide(number):
 def save(args):
     for i in range(args.number):
         seq = ""
-        for j in range(args.length):
+        for _ in range(args.length):
             seq += to_nucleotide(random.randrange(4))
 
-        id = "seq" + str(i)
+        id_name = "seq" + str(i)
         seq = Seq(seq)
-        seq_record = SeqRecord(seq, id, description="")
+        seq_record = SeqRecord(seq, id_name, description="")
 
         SeqIO.write(seq_record, args.output, "fasta")
 
