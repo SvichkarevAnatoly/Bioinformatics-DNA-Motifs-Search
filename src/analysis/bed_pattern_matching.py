@@ -122,7 +122,9 @@ def create_parser():
                              "seq[pos, pos + matrix_length]. "
                              "Default False.")
     parser.add_argument("-c", "--constriction", dest="constriction", type=int, default=100,
-                        help="Distance at which peak-caller MACS (MACS and 2) expands the boundaries of localization.")
+                        help="Distance at which peak-caller MACS (and MACS2) "
+                             "expands the boundaries of localization. "
+                             "Default 100.")
     return parser
 
 
