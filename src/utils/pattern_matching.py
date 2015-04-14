@@ -138,7 +138,7 @@ def save_excel(result, args):
                 args.output.write('\t\t')
                 continue
 
-            positions = [pos for pos, score in matches_tf]
+            positions = [pos for pos, _ in matches_tf]
             positions_str = lib.get_join_position_str(positions, seq_length)
 
             best_match = seq_result.best_match(tf)
