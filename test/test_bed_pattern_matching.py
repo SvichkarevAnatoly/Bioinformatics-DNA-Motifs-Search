@@ -1,5 +1,6 @@
 import os
 import unittest
+import sys
 
 import analysis.bed_pattern_matching as bpm
 
@@ -27,9 +28,13 @@ class Test(unittest.TestCase):
             "-tf", "Sox2",
             "-th", "0.8",
             "-rc",
-            "-c"
+            "-c", "100"
         ])
-        # TODO
+        self.assertEqual(sys.stdout, args.output)
+        self.assertEqual(["SOX2"], args.tf)
+        self.assertEqual(0.8, args.threshold)
+        self.assertTrue(args.reverse_complement)
+        self.assertEquals(100, args.constriction)
 
     def test_read_bed_file(self):
         args = self.parser.parse_args([
