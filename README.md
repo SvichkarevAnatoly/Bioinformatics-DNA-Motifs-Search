@@ -49,7 +49,7 @@ cd path/to/Bioinformatics-DNA-Motifs-Search/src/utils
 
 #### usage: pattern_matching.py \[-h] \[-o \[OUTPUT]] \[-tf TF \[TF ...]] \[-th THRESHOLD] \[-rc] \[-b] \[-e] fasta pwm
     
-    Matching position weight matrices (PWM) against DNA sequences
+    Matching position frequency matrices (PFM) against DNA sequences
     
     positional arguments:
       fasta                 fasta file with DNA sequences

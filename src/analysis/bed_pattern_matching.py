@@ -76,7 +76,7 @@ class UpperCaseAction(argparse.Action):
 
 
 def create_parser():
-    parser = argparse.ArgumentParser(description="Matching position weight matrices (PWM) against DNA sequences")
+    parser = argparse.ArgumentParser(description="Matching position frequency matrices (PFM) against DNA sequences")
     parser.add_argument("fasta", type=argparse.FileType('r'),
                         action=ReadFastaAction,
                         help="fasta file with DNA sequences")
