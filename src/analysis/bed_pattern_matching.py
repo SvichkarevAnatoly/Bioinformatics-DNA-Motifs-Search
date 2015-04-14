@@ -72,17 +72,14 @@ class ReadPWMAction(argparse.Action):
 
 class ReadBedAction(argparse.Action):
     def __call__(self, parser, args, bed_handler, option_string=None):
-        bed_handler.close()
         all_bed_fields = ['chrom', 'chromStart', 'chromEnd',
                           'c1', 'c2', 'c3', 'c4', 'c5', 'c6',
                           'peakName']
         select_fields = ['chrom', 'chromStart', 'chromEnd', 'peakName']
 
-        t = track(bed_handler.name, format='txt',
-                  separator='\t', fields=all_bed_fields)
-
-        bed_peaks = t.read(fields=select_fields)
-        t.close()
+        with track(bed_handler.name, format='txt',
+                   separator='\t', fields=all_bed_fields) as t:
+            bed_peaks = t.read(fields=select_fields)
 
         setattr(args, self.dest, bed_peaks)
 
