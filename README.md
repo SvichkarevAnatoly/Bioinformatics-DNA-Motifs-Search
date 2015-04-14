@@ -7,6 +7,7 @@
 ## Requirements
 + [Biopython](http://biopython.org/)
 + [MOODS](http://www.cs.helsinki.fi/group/pssmfind/)
++ [bbcflib](https://github.com/bbcf/bbcflib)
 
 ## Quickstart (for Linux)
 
