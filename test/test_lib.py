@@ -154,7 +154,7 @@ class Test(unittest.TestCase):
         self.assertEqual(expected_matrix2_pos, matrix2_pos)
 
     def test_get_pwm_ids(self):
-        actual_pwm_ids = lib.get_pwm_ids(self.pwm_records)
+        actual_pwm_ids = lib.get_pwm_id_names(self.pwm_records)
         expected_pwm_ids = ["MOTIF1", "MOTIF2"]
         self.assertEquals(expected_pwm_ids, actual_pwm_ids)
 

@@ -66,12 +66,12 @@ def create_output_file_name(input_file_name):
     return os.path.join(path, basename_part_list[0] + '_out' + basename_part_list[1])
 
 
-def get_pwm_ids(pwm_records):
+def get_pwm_id_names(pwm_records):
     return [pwm['ID'].upper() for pwm in pwm_records]
 
 
 def filter_pwms_in_tfs(pwms, tf_names):
-    pwm_ids = [id.upper() for id in get_pwm_ids(pwms)]
+    pwm_ids = [pwm_name.upper() for pwm_name in get_pwm_id_names(pwms)]
     tfs_set = set(tf_names)
     intersection = tfs_set & set(pwm_ids)
     if tfs_set == intersection:

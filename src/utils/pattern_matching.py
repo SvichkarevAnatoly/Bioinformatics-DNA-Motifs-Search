@@ -110,7 +110,7 @@ def create_parser():
 
 def process(args):
     if args.tf is None:
-        args.tf = lib.get_pwm_ids(args.pwm)
+        args.tf = lib.get_pwm_id_names(args.pwm)
 
     pwms = lib.filter_pwms_in_tfs(args.pwm, args.tf)
     matrices = lib.create_matrices_from_pwms(pwms, args.tf)
