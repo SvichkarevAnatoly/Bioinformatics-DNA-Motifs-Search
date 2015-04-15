@@ -171,7 +171,7 @@ def save(result, args):
             for match in matches_tf:
                 match_info = list(general_info)
                 score = match[1] / max_score_tf
-                match_info.append(score)
+                match_info.append("%.11f" % score)
                 pos = match[0]
                 if pos >= 0:
                     match_info.append('+')

@@ -76,11 +76,11 @@ class Test(unittest.TestCase):
             "chr1\t4736010\t4736158\tZ4_Sox2_peak_1\t0.70354024753\t-\t111\t119\t0\tCTATTGAT",
             "chr1\t4736010\t4736158\tZ4_Sox2_peak_1\t0.70354024753\t-\t128\t136\t0\tCCAGTATT",
             "chr1\t5223047\t5223196\tZ4_Sox2_peak_2\t0.71678019764\t+\t14\t22\t0\tCTTCTGTT",
-            "chr1\t5223047\t5223196\tZ4_Sox2_peak_2\t1.0\t+\t27\t35\t0\tCCTTTGTT",
+            "chr1\t5223047\t5223196\tZ4_Sox2_peak_2\t1.00000000000\t+\t27\t35\t0\tCCTTTGTT",
             "chr1\t5223047\t5223196\tZ4_Sox2_peak_2\t0.85839009882\t+\t41\t49\t0\tCCTTTGCT",
             "chr1\t5223047\t5223196\tZ4_Sox2_peak_2\t0.70354024753\t-\t6\t14\t0\tTCAGTGTT",
             "chr1\t5223047\t5223196\tZ4_Sox2_peak_2\t0.85839009882\t-\t94\t102\t0\tCTTTTGTT",
-            "chr1\t5223047\t5223196\tZ4_Sox2_peak_2\t0.967283891394\t-\t107\t115\t0\tCCTTTGTC",
+            "chr1\t5223047\t5223196\tZ4_Sox2_peak_2\t0.96728389139\t-\t107\t115\t0\tCCTTTGTC",
             "chr1\t5223047\t5223196\tZ4_Sox2_peak_2\t0.71678019764\t-\t126\t134\t0\tCCTCTGGT"
         ]) + '\n'
         self.assertEqual(expected_contents, actual_file_contents)
