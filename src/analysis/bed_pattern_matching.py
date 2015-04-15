@@ -214,6 +214,16 @@ def save(result, args):
                 match_info.append(local_pos + tf_length)
 
                 filtered = check_filtered(match, best_matches, seq_length, tf_length, args.constriction)
+                if args.output_compact is not None:
+                    if filtered == 1:
+                        compact_match_info = list(match_info[:6])
+                        start_peak = int(compact_match_info[1])
+                        start_bs = int(match_info[6])
+                        compact_match_info[1] = start_peak + start_bs
+                        compact_match_info[2] = compact_match_info[1] + tf_length
+                        compact_match_line = '\t'.join(map(str, compact_match_info))
+                        args.output_compact.write(compact_match_line + '\n')
+
                 match_info.append(filtered)
 
                 predicted_site_seq = seq_result.match_subseq(match[0], tf, 0)
