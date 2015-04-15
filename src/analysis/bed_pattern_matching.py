@@ -13,9 +13,10 @@ import lib
 
 
 class SeqSearchResults(object):
-    def __init__(self, seq_name, sequence, tf_names, tf_lengths):
+    def __init__(self, seq_name, sequence, peak, tf_names, tf_lengths):
         self.seq_name = seq_name
         self.sequence = sequence
+        self.peak = peak
         self.tfs = tf_names
         self.tf_length_dict = {tf: length for tf, length in zip(tf_names, tf_lengths)}
         self.tf_dict = {tf: [] for tf in tf_names}
@@ -145,7 +146,7 @@ def process(args):
         sequence = str(seq.seq)
         matches = lib.search_motif(sequence, matrices, args.threshold, args.reverse_complement)
 
-        seq_result = SeqSearchResults(seq.description, sequence, args.tf, tf_lengths)
+        seq_result = SeqSearchResults(seq.description, sequence, ("chr", 1, 5), args.tf, tf_lengths)
         seq_result.fill_matches(matches, max_scores)
 
         results.append(seq_result)
