@@ -182,7 +182,8 @@ def save(result, args):
     for seq_result in result:
         seq_length = len(seq_result.sequence)
         general_info = list(seq_result.peak)
-        general_info.append(seq_result.seq_name)
+        general_info.append(seq_result.seq_name + "_BS_")
+        bs_index = 1
         for tf in seq_result.tfs:
             matches_tf = seq_result.tf_dict[tf]
             if not matches_tf:
@@ -192,6 +193,9 @@ def save(result, args):
             best_matches = seq_result.best_matches(tf)
             for match in matches_tf:
                 match_info = list(general_info)
+                match_info[3] += str(bs_index)
+                bs_index += 1
+
                 score = match[1] / max_score_tf
                 match_info.append("%.5f" % score)
                 pos = match[0]
