@@ -27,14 +27,16 @@ class SeqSearchResults(object):
             self.tf_dict[tf] = matches[i]
             self.tf_max_scores_dict[tf] = max_scores[i]
 
-    def best_match(self, tf_name):
+    def best_matches(self, tf_name):
         tf_len = self.tf_length_dict[tf_name]
         matches = self.tf_dict[tf_name]
         half_seq_len = len(self.sequence) / 2
+        best_matches = []
         best_match = (0, sys.float_info.min)
         for match in matches:
             if match[1] > best_match[1]:
                 best_match = match
+                best_matches = [best_match]
             elif match[1] == best_match[1]:
                 match_pos = match[0] if match[0] >= 0 else match[0] + tf_len
                 best_match_pos = best_match[0] if best_match[0] >= 0 else best_match[0] + tf_len
@@ -42,7 +44,10 @@ class SeqSearchResults(object):
                 best_match_dist_to_center = abs(half_seq_len - (best_match_pos + tf_len / 2))
                 if match_dist_to_center < best_match_dist_to_center:
                     best_match = match
-        return best_match
+                    best_matches = [best_match]
+                elif match_dist_to_center == best_match_dist_to_center:
+                    best_matches.append(match)
+        return best_matches
 
     def match_subseq(self, pos, tf_name, delta):
         tf_len = self.tf_length_dict[tf_name]
