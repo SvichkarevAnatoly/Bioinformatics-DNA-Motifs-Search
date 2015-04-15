@@ -143,10 +143,14 @@ def process(args):
 
     results = []
     for seq in args.fasta:
+        peak = args.bed.next()
+        if peak[3] != seq.description:
+            raise Exception("seq header in fasta not equal to peak name in bed")
+
         sequence = str(seq.seq)
         matches = lib.search_motif(sequence, matrices, args.threshold, args.reverse_complement)
 
-        seq_result = SeqSearchResults(seq.description, sequence, ("chr", 1, 5), args.tf, tf_lengths)
+        seq_result = SeqSearchResults(seq.description, sequence, peak[0:3], args.tf, tf_lengths)
         seq_result.fill_matches(matches, max_scores)
 
         results.append(seq_result)
