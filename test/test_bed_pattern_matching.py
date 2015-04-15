@@ -119,5 +119,34 @@ class Test(unittest.TestCase):
         expected_best_match = matches[1:5]
         self.assertItemsEqual(expected_best_match, actual_best_match)
 
+    def test_check_filtered(self):
+        constriction = 100
+        tf_len = 8
+
+        match = (10, 6.0)
+        filtered = bpm.check_filtered(match, [match], 50, tf_len, constriction)
+        self.assertEquals(1, filtered)
+
+        filtered = bpm.check_filtered(match, [match], 250, tf_len, constriction)
+        self.assertEquals(0, filtered)
+
+        match = (100, 6.0)
+        filtered = bpm.check_filtered(match, [match], 250, tf_len, constriction)
+        self.assertEquals(1, filtered)
+
+        match = (142, 6.0)
+        filtered = bpm.check_filtered(match, [match], 250, tf_len, constriction)
+        self.assertEquals(0, filtered)
+
+        match = (141, 6.0)
+        filtered = bpm.check_filtered(match, [match], 250, tf_len, constriction)
+        self.assertEquals(1, filtered)
+
+        filtered = bpm.check_filtered(match, [(32, 4.0)], 250, tf_len, constriction)
+        self.assertEquals(0, filtered)
+
+        filtered = bpm.check_filtered(match, [(32, 4.0), match], 250, tf_len, constriction)
+        self.assertEquals(1, filtered)
+
 if __name__ == "__main__":
     unittest.main()
