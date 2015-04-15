@@ -158,6 +158,13 @@ def process(args):
 
 
 def save(result, args):
+    fields = [
+        "chrom", "chromStart", "chromEnd",
+        "name", "score", "strand",
+        "localStart", "localEnd", "filtered",
+        "predicted site sequence"
+    ]
+
     for seq_result in result:
         seq_length = len(seq_result.sequence)
         args.output.write('[' + seq_result.seq_name + ']')
