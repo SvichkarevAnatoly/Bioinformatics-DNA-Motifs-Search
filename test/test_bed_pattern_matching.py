@@ -85,5 +85,26 @@ class Test(unittest.TestCase):
         ]) + '\n'
         self.assertEqual(expected_contents, actual_file_contents)
 
+    def test_seq_search_results_best_matches(self):
+        tf_name = "NANOG"
+        seq_search_result = bpm.SeqSearchResults("", "", None, [tf_name], [3])
+        matches = [(3, 4.0), (1, 6.0), (-6, 3.0)]
+        seq_search_result.fill_matches([matches], [6])
+
+        actual_best_match = seq_search_result.best_matches(tf_name)
+        expected_best_match = [matches[1]]
+        self.assertEqual(expected_best_match, actual_best_match)
+
+    def test_seq_search_results_nearest_to_center_best_matches(self):
+        tf_name = "NANOG"
+        sequence = "AAAAAAAAAA"
+        seq_search_result = bpm.SeqSearchResults("", sequence, None, [tf_name], [3])
+        matches = [(3, 4.0), (1, 6.0), (-6, 3.0), (4, 6.0)]
+        seq_search_result.fill_matches([matches], [6])
+
+        actual_best_match = seq_search_result.best_matches(tf_name)
+        expected_best_match = [matches[3]]
+        self.assertEqual(expected_best_match, actual_best_match)
+
 if __name__ == "__main__":
     unittest.main()
