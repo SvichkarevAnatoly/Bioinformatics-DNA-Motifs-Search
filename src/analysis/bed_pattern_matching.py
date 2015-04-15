@@ -158,30 +158,38 @@ def process(args):
 
 
 def save(result, args):
-    fields = [
-        "chrom", "chromStart", "chromEnd",
-        "name", "score", "strand",
-        "localStart", "localEnd", "filtered",
-        "predicted site sequence"
-    ]
-
     for seq_result in result:
         seq_length = len(seq_result.sequence)
-        args.output.write('[' + seq_result.seq_name + ']')
+        general_info = list(seq_result.peak)
+        general_info.append(seq_result.seq_name)
         for tf in seq_result.tfs:
             matches_tf = seq_result.tf_dict[tf]
             if not matches_tf:
-                args.output.write('\t\t')
                 continue
+            tf_length = seq_result.tf_length_dict[tf]
+            max_score_tf = seq_result.tf_max_scores_dict[tf]
+            for match in matches_tf:
+                match_info = list(general_info)
+                score = match[1] / max_score_tf
+                match_info.append(score)
+                pos = match[0]
+                if pos >= 0:
+                    match_info.append('+')
+                else:
+                    match_info.append('-')
 
-            positions = [pos for pos, _ in matches_tf]
-            positions_str = lib.get_join_position_str(positions, seq_length)
+                local_pos = lib.local_pos(pos, seq_length)
+                match_info.append(local_pos)
+                match_info.append(local_pos + tf_length)
 
-            best_match = seq_result.best_match(tf)
-            best_subseq = seq_result.match_subseq(best_match[0], tf, 0)
+                # TODO
+                match_info.append(0)
 
-            args.output.write('\t' + positions_str + '\t' + best_subseq)
-        args.output.write('\n')
+                predicted_site_seq = seq_result.match_subseq(match[0], tf, 0)
+                match_info.append(predicted_site_seq)
+
+                match_line = '\t'.join(map(str, match_info))
+                args.output.write(match_line + '\n')
 
 
 def main():
