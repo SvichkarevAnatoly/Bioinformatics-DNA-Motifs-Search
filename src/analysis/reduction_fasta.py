@@ -43,7 +43,21 @@ def create_parser():
 
 
 def save(args):
-    pass
+    for peak in args.bed:
+        start = str(int(peak[1]) + 1)
+        range_interval = peak[0] + ':' + start + '-' + peak[2]
+        fasta_record = None
+        for fasta in args.fasta:
+            if range_interval in fasta.description:
+                fasta_record = fasta
+                break
+
+        if fasta_record is None:
+            raise Exception("fasta not found")
+
+        fasta_record.id = peak[3]
+        fasta_record.description = ""
+        SeqIO.write(fasta_record, args.output, "fasta")
 
 
 def main():
