@@ -115,8 +115,13 @@ def create_parser():
 
     parser.add_argument("-o", "--output", nargs='?', dest="output",
                         type=argparse.FileType('w'), default=sys.stdout,
-                        help="output file with matching results. "
+                        help="output bed file with extended matching results. "
                              "Default stdout.")
+    parser.add_argument("-oc", "--outcompact", nargs='?', dest="output_compact",
+                        type=argparse.FileType('w'), default=None,
+                        help="output bed file with compact matching results. "
+                             "Default not output.")
+
     parser.add_argument("-tf", "--factor", nargs='+', dest="tf", type=str,
                         action=UpperCaseAction,
                         help="transcription factor name in pwm file. "
