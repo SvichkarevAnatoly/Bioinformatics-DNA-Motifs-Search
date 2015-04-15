@@ -183,6 +183,16 @@ def check_filtered(match, best_matches, seq_length, tf_len, constriction):
         return 0
 
 
+def write_compact(args, match_info, tf_length):
+    compact_match_info = list(match_info[:6])
+    start_peak = int(compact_match_info[1])
+    start_bs = int(match_info[6])
+    compact_match_info[1] = start_peak + start_bs
+    compact_match_info[2] = compact_match_info[1] + tf_length
+    compact_match_line = '\t'.join(map(str, compact_match_info))
+    args.output_compact.write(compact_match_line + '\n')
+
+
 def save(result, args):
     for seq_result in result:
         seq_length = len(seq_result.sequence)
@@ -216,13 +226,7 @@ def save(result, args):
                 filtered = check_filtered(match, best_matches, seq_length, tf_length, args.constriction)
                 if args.output_compact is not None:
                     if filtered == 1:
-                        compact_match_info = list(match_info[:6])
-                        start_peak = int(compact_match_info[1])
-                        start_bs = int(match_info[6])
-                        compact_match_info[1] = start_peak + start_bs
-                        compact_match_info[2] = compact_match_info[1] + tf_length
-                        compact_match_line = '\t'.join(map(str, compact_match_info))
-                        args.output_compact.write(compact_match_line + '\n')
+                        write_compact(args, match_info, tf_length)
 
                 match_info.append(filtered)
 
