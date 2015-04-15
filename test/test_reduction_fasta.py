@@ -17,7 +17,7 @@ class Test(unittest.TestCase):
 
         cls.parser = rf.create_parser()
 
-    def test_read_csv_fields(self):
+    def test_on_raw_fasta_example(self):
         args = self.parser.parse_args([
             str(self.raw_fasta_file_path),
             str(self.bed_file_path),
@@ -30,13 +30,13 @@ class Test(unittest.TestCase):
         actual_file_contents = args.output.read()
         expected_contents = "\n".join([
             ">Z4_Sox2_peak_1",
-            "GGATAATAAATGACGTGTCCACATGCATTACTTTAGTAAGGTGCAATGCC",
-            "TTGACGCCTGTGCTTGTACTAACAGATTTCAACAGCAATTCTTCTTGAAT",
-            "TCCTTGAGTTAATCAATAGCCTTATTTAAATACTGGAAACTTACTTTT",
+            "GGATAATAAATGACGTGTCCACATGCATTACTTTAGTAAGGTGCAATGCCTTGACGCCTG",
+            "TGCTTGTACTAACAGATTTCAACAGCAATTCTTCTTGAATTCCTTGAGTTAATCAATAGC",
+            "CTTATTTAAATACTGGAAACTTACTTTT",
             ">Z4_Sox2_peak_2",
-            "CTAAGCAACACTGACTTCTGTTTTCCCCCTTTGTTCTGTTTCCTTTGCTC",
-            "TATACAGCTCAAAAGAAGCTCCTTTTGAGTCAGGCACAGCAGCAAACAAA",
-            "AGCAAGTGACAAAGGAGTTGAAGATAACCAGAGGGCTCCCAGTCTGGGG"
+            "CTAAGCAACACTGACTTCTGTTTTCCCCCTTTGTTCTGTTTCCTTTGCTCTATACAGCTC",
+            "AAAAGAAGCTCCTTTTGAGTCAGGCACAGCAGCAAACAAAAGCAAGTGACAAAGGAGTTG",
+            "AAGATAACCAGAGGGCTCCCAGTCTGGGG"
         ]) + '\n'
         self.assertEqual(expected_contents, actual_file_contents)
 
