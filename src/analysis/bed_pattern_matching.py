@@ -164,8 +164,18 @@ def process(args):
     return results
 
 
-def check_filtered(match, matches_tf, constriction, seq_length):
-    return 0
+def check_filtered(match, best_matches, seq_length, tf_len, constriction):
+    if match in best_matches:
+        if seq_length <= 2*constriction:
+            return 1
+        else:
+            pos = lib.local_pos(match[0], seq_length)
+            if pos >= constriction and (pos + tf_len < seq_length - constriction):
+                return 1
+            else:
+                return 0
+    else:
+        return 0
 
 
 def save(result, args):
@@ -179,6 +189,7 @@ def save(result, args):
                 continue
             tf_length = seq_result.tf_length_dict[tf]
             max_score_tf = seq_result.tf_max_scores_dict[tf]
+            best_matches = seq_result.best_matches(tf)
             for match in matches_tf:
                 match_info = list(general_info)
                 score = match[1] / max_score_tf
@@ -193,7 +204,7 @@ def save(result, args):
                 match_info.append(local_pos)
                 match_info.append(local_pos + tf_length)
 
-                filtered = check_filtered(match, matches_tf, args.constriction, seq_length)
+                filtered = check_filtered(match, best_matches, seq_length, tf_length, args.constriction)
                 match_info.append(filtered)
 
                 predicted_site_seq = seq_result.match_subseq(match[0], tf, 0)
