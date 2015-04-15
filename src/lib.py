@@ -110,6 +110,12 @@ def get_join_position_str(positions, seq_length):
     return ';'.join(positions_str)
 
 
+def local_pos(pos, seq_length):
+    if pos < 0:
+        pos += seq_length
+    return pos
+
+
 def reverse_complement(sequence):
     return str(Seq(sequence).reverse_complement())
 
