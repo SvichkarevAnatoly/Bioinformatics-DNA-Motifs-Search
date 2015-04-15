@@ -157,6 +157,10 @@ def process(args):
     return results
 
 
+def check_filtered(match, matches_tf, constriction, seq_length):
+    return 0
+
+
 def save(result, args):
     for seq_result in result:
         seq_length = len(seq_result.sequence)
@@ -182,8 +186,8 @@ def save(result, args):
                 match_info.append(local_pos)
                 match_info.append(local_pos + tf_length)
 
-                # TODO
-                match_info.append(0)
+                filtered = check_filtered(match, matches_tf, args.constriction, seq_length)
+                match_info.append(filtered)
 
                 predicted_site_seq = seq_result.match_subseq(match[0], tf, 0)
                 match_info.append(predicted_site_seq)
