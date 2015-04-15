@@ -5,6 +5,7 @@ from signal import signal, SIGPIPE, SIG_DFL
 
 from Bio import SeqIO
 import Bio.motifs as motifs
+import MOODS
 from bbcflib.track import track
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
@@ -18,10 +19,12 @@ class SeqSearchResults(object):
         self.tfs = tf_names
         self.tf_length_dict = {tf: length for tf, length in zip(tf_names, tf_lengths)}
         self.tf_dict = {tf: [] for tf in tf_names}
+        self.tf_max_scores_dict = {tf: 0 for tf in tf_names}
 
-    def fill_matches(self, matches):
+    def fill_matches(self, matches, max_scores):
         for i, tf in enumerate(self.tfs):
             self.tf_dict[tf] = matches[i]
+            self.tf_max_scores_dict[tf] = max_scores[i]
 
     def best_match(self, tf_name):
         tf_len = self.tf_length_dict[tf_name]
@@ -135,6 +138,7 @@ def process(args):
     pwms = lib.filter_pwms_in_tfs(args.pwm, args.tf)
     matrices = lib.create_matrices_from_pwms(pwms, args.tf)
     tf_lengths = [len(m[0]) for m in matrices]
+    max_scores = [MOODS.max_score(m) for m in matrices]
 
     results = []
     for seq in args.fasta:
@@ -142,7 +146,7 @@ def process(args):
         matches = lib.search_motif(sequence, matrices, args.threshold, args.reverse_complement)
 
         seq_result = SeqSearchResults(seq.description, sequence, args.tf, tf_lengths)
-        seq_result.fill_matches(matches)
+        seq_result.fill_matches(matches, max_scores)
 
         results.append(seq_result)
     return results
