@@ -202,6 +202,11 @@ class Test(unittest.TestCase):
 
         self.assertEquals(expected_position_str, actual_position_str)
 
+    def test_local_pos(self):
+        seq_length = 10
+        self.assertEquals(5, lib.local_pos(5, seq_length))
+        self.assertEquals(7, lib.local_pos(-3, seq_length))
+
     def test_create_motif_logo(self):
         from Bio.Seq import Seq
 
