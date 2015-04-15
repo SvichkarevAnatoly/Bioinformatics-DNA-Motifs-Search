@@ -106,5 +106,18 @@ class Test(unittest.TestCase):
         expected_best_match = [matches[3]]
         self.assertEqual(expected_best_match, actual_best_match)
 
+    def test_several_best_matches(self):
+        tf_name = "NANOG"
+                  # 0123456789
+        sequence = "AAAAAAAAAA"
+                  #  aaa  aaa
+        seq_search_result = bpm.SeqSearchResults("", sequence, None, [tf_name], [3])
+        matches = [(4, 4.0), (1, 6.0), (-9, 6.0), (6, 6.0), (-4, 6.0)]
+        seq_search_result.fill_matches([matches], [6])
+
+        actual_best_match = seq_search_result.best_matches(tf_name)
+        expected_best_match = matches[1:5]
+        self.assertItemsEqual(expected_best_match, actual_best_match)
+
 if __name__ == "__main__":
     unittest.main()
