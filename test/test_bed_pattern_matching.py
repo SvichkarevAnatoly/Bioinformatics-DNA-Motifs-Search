@@ -69,8 +69,13 @@ class Test(unittest.TestCase):
         args.output.seek(0)
         actual_file_contents = args.output.read()
         expected_contents = "\n".join([
-            "[Z4_Sox2_peak_1]\t56;85;119;4(-);111(-);128(-)\tCCTGTGCT",
-            "[Z4_Sox2_peak_2]\t14;27;41;6(-);94(-);107(-);126(-)\tCCTTTGTT"
+            "chr1\t4736010\t4736158\tZ4_Sox2_peak_1\t0.x\t+\t56\t64\t0\tXXXXXXXX",
+            "chr1\t4736010\t4736158\tZ4_Sox2_peak_1\t0.x\t+\t85\t93\t0\tXXXXXXXX",
+            "chr1\t4736010\t4736158\tZ4_Sox2_peak_1\t0.x\t+\t119\t127\t1\tXXXXXXXX",
+            "chr1\t4736010\t4736158\tZ4_Sox2_peak_1\t0.x\t-\t4\t12\t0\tXXXXXXXX",
+            "chr1\t4736010\t4736158\tZ4_Sox2_peak_1\t0.x\t-\t111\t119\t0\tXXXXXXXX",
+            "chr1\t4736010\t4736158\tZ4_Sox2_peak_1\t0.x\t-\t128\t136\t0\tXXXXXXXX",
+            "another peak"
         ]) + '\n'
         self.assertEqual(expected_contents, actual_file_contents)
 
