@@ -1,6 +1,7 @@
 import os
 import unittest
 import sys
+import cStringIO
 
 import analysis.bed_pattern_matching as bpm
 
@@ -49,6 +50,29 @@ class Test(unittest.TestCase):
 
         expected_peak2 = ("chr1", "5223047", "5223196", "Z4_Sox2_peak_2")
         self.assertSequenceEqual(expected_peak2, bed_peaks.next())
+
+    def test_example_from_data_samples(self):
+        args = self.parser.parse_args([
+            str(self.fasta_file_path),
+            str(self.pfm_file_path),
+            str(self.bed_file_path),
+            "-tf", "Sox2",
+            "-th", "0.8",
+            "-rc",
+            "-c", "100"
+        ])
+        args.output = cStringIO.StringIO()
+
+        result = bpm.process(args)
+        bpm.save(result, args)
+
+        args.output.seek(0)
+        actual_file_contents = args.output.read()
+        expected_contents = "\n".join([
+            "[Z4_Sox2_peak_1]\t\t",
+            "[Z4_Sox2_peak_2]	27;41;94(-);107(-)	CCTTTGTT"
+        ]) + '\n'
+        self.assertEqual(expected_contents, actual_file_contents)
 
 if __name__ == "__main__":
     unittest.main()
