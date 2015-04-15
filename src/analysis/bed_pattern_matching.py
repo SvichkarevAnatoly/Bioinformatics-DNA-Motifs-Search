@@ -30,7 +30,7 @@ class SeqSearchResults(object):
     def best_matches(self, tf_name):
         tf_len = self.tf_length_dict[tf_name]
         matches = self.tf_dict[tf_name]
-        half_seq_len = len(self.sequence) / 2
+        seq_len = len(self.sequence)
         best_matches = []
         best_match = (0, sys.float_info.min)
         for match in matches:
@@ -38,14 +38,16 @@ class SeqSearchResults(object):
                 best_match = match
                 best_matches = [best_match]
             elif match[1] == best_match[1]:
-                match_pos = match[0] if match[0] >= 0 else match[0] + tf_len
-                best_match_pos = best_match[0] if best_match[0] >= 0 else best_match[0] + tf_len
-                match_dist_to_center = abs(half_seq_len - (match_pos + tf_len / 2))
-                best_match_dist_to_center = abs(half_seq_len - (best_match_pos + tf_len / 2))
-                if match_dist_to_center < best_match_dist_to_center:
+                match_pos = match[0] if match[0] >= 0 else match[0] + seq_len
+                best_match_pos = best_match[0] if best_match[0] >= 0 else best_match[0] + seq_len
+
+                match_dist_to_border = min(match_pos, seq_len - (match_pos + tf_len))
+                best_match_to_border = min(best_match_pos, seq_len - (best_match_pos + tf_len))
+
+                if match_dist_to_border > best_match_to_border:
                     best_match = match
                     best_matches = [best_match]
-                elif match_dist_to_center == best_match_dist_to_center:
+                elif match_dist_to_border == best_match_to_border:
                     best_matches.append(match)
         return best_matches
 
