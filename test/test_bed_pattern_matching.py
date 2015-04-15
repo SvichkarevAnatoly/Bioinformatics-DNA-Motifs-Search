@@ -57,7 +57,7 @@ class Test(unittest.TestCase):
             str(self.pfm_file_path),
             str(self.bed_file_path),
             "-tf", "Sox2",
-            "-th", "0.8",
+            "-th", "0.7",
             "-rc",
             "-c", "100"
         ])
@@ -69,8 +69,8 @@ class Test(unittest.TestCase):
         args.output.seek(0)
         actual_file_contents = args.output.read()
         expected_contents = "\n".join([
-            "[Z4_Sox2_peak_1]\t\t",
-            "[Z4_Sox2_peak_2]	27;41;94(-);107(-)	CCTTTGTT"
+            "[Z4_Sox2_peak_1]\t56;85;119;4(-);111(-);128(-)\tCCTGTGCT",
+            "[Z4_Sox2_peak_2]\t14;27;41;6(-);94(-);107(-);126(-)\tCCTTTGTT"
         ]) + '\n'
         self.assertEqual(expected_contents, actual_file_contents)
 
