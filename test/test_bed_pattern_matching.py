@@ -12,6 +12,9 @@ class Test(unittest.TestCase):
         cls.bed_file_path = os.path.join(
             os.path.dirname(__file__),
             "../data_samples/analysis/in.bed")
+        cls.bed_file2_path = os.path.join(
+            os.path.dirname(__file__),
+            "../data_samples/analysis/in2.bed")
         cls.fasta_file_path = os.path.join(
             os.path.dirname(__file__),
             "../data_samples/analysis/fasta.fa")
@@ -41,7 +44,7 @@ class Test(unittest.TestCase):
         args = self.parser.parse_args([
             str(self.fasta_file_path),
             str(self.pfm_file_path),
-            str(self.bed_file_path)
+            str(self.bed_file2_path)
         ])
 
         bed_peaks = args.bed
@@ -55,7 +58,7 @@ class Test(unittest.TestCase):
         args = self.parser.parse_args([
             str(self.fasta_file_path),
             str(self.pfm_file_path),
-            str(self.bed_file_path),
+            str(self.bed_file2_path),
             "-tf", "Sox2",
             "-th", "0.7",
             "-rc",
@@ -89,7 +92,7 @@ class Test(unittest.TestCase):
         args = self.parser.parse_args([
             str(self.fasta_file_path),
             str(self.pfm_file_path),
-            str(self.bed_file_path),
+            str(self.bed_file2_path),
             "-tf", "Sox2",
             "-th", "0.7",
             "-rc",
