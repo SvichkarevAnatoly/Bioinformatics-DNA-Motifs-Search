@@ -16,8 +16,7 @@ class ReadFastaAction(argparse.Action):
 class ReadBedAction(argparse.Action):
     def __call__(self, parser, args, bed_handler, option_string=None):
         all_bed_fields = ['chrom', 'chromStart', 'chromEnd',
-                          'c1', 'c2', 'c3', 'c4', 'c5', 'c6',
-                          'peakName']
+                          'peakName', 'c1']
         select_fields = ['chrom', 'chromStart', 'chromEnd', 'peakName']
 
         with track(bed_handler.name, format='txt',

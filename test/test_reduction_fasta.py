@@ -11,6 +11,9 @@ class Test(unittest.TestCase):
         cls.bed_file_path = os.path.join(
             os.path.dirname(__file__),
             "../data_samples/analysis/in.bed")
+        cls.bed_file2_path = os.path.join(
+            os.path.dirname(__file__),
+            "../data_samples/analysis/in2.bed")
         cls.raw_fasta_file_path = os.path.join(
             os.path.dirname(__file__),
             "../data_samples/analysis/raw_fasta.fa")
@@ -20,7 +23,7 @@ class Test(unittest.TestCase):
     def test_on_raw_fasta_example(self):
         args = self.parser.parse_args([
             str(self.raw_fasta_file_path),
-            str(self.bed_file_path),
+            str(self.bed_file2_path),
         ])
         args.output = cStringIO.StringIO()
 
